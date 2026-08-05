@@ -43,6 +43,24 @@ Si alguien hace hoy una labor que normalmente no hace, se activa como "parcial" 
 
 Las labores marcadas **BASE** entran siempre: ingreso a obra, traslado, orden y aseo, retiro de obra.
 
+## Partida cargada: instalación de ventanas
+
+| # | Labor | Quién |
+|---|---|---|
+| BASE | Ingreso a obra · Traslado y desplazamiento por escaleras · Orden y aseo · Retiro de obra | todos |
+| 10 | Traslado, movimiento y distribución de ventanas y elementos pesados | M.N, A.T, A.O |
+| 20 | Instalación de ventanas: rotomartillo y atornillador inalámbrico, nivel láser | C.R, F.A · (A.T parcial) |
+| 30 | Sellos exteriores **en altura** con pistola calafatera y silicona | C.R, F.A |
+| 40 | Corte de tornillos, enfierradura y rasgos con esmeril angular | A.T |
+| 50 | Carpintería en madera: sierra circular, serrucho, tizador | A.T |
+| 60 | Pulido de rasgos con pulidora de hormigón y picado con cango | A.O |
+| 70 | Pruebas de estanqueidad: cinta de aluminio y llenado de agua | A.C, C.F |
+| 75 | Impermeabilización con Sikatop 107 Seal, mezclador eléctrico y brocha | M.N, C.F · (A.T parcial) |
+| 80 | Rectificación de rasgos y albañilería EIFS | M.N (parcial — hoy nadie fijo) |
+
+Los únicos con trabajo en altura son **C.R** y **F.A**, así que el RCO N°1 (caída por trabajos en
+altura) solo se enciende cuando alguno de los dos está marcado presente.
+
 ## Catálogo de peligros
 
 Vienen cargados los 11 que aparecen en los ART reales de la obra:
@@ -50,6 +68,18 @@ Vienen cargados los 11 que aparecen en los ART reales de la obra:
 `01 Golpeado contra · 02 Caída mismo Nivel · 03 Caída Distinto Nivel · 04 Caída de Altura ·
 12 Exposición a Sílice · 13 Exposición a Ruido · 15 Exposición a vibraciones ·
 17 Proyección de partículas · 18 Sobreesfuerzo · 27 Caída de materiales · 28 Contacto Eléctrico`
+
+Además hay **3 peligros con el número todavía sin confirmar**, agregados porque la partida los
+necesita pero no aparecen en el ART impreso que sirvió de base:
+
+| N° provisorio | Peligro | Por qué se necesita |
+|---|---|---|
+| 90 | Contacto con sustancias peligrosas | siliconas, Sikatop 107 Seal, mortero EIFS |
+| 91 | Cortes con herramientas o elementos cortopunzantes | esmeril, sierra circular, tornillos, vidrio |
+| 92 | Atrapamiento por piezas móviles | esmeril angular, sierra circular, mezclador eléctrico |
+
+Aparecen con la marca **N° por confirmar** y la app avisa en el paso de revisión. Apenas veas
+en Foco con qué número los lista, se corrige en **Peligros → Editar** y se apaga la marca.
 
 Foco tiene más números (05 a 11, 14, 16, 19 a 26). Cuando aparezca uno nuevo en un ART:
 pestaña **Peligros → + Agregar peligro**, se pone el número que usa Foco, el nombre y sus medidas
