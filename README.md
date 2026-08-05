@@ -36,7 +36,7 @@ Si alguien hace hoy una labor que normalmente no hace, se activa como "parcial" 
 | Pestaña | Para qué |
 |---|---|
 | **ART** | El del día (los 4 pasos de arriba) |
-| **Personal** | Nómina con RUT y cargo, y qué labores hace cada uno (principales / parciales) |
+| **Personal** | Nómina por **iniciales** y cargo, y qué labores hace cada uno (principales / parciales). El RUT es un campo opcional que queda solo en el teléfono |
 | **Labores** | Cada labor = una etapa del ART: su texto, su orden, sus peligros y qué fuerza en el checklist |
 | **Peligros** | Catálogo numerado igual que Foco (01 Golpeado contra, 04 Caída de Altura, …) con sus medidas de control |
 | **Historial** | ART guardados: copiar de nuevo o reusar como borrador |

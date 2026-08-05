@@ -250,22 +250,24 @@ const CARGO_LABORES = {
  "terminaciones":["l-termin"], "oficina":["l-superv"], "supervisor":["l-superv"]
 };
 
+// Personal identificado por iniciales. La nómina definitiva y sus labores las carga
+// el supervisor desde la pestaña Personal (o se reemplaza esta semilla).
 const PERSONAS_SEED = [
- ["15.914.467-4","Aida Prosperina Colemil Loy","Jornal Aseo",["l-aseo"],[]],
- ["16.948.967-K","Abel Gervacio Jaramillo Mariqueo","Maestro Andamiero",["l-andamio"],["l-ventanas"]],
- ["17.610.636-0","Alexis Rodrigo Tobar Casanova","M Carpintero",["l-ventanas"],["l-andamio"]],
- ["21.519.811-1","Angel Alexander Osorio Villegas","Jornal Canguero Pulidor",["l-picado"],["l-aseo"]],
- ["18.963.535-4","Carla Francisca Figueroa Uribe","M Terminaciones",["l-termin"],[]],
- ["27.102.575-0","Carlos Andres Alomia Mosquera","Maestro Albañil",["l-albanil"],["l-picado"]],
- ["16.694.800-2","Cesar Guillermo Guaitiao Pizarro","Maestro Primera Andamios",["l-andamio"],[]],
- ["20.263.717-5","Christian Mauricio Bohle Henriquez","Asistente Oficina Tecnica",["l-superv"],[]],
- ["16.362.657-8","Cristian Alejandro Retamal Montecinos","Maestro Carpintero",["l-ventanas"],["l-moldaje"]],
- ["16.112.315-3","Cristian Javier Ñirril Guaique","Maestro Carpintero",["l-ventanas"],["l-moldaje"]],
- ["15.821.479-2","Eduardo Antonio Gonzalez Aguila","M1 Andamiero",["l-andamio"],[]],
- ["16.314.184-1","Froilan Antonio Aravena Colimil","Maestro Carpintero Instalador De Ventanas",["l-ventanas"],[]],
- ["10.015.539-7","Javier Erasmo Martinez Monge","Carpintero Moldaje",["l-moldaje"],["l-ventanas"]]
-].map((p,i)=>({id:"p"+(i+1), rut:p[0], nombre:p[1], cargo:p[2],
-                principales:p[3], parciales:p[4], activo:true}));
+ ["A.C.L.","Jornal Aseo",["l-aseo"],[]],
+ ["A.J.M.","Maestro Andamiero",["l-andamio"],["l-ventanas"]],
+ ["A.T.C.","M Carpintero",["l-ventanas"],["l-andamio"]],
+ ["A.O.V.","Jornal Canguero Pulidor",["l-picado"],["l-aseo"]],
+ ["C.F.U.","M Terminaciones",["l-termin"],[]],
+ ["C.A.M.","Maestro Albañil",["l-albanil"],["l-picado"]],
+ ["C.G.P.","Maestro Primera Andamios",["l-andamio"],[]],
+ ["C.B.H.","Asistente Oficina Técnica",["l-superv"],[]],
+ ["C.R.M.","Maestro Carpintero",["l-ventanas"],["l-moldaje"]],
+ ["C.Ñ.G.","Maestro Carpintero",["l-ventanas"],["l-moldaje"]],
+ ["E.G.A.","M1 Andamiero",["l-andamio"],[]],
+ ["F.A.C.","Maestro Carpintero Instalador De Ventanas",["l-ventanas"],[]],
+ ["J.M.M.","Carpintero Moldaje",["l-moldaje"],["l-ventanas"]]
+].map((p,i)=>({id:"p"+(i+1), rut:"", nombre:p[0], cargo:p[1],
+                principales:p[2], parciales:p[3], activo:true}));
 
 /* ---------- 3. ESTADO ---------- */
 
@@ -335,6 +337,8 @@ function pad2(n){ return String(n).padStart(2,"0"); }
 function pel(n){ return DB.peligros.find(p=>p.n===n); }
 function lab(id){ return DB.labores.find(l=>l.id===id); }
 function per(id){ return DB.personas.find(p=>p.id===id); }
+// El RUT es opcional: si está vacío se muestra solo iniciales y cargo.
+function rotulo(p){ return (p.rut?p.rut+" - ":"")+p.nombre+" — "+p.cargo; }
 function toggleTheme(){
   DB.theme = DB.theme==="dark"?"light":"dark";
   document.body.dataset.theme = DB.theme; save();
@@ -470,8 +474,7 @@ function campos(d){
   for(let i=1;i<=19;i++)
     c.push({l:`RCO N°${i} ${RCOS[i-1]}`, v:rc[i]==="si"?"SÍ":"No", nocopy:true, sec:"rco"});
   const pp=personasPresentes(d);
-  c.push({l:`Participantes (${pp.length})`,
-          v:pp.map(p=>`${p.rut} - ${p.nombre} (${p.cargo})`).join("\n"), sec:"firmas"});
+  c.push({l:`Participantes (${pp.length})`, v:pp.map(rotulo).join("\n"), sec:"firmas"});
   return c;
 }
 
@@ -507,7 +510,7 @@ function textoCompleto(d){
   L.push("Todos los demás: No");
   L.push("");
   L.push("── PARTICIPANTES ──");
-  personasPresentes(d).forEach(p=>L.push(`${p.rut} - ${p.nombre} — ${p.cargo}`));
+  personasPresentes(d).forEach(p=>L.push(rotulo(p)));
   return L.join("\n");
 }
 
@@ -614,7 +617,7 @@ function pasoCuadrilla(a,d){
       save();render();}},
       h("button",{type:"button",class:"chip"+(on?" on":""),style:"margin:0"}, on?"✓":"○"),
       h("div",{class:"grow"}, h("div",{class:"t",text:p.nombre}),
-        h("div",{class:"s",text:p.cargo+" · "+p.rut}))));
+        h("div",{class:"s",text:p.cargo+(p.rut?" · "+p.rut:"")}))));
     if(on){
       const sel=d.presentes[p.id];
       const lw=h("div",{class:"row wrap",style:"margin-top:8px"});
@@ -806,7 +809,7 @@ function vPersonas(a){
     it.appendChild(h("div",{class:"row"},
       h("div",{class:"grow"},
         h("div",{class:"t",text:p.nombre}),
-        h("div",{class:"s",text:p.cargo+" · "+p.rut})),
+        h("div",{class:"s",text:p.cargo+(p.rut?" · "+p.rut:"")})),
       h("button",{class:"btn xs sec",onClick:()=>{editId=p.id;subview="edit";render();}},"Editar")));
     const bw=h("div",{style:"margin-top:6px"});
     p.principales.forEach(id=>{const l=lab(id); if(l) bw.appendChild(h("span",{class:"badge acc",text:l.nombre.slice(0,30)}));});
@@ -821,9 +824,10 @@ function vPersonas(a){
 function edPersona(a){
   const p=per(editId); if(!p){subview=null;return render();}
   const c=h("div",{class:"card"});
-  c.appendChild(h("label",{class:"f",text:"Nombre completo"}));
-  c.appendChild(h("input",{type:"text",value:p.nombre,onBlur:e=>{p.nombre=e.target.value;save();}}));
-  c.appendChild(h("label",{class:"f",text:"RUT"}));
+  c.appendChild(h("label",{class:"f",text:"Iniciales"}));
+  c.appendChild(h("input",{type:"text",value:p.nombre,placeholder:"Ej: J.P.M.",
+    onBlur:e=>{p.nombre=e.target.value;save();}}));
+  c.appendChild(h("label",{class:"f",text:"RUT (opcional)"}));
   c.appendChild(h("input",{type:"text",value:p.rut,onBlur:e=>{p.rut=e.target.value;save();}}));
   c.appendChild(h("label",{class:"f",text:"Cargo"}));
   c.appendChild(h("input",{type:"text",value:p.cargo,onBlur:e=>{
