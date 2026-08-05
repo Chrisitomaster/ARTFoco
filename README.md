@@ -49,17 +49,20 @@ Las labores marcadas **BASE** entran siempre: ingreso a obra, traslado, orden y 
 |---|---|---|
 | BASE | Ingreso a obra · Traslado y desplazamiento por escaleras · Orden y aseo · Retiro de obra | todos |
 | 10 | Traslado, movimiento y distribución de ventanas y elementos pesados | M.N, A.T, A.O |
-| 20 | Instalación de ventanas: rotomartillo y atornillador inalámbrico, nivel láser | C.R, F.A · (A.T parcial) |
-| 30 | Sellos exteriores **en altura** con pistola calafatera y silicona | C.R, F.A |
+| 20 | Instalación de ventanas: rotomartillo y atornillador inalámbrico, nivel láser | C.R, F.A, C.Ñ · (A.T parcial) |
+| 30 | Sellos exteriores **en altura** con pistola calafatera y silicona | C.R, F.A, C.Ñ |
 | 40 | Corte de tornillos, enfierradura y rasgos con esmeril angular | A.T |
 | 50 | Carpintería en madera: sierra circular, serrucho, tizador | A.T |
 | 60 | Pulido de rasgos con pulidora de hormigón y picado con cango | A.O |
 | 70 | Pruebas de estanqueidad: cinta de aluminio y llenado de agua | A.C, C.F |
-| 75 | Impermeabilización con Sikatop 107 Seal, mezclador eléctrico y brocha | M.N, C.F · (A.T parcial) |
+| 75 | Impermeabilización con Sikatop 107 Seal, mezclador eléctrico y brocha | M.N, A.T, C.F |
 | 80 | Rectificación de rasgos y albañilería EIFS | M.N (parcial — hoy nadie fijo) |
 
-Los únicos con trabajo en altura son **C.R** y **F.A**, así que el RCO N°1 (caída por trabajos en
-altura) solo se enciende cuando alguno de los dos está marcado presente.
+Cargos: M.N jornal · A.T ayudante de carpintero · A.O jornal pulidor · C.R, F.A y C.Ñ ventaneros ·
+A.C y C.F por definir.
+
+Los únicos con trabajo en altura son **C.R**, **F.A** y **C.Ñ**, así que el RCO N°1 (caída por
+trabajos en altura) solo se enciende cuando alguno de los tres está marcado presente.
 
 ## Catálogo de peligros
 

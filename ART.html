@@ -289,24 +289,25 @@ const LABORES_SEED = [
 
 // Cargo -> labores sugeridas al crear una persona nueva.
 const CARGO_LABORES = {
- "jornal":["l-mov","l-aseo"],
- "canguero":["l-pulido"], "pulidor":["l-pulido"],
- "carpintero":["l-instal","l-carpint"], "ventanas":["l-instal"],
+ "jornal":["l-mov"],
+ "pulidor":["l-mov","l-pulido"],
+ "ventanero":["l-instal","l-sellos"],
+ "carpintero":["l-mov","l-corte","l-carpint"],
  "terminaciones":["l-estanq","l-imperm"],
- "albañil":["l-albanil"], "albanil":["l-albanil"],
- "oficina":["l-superv"], "supervisor":["l-superv"]
+ "albañil":["l-albanil"], "albanil":["l-albanil"]
 };
 
 // Personal identificado por iniciales. La nómina definitiva y sus labores las carga
 // el supervisor desde la pestaña Personal (o se reemplaza esta semilla).
 const PERSONAS_SEED = [
- ["M.N","Jornal",              ["l-mov","l-imperm"],            ["l-albanil"]],
- ["A.T","Maestro Carpintero",  ["l-mov","l-corte","l-carpint"], ["l-instal","l-imperm"]],
- ["A.O","Jornal Canguero Pulidor",["l-mov","l-pulido"],         []],
- ["A.C","Jornal",              ["l-estanq"],                    []],
- ["C.F","Maestro Terminaciones",["l-estanq","l-imperm"],        []],
- ["C.R","Maestro Carpintero",  ["l-instal","l-sellos"],         []],
- ["F.A","Maestro Carpintero Instalador de Ventanas",["l-instal","l-sellos"],[]]
+ ["M.N","Jornal",                 ["l-mov","l-imperm"],                       ["l-albanil"]],
+ ["A.T","Ayudante de Carpintero", ["l-mov","l-corte","l-carpint","l-imperm"], ["l-instal"]],
+ ["A.O","Jornal Pulidor",         ["l-mov","l-pulido"],                       []],
+ ["A.C","Por definir",            ["l-estanq"],                               []],
+ ["C.F","Por definir",            ["l-estanq","l-imperm"],                    []],
+ ["C.R","Ventanero",              ["l-instal","l-sellos"],                    []],
+ ["F.A","Ventanero",              ["l-instal","l-sellos"],                    []],
+ ["C.Ñ","Ventanero",              ["l-instal","l-sellos"],                    []]
 ].map((p,i)=>({id:"p"+(i+1), rut:"", nombre:p[0], cargo:p[1],
                 principales:p[2], parciales:p[3], activo:true}));
 
