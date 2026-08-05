@@ -116,7 +116,11 @@ pre.full{white-space:pre-wrap;word-break:break-word;background:var(--bg2);border
 
 /* ---------- 1. CATÁLOGOS FIJOS (extraídos del ART impreso) ---------- */
 
-// Peligros/riesgos con su numeración de Foco y sus medidas de control estándar.
+/* Catálogo completo de peligros de Foco Prevención (01 a 31), con la numeración exacta
+   del selector de la app. Las medidas de los peligros 01-04, 12, 13, 15, 17, 18, 27 y 28
+   están transcritas de un ART real de la obra. Las demás fueron redactadas para esta
+   partida y conviene validarlas con prevención. Los que no aplican a instalación de
+   ventanas quedan sin medidas: existen para que la numeración calce, nada más. */
 const PELIGROS_SEED = [
  {n:1, nombre:"Golpeado contra", medidas:[
    "Coordinación de trabajos con mas de una persona en traslado de materiales",
@@ -141,6 +145,36 @@ const PELIGROS_SEED = [
    "Uso de arnés de seguridad con dos cabos de vida, 100% amarrado a un punto fijo",
    "Verificar que cuente con línea de vida independiente o punto de anclaje",
    "Verificar que plataforma de trabajo cuente con la tarjeta verde de aprobado"]},
+ {n:5, nombre:"Aprisionamiento", medidas:[
+   "Mantener manos y dedos fuera de la línea de fuego al posicionar ventanas y elementos pesados",
+   "Coordinar la maniobra entre los trabajadores antes de mover la pieza",
+   "Apoyar las cargas sobre tacos o cuñas antes de soltarlas",
+   "Uso de guantes de seguridad"]},
+ {n:6, nombre:"Atrapamiento", medidas:[
+   "Verificar que las guardas y protecciones de la herramienta estén instaladas",
+   "Desenergizar o retirar la batería antes de cambiar discos, brocas o accesorios",
+   "No usar ropa suelta, pelo largo suelto ni joyas al operar herramientas",
+   "Esperar la detención total del disco o broca antes de dejar la herramienta"]},
+ {n:7, nombre:"Colisionado por", medidas:[]},
+ {n:8, nombre:"Contacto con fuentes de calor", medidas:[
+   "No tomar discos, brocas ni piezas recién cortadas hasta que enfríen",
+   "Delimitar y señalizar el sector donde se generan chispas",
+   "Uso de guantes de seguridad"]},
+ {n:9, nombre:"Contacto con elementos corto punzante", medidas:[
+   "Uso de guantes anticorte",
+   "Verificar que la herramienta cuente con su protección o guarda en buen estado",
+   "Retirar tornillos, despuntes y elementos cortantes del área de trabajo",
+   "Trasladar vidrios y perfiles con guantes y por los puntos de agarre definidos"]},
+ {n:10,nombre:"Contacto con sustancias peligrosas", medidas:[
+   "Revisar la hoja de datos de seguridad (HDS) del producto antes de usarlo",
+   "Uso de guantes de nitrilo y lentes de seguridad",
+   "Mantener envases cerrados, rotulados y en zona ventilada",
+   "Disponer de kit de contención de derrames en el sector"]},
+ {n:11,nombre:"Intoxicación", medidas:[
+   "Uso de respirador con filtro para vapores orgánicos",
+   "Trabajar en zonas ventiladas y evitar espacios cerrados sin renovación de aire",
+   "No comer ni beber en el área donde se manipulan productos químicos",
+   "Lavado de manos al terminar la manipulación"]},
  {n:12,nombre:"Exposición a Sílice", medidas:[
    "Humectar antes de realizar los trabajos",
    "Identificar tareas con exposición a sílice y tiempo de exposición",
@@ -148,18 +182,36 @@ const PELIGROS_SEED = [
  {n:13,nombre:"Exposición a Ruido", medidas:[
    "Señalética de advertencia exposición a ruido",
    "Uso obligatorio de Protector Auditivo"]},
+ {n:14,nombre:"Exposición a Radiación UV", medidas:[
+   "Uso de bloqueador solar factor 50 y reaplicación durante la jornada",
+   "Uso de casco con legionario y lentes con filtro UV",
+   "Ropa de trabajo con mangas largas",
+   "Programar pausas bajo sombra en las horas de mayor radiación"]},
  {n:15,nombre:"Exposición a vibraciones", medidas:[
    "Identificar tareas con exposición y tiempo de exposición",
    "Mantener capacitados a los trabajadores",
    "Rotar puestos de trabajo",
    "Uso de herramientas con sistema anti vibración",
    "Uso obligatorio de guantes anti vibración"]},
+ {n:16,nombre:"Inmersión", medidas:[]},
  {n:17,nombre:"Proyección de partículas", medidas:[
    "Uso de lentes de seguridad y careta facial al realizar trabajos con proyección de partículas"]},
  {n:18,nombre:"Sobreesfuerzo", medidas:[
    "Límite de carga manual 25 Kg Hombres y 20 Kg Mujeres",
    "Realizar pausas de trabajo y rotación del personal",
    "Realizar posturas de carga y descarga conforme a evaluación técnica"]},
+ {n:19,nombre:"Incendio", medidas:[
+   "Retirar material combustible del sector antes de generar chispas",
+   "Mantener extintor operativo y a la vista en el área de trabajo",
+   "Contar con permiso de trabajo en caliente cuando corresponda",
+   "Verificar el sector al término de la tarea antes de retirarse"]},
+ {n:20,nombre:"Caída de carga suspendida", medidas:[]},
+ {n:21,nombre:"Choque o volcamiento", medidas:[]},
+ {n:22,nombre:"Derrumbes", medidas:[]},
+ {n:23,nombre:"Interacción hombre maquina", medidas:[]},
+ {n:24,nombre:"Liberación descontrolada de energía", medidas:[]},
+ {n:25,nombre:"Caída de planchón en desarrollo de túneles", medidas:[]},
+ {n:26,nombre:"Proyección de materiales por tronaduras", medidas:[]},
  {n:27,nombre:"Caída de materiales", medidas:[
    "Eliminar verticalidad de trabajos simultáneos",
    "Planificación de trabajos diarios",
@@ -170,26 +222,13 @@ const PELIGROS_SEED = [
    "Inspección previa de las herramientas eléctricas las cuales se encuentren en buenas condiciones",
    "Mantener extensiones eléctricas por vía aérea",
    "Verificación puesta a tierra de fuentes energizadas"]},
-
- /* Los tres siguientes NO están confirmados: hacen falta en la partida (siliconas,
-    Sikatop, esmeril, sierra circular) pero todavía no sabemos con qué número los
-    lista Foco Prevención. Marcados rev:true → la app avisa antes de copiar.
-    Al verlos en un ART real, corregir el número en la pestaña Peligros. */
- {n:90,nombre:"Contacto con sustancias peligrosas", rev:true, medidas:[
-   "Revisar la hoja de datos de seguridad (HDS) del producto antes de usarlo",
-   "Uso de guantes de nitrilo, lentes de seguridad y respirador con filtro para vapores orgánicos",
-   "Mantener envases cerrados, rotulados y en zona ventilada",
-   "Disponer de kit de contención de derrames en el sector"]},
- {n:91,nombre:"Cortes con herramientas o elementos cortopunzantes", rev:true, medidas:[
-   "Uso de guantes anticorte",
-   "Verificar que la herramienta cuente con su protección o guarda en buen estado",
-   "No retirar las protecciones de sierras y esmeriles",
-   "Retirar tornillos, despuntes y elementos cortantes del área de trabajo"]},
- {n:92,nombre:"Atrapamiento por piezas móviles", rev:true, medidas:[
-   "Verificar que las guardas y protecciones estén instaladas",
-   "No usar ropa suelta, pelo largo suelto ni joyas al operar herramientas",
-   "Desenergizar la herramienta antes de cambiar discos o accesorios",
-   "Uso de guantes solo cuando el fabricante lo permita"]}
+ {n:29,nombre:"Exposición a Humos Metálicos", medidas:[]},
+ {n:30,nombre:"Contaminación Ambiental", medidas:[
+   "Segregar los residuos en los puntos habilitados de la obra",
+   "No descargar mezclas, lavados ni agua con producto al suelo o alcantarillado",
+   "Mantener envases y sacos cerrados para evitar dispersión de polvo",
+   "Limpiar los derrames de inmediato con material absorbente"]},
+ {n:31,nombre:"Impacto de Flora y Fauna", medidas:[]}
 ];
 
 // Riesgos Críticos Operacionales (19) — sección Si/No de la app.
@@ -208,8 +247,11 @@ const RCOS = [
  "Caídas por vano y shaft"];
 
 // Peligro -> RCO que se activa automáticamente.
-const PELIGRO_RCO = {4:[1], 27:[2], 28:[8,18], 3:[19], 15:[18], 17:[18],
-                     90:[10], 91:[18], 92:[7,18]};
+// Peligro (01-31) -> RCO que enciende en "Sí".
+const PELIGRO_RCO = {
+  3:[19], 4:[1], 5:[7], 6:[7,18], 8:[15], 9:[18], 10:[10], 11:[10],
+  15:[18], 16:[16], 17:[18], 19:[15], 20:[3], 21:[4,5], 22:[14],
+  23:[6], 24:[9], 25:[12], 26:[13], 27:[2], 28:[8,18]};
 
 // Checklist "Etapas previas del trabajo" (13). corto = etiqueta en pantalla.
 const CHECKLIST = [
@@ -243,46 +285,46 @@ const LABORES_SEED = [
   base:true, orden:2, peligros:[1,2,3], check:{}},
 
  {id:"l-mov",     nombre:"Traslado, movimiento y distribución de ventanas y elementos pesados",
-  orden:10, peligros:[1,2,3,18,27,91], check:{4:"si"},
+  orden:10, peligros:[1,2,3,5,9,18,27], check:{4:"si"},
   checkObs:{4:"guantes anticorte, calzado de seguridad"}},
 
  {id:"l-instal",  nombre:"Instalación de ventanas con rotomartillo y atornillador inalámbrico, nivel láser",
-  orden:20, peligros:[1,2,3,12,13,15,17,18,27,28,92], check:{4:"si",12:"si"},
+  orden:20, peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"lentes de seguridad, protector auditivo, guantes"}},
 
  {id:"l-sellos",  nombre:"Sellos exteriores en altura con pistola calafatera y silicona",
-  orden:30, peligros:[1,2,3,4,18,27,90], check:{4:"si",10:"si",2:"si"},
+  orden:30, peligros:[1,2,3,4,10,11,14,18,27], check:{4:"si",10:"si",2:"si"},
   checkObs:{4:"arnés con dos cabos de vida, línea de vida o punto de anclaje",
             10:"plataforma de trabajo autorizada, tarjeta verde",
             2:"silicona: HDS revisada, uso en zona ventilada"}},
 
  {id:"l-corte",   nombre:"Corte de tornillos, enfierradura y rasgos con esmeril angular (corte y diamantado)",
-  orden:40, peligros:[1,2,3,12,13,15,17,18,27,28,91,92], check:{4:"si",12:"si"},
+  orden:40, peligros:[1,2,3,6,8,9,12,13,15,17,18,19,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"careta facial, lentes de seguridad, protector auditivo, guantes anticorte"}},
 
  {id:"l-carpint", nombre:"Carpintería en madera con sierra circular, serrucho, tizador y herramientas manuales",
-  orden:50, peligros:[1,2,3,13,17,18,27,28,91,92], check:{4:"si",12:"si",6:"si"},
+  orden:50, peligros:[1,2,3,6,9,13,17,18,27,28], check:{4:"si",12:"si",6:"si"},
   checkObs:{4:"lentes de seguridad, protector auditivo, guantes anticorte"}},
 
  {id:"l-pulido",  nombre:"Pulido de rasgos con pulidora de hormigón y picado de hormigón con cango",
-  orden:60, peligros:[1,2,3,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
+  orden:60, peligros:[1,2,3,6,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"respirador P100, careta facial, guantes anti vibración, protector auditivo"}},
 
  {id:"l-estanq",  nombre:"Pruebas de estanqueidad: sellado de despiches con cinta y llenado de agua",
-  orden:70, peligros:[1,2,3,18,27], check:{}},
+  orden:70, peligros:[1,2,3,9,18,27], check:{}},
 
  {id:"l-imperm",  nombre:"Impermeabilización de rasgos con Sikatop 107 Seal, mezclador eléctrico y brocha",
-  orden:75, peligros:[1,2,3,17,18,27,28,90,92], check:{4:"si",12:"si",2:"si"},
+  orden:75, peligros:[1,2,3,6,10,11,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
   checkObs:{4:"guantes de nitrilo, lentes de seguridad, respirador para vapores orgánicos",
             2:"Sikatop 107 Seal bicomponente: HDS revisada, envases rotulados y cerrados"}},
 
  {id:"l-albanil", nombre:"Rectificación de rasgos y albañilería: reparación EIFS, malla, mortero y picota",
-  orden:80, peligros:[1,2,3,12,13,15,17,18,27,28,90,91,92], check:{4:"si",12:"si",2:"si"},
+  orden:80, peligros:[1,2,3,6,9,10,12,13,15,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
   checkObs:{4:"lentes de seguridad, guantes, respirador P100",
             2:"mortero y mezcla EIFS: HDS revisada, manejo de residuos en zona habilitada"}},
 
  {id:"l-aseo",    nombre:"Orden y aseo en lugar de trabajo", base:true, orden:90,
-  peligros:[1,2,3,18,27,91], check:{}},
+  peligros:[1,2,3,9,18,27,30], check:{}},
 
  {id:"l-retiro",  nombre:"Retiro de obra", base:true, orden:99, peligros:[1,2], check:{}}
 ];
@@ -692,10 +734,15 @@ function pasoRevision(a,d){
   const largas=et.filter(e=>e.nombre.length>100);
   if(largas.length) a.appendChild(h("div",{class:"alert",
     text:`${largas.length} etapa(s) pasan los 100 caracteres. Se cortarán al pegar.`}));
-  const revs=[...new Set(et.flatMap(e=>e.peligros))].map(pel).filter(p=>p&&p.rev);
+  const enUso=[...new Set(et.flatMap(e=>e.peligros))].map(pel).filter(Boolean);
+  const revs=enUso.filter(p=>p.rev);
   if(revs.length) a.appendChild(h("div",{class:"alert",
     text:"Falta confirmar con qué N° lista Foco estos peligros: "+revs.map(p=>p.nombre).join(", ")+
          ". Corrige el número en la pestaña Peligros cuando lo veas en un ART real."}));
+  const vacios=enUso.filter(p=>!p.medidas.length);
+  if(vacios.length) a.appendChild(h("div",{class:"alert",
+    text:"Sin medidas de control cargadas: "+vacios.map(p=>pad2(p.n)+"."+p.nombre).join(", ")+
+         ". Escríbelas en la pestaña Peligros o quita el peligro de la etapa."}));
 
   // --- Etapas ---
   const ce=h("div",{class:"card"});

@@ -66,27 +66,42 @@ trabajos en altura) solo se enciende cuando alguno de los tres está marcado pre
 
 ## Catálogo de peligros
 
-Vienen cargados los 11 que aparecen en los ART reales de la obra:
+Están cargados los **31 de Foco Prevención**, con su numeración exacta. De esos, **20 se usan**
+en la partida de instalación de ventanas:
 
-`01 Golpeado contra · 02 Caída mismo Nivel · 03 Caída Distinto Nivel · 04 Caída de Altura ·
-12 Exposición a Sílice · 13 Exposición a Ruido · 15 Exposición a vibraciones ·
-17 Proyección de partículas · 18 Sobreesfuerzo · 27 Caída de materiales · 28 Contacto Eléctrico`
-
-Además hay **3 peligros con el número todavía sin confirmar**, agregados porque la partida los
-necesita pero no aparecen en el ART impreso que sirvió de base:
-
-| N° provisorio | Peligro | Por qué se necesita |
+| N° | Peligro | Dónde aparece |
 |---|---|---|
-| 90 | Contacto con sustancias peligrosas | siliconas, Sikatop 107 Seal, mortero EIFS |
-| 91 | Cortes con herramientas o elementos cortopunzantes | esmeril, sierra circular, tornillos, vidrio |
-| 92 | Atrapamiento por piezas móviles | esmeril angular, sierra circular, mezclador eléctrico |
+| 01 | Golpeado contra | todas |
+| 02 | Caída mismo Nivel | todas |
+| 03 | Caída Distinto Nivel | todas menos ingreso y retiro |
+| 04 | Caída de Altura | solo sellos exteriores |
+| 05 | Aprisionamiento | movimiento de ventanas, instalación |
+| 06 | Atrapamiento | instalación, corte, carpintería, pulido, impermeabilización, albañilería |
+| 08 | Contacto con fuentes de calor | corte con esmeril |
+| 09 | Contacto con elementos corto punzante | movimiento, instalación, corte, carpintería, estanqueidad, aseo, albañilería |
+| 10 | Contacto con sustancias peligrosas | sellos (silicona), impermeabilización, albañilería |
+| 11 | Intoxicación | sellos, impermeabilización |
+| 12 | Exposición a Sílice | instalación, corte, pulido, albañilería |
+| 13 | Exposición a Ruido | instalación, corte, carpintería, pulido, albañilería |
+| 14 | Exposición a Radiación UV | sellos exteriores en fachada |
+| 15 | Exposición a vibraciones | instalación, corte, pulido, albañilería |
+| 17 | Proyección de partículas | instalación, corte, carpintería, pulido, impermeabilización, albañilería |
+| 18 | Sobreesfuerzo | todas menos ingreso y retiro |
+| 19 | Incendio | corte con esmeril (chispas) |
+| 27 | Caída de materiales | todas menos ingreso y retiro |
+| 28 | Contacto Eléctrico | instalación, corte, carpintería, pulido, impermeabilización, albañilería |
+| 30 | Contaminación Ambiental | impermeabilización, albañilería, aseo |
 
-Aparecen con la marca **N° por confirmar** y la app avisa en el paso de revisión. Apenas veas
-en Foco con qué número los lista, se corrige en **Peligros → Editar** y se apaga la marca.
+Los otros 11 (07, 16, 20 a 26, 29, 31) existen en la app para que la numeración calce con Foco,
+pero quedan **sin medidas de control** porque no aplican a esta partida (túneles, tronaduras,
+izaje, buceo, maquinaria pesada, soldadura, flora y fauna). Si alguna vez se necesita uno, se le
+escriben las medidas en **Peligros → Editar**; mientras tanto, si se selecciona uno vacío la app
+avisa en el paso de revisión.
 
-Foco tiene más números (05 a 11, 14, 16, 19 a 26). Cuando aparezca uno nuevo en un ART:
-pestaña **Peligros → + Agregar peligro**, se pone el número que usa Foco, el nombre y sus medidas
-(una por línea). Desde ahí queda disponible para cualquier labor.
+**Origen de las medidas de control:** las de los peligros 01, 02, 03, 04, 12, 13, 15, 17, 18, 27
+y 28 están transcritas literalmente de un ART real de la obra. Las de 05, 06, 08, 09, 10, 11, 14,
+19 y 30 fueron redactadas para esta partida y **conviene validarlas con el prevencionista** antes
+de usarlas en firme.
 
 El texto de medidas se genera con el mismo formato del documento impreso:
 
