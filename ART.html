@@ -118,10 +118,9 @@ pre.full{white-space:pre-wrap;word-break:break-word;background:var(--bg2);border
 
 /* Catálogo completo de peligros de Foco Prevención (01 a 31), con la numeración y las
    medidas de control transcritas del propio selector de la app.
-   Excepciones marcadas propia:true → 14 y 19, cuyas medidas todavía no se han visto en
-   Foco y fueron redactadas para esta partida. La app avisa al usarlas.
-   Los peligros sin medidas (16, 20-26, 29, 31) no aplican a instalación de ventanas:
-   existen solo para que la numeración calce con Foco. */
+   Los peligros sin medidas (14, 16, 19, 20-26, 29, 31) no aplican a instalación de
+   ventanas: existen solo para que la numeración calce con Foco. Si alguna vez se
+   necesitan, se les cargan las medidas desde la pestaña Peligros. */
 const PELIGROS_SEED = [
  {n:1, nombre:"Golpeado contra", medidas:[
    "Coordinación de trabajos con mas de una persona en traslado de materiales",
@@ -204,11 +203,7 @@ const PELIGROS_SEED = [
    "Uso de combo de material polimérico.",
    "Uso de cortinas acústicas.",
    "Uso obligatorio de Protector Auditivo"]},
- {n:14,nombre:"Exposición a Radiación UV", propia:true, medidas:[
-   "Uso de bloqueador solar factor 50 y reaplicación durante la jornada",
-   "Uso de casco con legionario y lentes con filtro UV",
-   "Ropa de trabajo con mangas largas",
-   "Programar pausas bajo sombra en las horas de mayor radiación"]},
+ {n:14,nombre:"Exposición a Radiación UV", medidas:[]},
  {n:15,nombre:"Exposición a vibraciones", medidas:[
    "Identificar tareas con explosión y tiempo de exposición",
    "Mantener capacitados a los trabajadores",
@@ -224,11 +219,7 @@ const PELIGROS_SEED = [
    "Límite de carga manual 25. Kg Hombres y 20. Kg Mujeres",
    "Realizar pausas de trabajo y rotación del personal",
    "Realizar posturas de carga y descarga conforme a evaluación técnica"]},
- {n:19,nombre:"Incendio", propia:true, medidas:[
-   "Retirar material combustible del sector antes de generar chispas",
-   "Mantener extintor operativo y a la vista en el área de trabajo",
-   "Contar con permiso de trabajo en caliente cuando corresponda",
-   "Verificar el sector al término de la tarea antes de retirarse"]},
+ {n:19,nombre:"Incendio", medidas:[]},
  {n:20,nombre:"Caída de carga suspendida", medidas:[]},
  {n:21,nombre:"Choque o volcamiento", medidas:[]},
  {n:22,nombre:"Derrumbes", medidas:[]},
@@ -318,13 +309,13 @@ const LABORES_SEED = [
   checkObs:{4:"lentes de seguridad, protector auditivo, guantes"}},
 
  {id:"l-sellos",  nombre:"Sellos exteriores en altura con pistola calafatera y silicona",
-  corto:"sellos exteriores en altura", orden:30, peligros:[1,2,3,4,10,11,14,18,27], check:{4:"si",10:"si",2:"si"},
+  corto:"sellos exteriores en altura", orden:30, peligros:[1,2,3,4,10,11,18,27], check:{4:"si",10:"si",2:"si"},
   checkObs:{4:"arnés con dos cabos de vida, línea de vida o punto de anclaje",
             10:"plataforma de trabajo autorizada, tarjeta verde",
             2:"silicona: HDS revisada, uso en zona ventilada"}},
 
  {id:"l-corte",   nombre:"Corte de tornillos, enfierradura y rasgos con esmeril angular (corte y diamantado)",
-  corto:"corte con esmeril", orden:40, peligros:[1,2,3,6,8,9,12,13,15,17,18,19,27,28], check:{4:"si",12:"si"},
+  corto:"corte con esmeril", orden:40, peligros:[1,2,3,6,8,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"careta facial, lentes de seguridad, protector auditivo, guantes anticorte"}},
 
  {id:"l-carpint", nombre:"Carpintería en madera con sierra circular, serrucho, tizador y herramientas manuales",
