@@ -66,7 +66,7 @@ trabajos en altura) solo se enciende cuando alguno de los tres está marcado pre
 
 ## Catálogo de peligros
 
-Están cargados los **31 de Foco Prevención**, con su numeración exacta. De esos, **20 se usan**
+Están cargados los **31 de Foco Prevención**, con su numeración exacta. De esos, **18 se usan**
 en la partida de instalación de ventanas:
 
 | N° | Peligro | Dónde aparece |
@@ -83,27 +83,22 @@ en la partida de instalación de ventanas:
 | 11 | Intoxicación | sellos, impermeabilización |
 | 12 | Exposición a Sílice | instalación, corte, pulido, albañilería |
 | 13 | Exposición a Ruido | instalación, corte, carpintería, pulido, albañilería |
-| 14 | Exposición a Radiación UV | sellos exteriores en fachada |
 | 15 | Exposición a vibraciones | instalación, corte, pulido, albañilería |
 | 17 | Proyección de partículas | instalación, corte, carpintería, pulido, impermeabilización, albañilería |
 | 18 | Sobreesfuerzo | todas menos ingreso y retiro |
-| 19 | Incendio | corte con esmeril (chispas) |
 | 27 | Caída de materiales | todas menos ingreso y retiro |
 | 28 | Contacto Eléctrico | instalación, corte, carpintería, pulido, impermeabilización, albañilería |
 | 30 | Contaminación Ambiental | impermeabilización, albañilería, aseo |
 
-Los otros 11 (07, 16, 20 a 26, 29, 31) existen en la app para que la numeración calce con Foco,
-pero quedan **sin medidas de control** porque no aplican a esta partida (túneles, tronaduras,
-izaje, buceo, maquinaria pesada, soldadura, flora y fauna). Si alguna vez se necesita uno, se le
-escriben las medidas en **Peligros → Editar**; mientras tanto, si se selecciona uno vacío la app
-avisa en el paso de revisión.
+Los otros 13 (07, 14, 16, 19, 20 a 26, 29, 31) existen en la app para que la numeración calce con
+Foco, pero quedan **sin medidas de control** porque no aplican a esta partida (conducción,
+radiación UV, incendio, túneles, tronaduras, izaje, buceo, maquinaria pesada, soldadura, flora y
+fauna). Si alguna vez se necesita uno, se le escriben las medidas en **Peligros → Editar**;
+mientras tanto, si se selecciona uno vacío la app avisa en el paso de revisión.
 
-**Origen de las medidas de control:** están transcritas del propio selector "Seleccione elementos"
-de Foco Prevención, así que el texto calza palabra por palabra con lo que hay que marcar.
-
-Las **únicas dos excepciones** son **14 Exposición a Radiación UV** y **19 Incendio**: sus medidas
-todavía no se han visto en la app y fueron redactadas a mano. Aparecen con la marca
-**medidas propias** y la app avisa en el paso de revisión cada vez que se usan.
+**Origen de las medidas de control:** todas están transcritas del propio selector
+"Seleccione elementos" de Foco Prevención, así que el texto calza palabra por palabra con lo que
+hay que marcar. No queda ninguna medida redactada a mano.
 
 ## Cómo se ve la salida de una etapa
 
