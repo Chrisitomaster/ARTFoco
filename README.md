@@ -98,10 +98,31 @@ izaje, buceo, maquinaria pesada, soldadura, flora y fauna). Si alguna vez se nec
 escriben las medidas en **Peligros → Editar**; mientras tanto, si se selecciona uno vacío la app
 avisa en el paso de revisión.
 
-**Origen de las medidas de control:** las de los peligros 01, 02, 03, 04, 12, 13, 15, 17, 18, 27
-y 28 están transcritas literalmente de un ART real de la obra. Las de 05, 06, 08, 09, 10, 11, 14,
-19 y 30 fueron redactadas para esta partida y **conviene validarlas con el prevencionista** antes
-de usarlas en firme.
+**Origen de las medidas de control:** están transcritas del propio selector "Seleccione elementos"
+de Foco Prevención, así que el texto calza palabra por palabra con lo que hay que marcar.
+
+Las **únicas dos excepciones** son **14 Exposición a Radiación UV** y **19 Incendio**: sus medidas
+todavía no se han visto en la app y fueron redactadas a mano. Aparecen con la marca
+**medidas propias** y la app avisa en el paso de revisión cada vez que se usan.
+
+## Cómo se ve la salida de una etapa
+
+Cada etapa produce las tres columnas que pide el formulario:
+
+1. **Etapa** — el texto breve de la labor (máx. 100 caracteres)
+2. **Identificación de peligros y riesgos** — `01.Golpeado contra, 02.Caída mismo Nivel, …`
+3. **Medidas de control operacional** — agrupadas por peligro, con casilla para ir marcando:
+
+```
+04.Caída de Altura
+   [ ] Mantener protegidas con barreras duras trabajos en altura
+   [ ] Uso de arnés de seguridad con dos cabos de vida, 100% amarrado a un punto fijo
+   [ ] Verificar que cuente con línea de vida independiente o punto de anclaje
+   [ ] Verificar que plataforma de trabajo cuente con la tarjeta verde de aprobado
+```
+
+El botón *Copiar* de esa tarjeta entrega el mismo contenido en el formato de una línea que usa
+Foco (`04.Mantener protegidas…,04.Uso de arnés…`), por si conviene pegarlo en vez de marcarlo.
 
 El texto de medidas se genera con el mismo formato del documento impreso:
 
