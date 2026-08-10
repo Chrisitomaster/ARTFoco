@@ -1,6 +1,6 @@
 /* ART Rápida — service worker
    Subir el número de CACHE cada vez que se edita ART.html */
-const CACHE = "art-v7";
+const CACHE = "art-v8";
 const ASSETS = ["./", "./index.html", "./ART.html", "./manifest.json"];
 
 self.addEventListener("install", e => {

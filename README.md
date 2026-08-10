@@ -28,7 +28,19 @@ Si alguien hace hoy una labor que normalmente no hace, se activa como "parcial" 
 4. **Paso 4 · Salida** — dos modos:
    - **Campo por campo**: cada tarjeta lleva la etiqueta exacta de Foco Prevención y un botón
      *Copiar*. Al copiar queda en verde, así no se pierde el hilo al saltar entre las dos apps.
+     Las etapas vienen **comprimidas, una por acordeón**: se abre solo la que se está pasando a
+     Foco y el resto queda fuera del camino. Dentro de cada una: el texto de la etapa (editable,
+     con contador de 100 caracteres y botón *Copiar texto de la etapa*), los peligros a
+     seleccionar y las medidas a marcar. *Restaurar* devuelve el texto original del catálogo.
+     Arriba hay *Copiar las N etapas*, *Abrir todas* y *Cerrar todas*.
    - **Texto completo**: todo el ART en un bloque, para copiar, compartir o guardar.
+
+**Editar el texto de una etapa** cambia solo ese ART; el catálogo de labores queda intacto. Para
+cambiarlo de forma permanente hay que hacerlo en la pestaña **Labores**.
+
+**El texto oficial de las 13 preguntas previas** está dentro de la app: bajo cada pregunta hay una
+viñeta *texto oficial de la pregunta* que despliega el enunciado completo tal cual aparece en
+Foco Prevención, en letra chica. Está tanto en el paso de revisión como en la salida.
 5. **Guardar en historial** para poder reusarlo otro día.
 
 ## Las 4 pestañas de mantención
