@@ -165,6 +165,35 @@ El texto de medidas se genera con el mismo formato del documento impreso:
 01.Coordinación de trabajos con mas de una persona en traslado de materiales,01.Mantener distancia segura…
 ```
 
+## Temas de la charla diaria
+
+El campo "Indicar tema a tratar" trae un catálogo de **61 temas** en 10 categorías, todos bajo los
+100 caracteres que acepta Foco y orientados a la partida: altura, esmeril, silicona, Sikatop,
+sílice, manejo de ventanas.
+
+| Categoría | Temas |
+|---|---|
+| EPP | 10 |
+| Trabajo en altura | 7 |
+| Herramientas | 7 |
+| Manejo de carga y ergonomía | 5 |
+| Sustancias y medio ambiente | 6 |
+| Salud ocupacional | 5 |
+| Orden, aseo y entorno | 5 |
+| Emergencias | 6 |
+| Conducta y factores humanos | 5 |
+| Riesgos críticos (RCO) | 5 |
+
+En el **Paso 1**, con la charla en "Sí", aparecen dos botones:
+
+- **Sugerir tema** — elige uno que no se haya usado nunca, mirando los ART del historial. Cuando se
+  agotan los 61, recicla entre los diez más antiguos. Da para unos tres meses sin repetir.
+- **Elegir de la lista** — despliega las categorías; los temas usados en los últimos 30 días salen
+  atenuados y con los días transcurridos, para no repetir sin darse cuenta.
+
+Los temas se editan en **Peligros → Temas de charla diaria**: un cuadro por categoría, un tema por
+línea, más *+ Agregar categoría*. Viajan en el respaldo JSON.
+
 ## Actualizaciones del catálogo
 
 La app guarda su catálogo en el navegador la primera vez que se abre. Sin un mecanismo de

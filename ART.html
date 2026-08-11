@@ -312,6 +312,91 @@ const CHECK_OBS_BASE = {
 
 /* ---------- 2. SEMILLA: labores y personas ---------- */
 
+/* Temas para el campo "INDICAR TEMA A TRATAR" de la charla diaria. Todos por debajo
+   de 100 caracteres y orientados a la partida de instalación de ventanas. */
+const TEMAS_SEED = [
+ {cat:"EPP", temas:[
+  "Uso correcto y estado del casco de seguridad y barbiquejo",
+  "Lentes de seguridad: cuándo usarlos y cómo evitar el empañamiento",
+  "Guantes según la tarea: anticorte, nitrilo y anti vibración",
+  "Protector auditivo: uso obligatorio en corte, pulido y picado",
+  "Calzado de seguridad: revisión diaria de puntera y suela",
+  "Respirador P100: ajuste, prueba de sello y cambio de filtros",
+  "Careta facial en trabajos con proyección de partículas",
+  "Arnés de seguridad: inspección antes de cada uso",
+  "Cuidado, limpieza y guardado del EPP al término de la jornada",
+  "Cuándo dar de baja un EPP dañado y cómo pedir el recambio"]},
+
+ {cat:"Trabajo en altura", temas:[
+  "Regla del 100% amarrado: los dos cabos de vida siempre conectados",
+  "Puntos de anclaje: cómo elegir uno seguro y qué no sirve como anclaje",
+  "Tarjeta verde de andamio: qué revisar antes de subir",
+  "Plataformas de trabajo: rodapiés, barandas y superficie despejada",
+  "Prohibido acceder desde andamios a edificios y viceversa",
+  "Caída de materiales desde altura: porta herramientas y amarre",
+  "Trabajo en fachada: coordinación con quienes trabajan abajo"]},
+
+ {cat:"Herramientas", temas:[
+  "Código de colores del mes: revisión de herramientas y extensiones",
+  "Esmeril angular: guarda de protección y disco correcto para cada corte",
+  "Cambio de disco: desenergizar y esperar la detención total",
+  "Sierra circular: uso de la guarda y posición de las manos",
+  "Rotomartillo y atornillador: control de la reacción de giro",
+  "Extensiones eléctricas por vía aérea y en buen estado",
+  "Prohibición de herramientas hechizas o modificadas"]},
+
+ {cat:"Manejo de carga y ergonomía", temas:[
+  "Límite de carga manual: 25 kg hombres y 20 kg mujeres",
+  "Traslado de ventanas entre dos personas: señas y coordinación",
+  "Posturas de levante: piernas, espalda recta y carga cerca del cuerpo",
+  "Pausas activas y rotación en tareas repetitivas",
+  "Acopio de ventanas: aplomado, afianzado y señalizado"]},
+
+ {cat:"Sustancias y medio ambiente", temas:[
+  "Hoja de datos de seguridad (HDS): dónde está y cómo leerla",
+  "Manipulación de silicona y solventes en zonas ventiladas",
+  "Sikatop 107 Seal: mezcla, EPP y manejo de sobrantes",
+  "Rotulado de envases y prohibición de trasvasije en botellas",
+  "Segregación de residuos y prohibición de descargas al suelo",
+  "Polvo de sílice: humectación y captación en pulido y picado"]},
+
+ {cat:"Salud ocupacional", temas:[
+  "Exposición a ruido: tiempos y uso permanente del protector",
+  "Vibraciones: rotación de puestos y guantes anti vibración",
+  "Protección solar y golpe de calor en trabajos exteriores",
+  "Hidratación y alimentación durante la jornada",
+  "Reporte temprano de molestias musculares o auditivas"]},
+
+ {cat:"Orden, aseo y entorno", temas:[
+  "Orden y aseo: despejar la zona antes, durante y después",
+  "Vanos y shaft: señalización, tapado y segregación",
+  "Tránsito por zonas habilitadas y uso de escaleras",
+  "Interferencias con otras especialidades: cómo avisar",
+  "Iluminación y despeje de vías de circulación"]},
+
+ {cat:"Emergencias", temas:[
+  "Vías de evacuación y punto de encuentro de la obra",
+  "Qué hacer ante un sismo durante el trabajo en fachada",
+  "Uso del extintor: tipos de fuego y forma de operarlo",
+  "Cómo reportar un incidente o casi accidente",
+  "Primeros auxilios: quién es el brigadista y cómo avisar",
+  "Permiso de trabajo: cuándo se exige y quién lo autoriza"]},
+
+ {cat:"Conducta y factores humanos", temas:[
+  "Derecho a saber: riesgos de mi tarea y medidas de control",
+  "Obligación de detener un trabajo en condición insegura",
+  "Consumo de alcohol y drogas: política y consecuencias",
+  "Fatiga y sueño: cómo afectan la seguridad en obra",
+  "Uso del celular en zonas de trabajo y en tránsito"]},
+
+ {cat:"Riesgos críticos (RCO)", temas:[
+  "RCO 1: caída por trabajos en altura, controles obligatorios",
+  "RCO 2: caída de materiales y verticalidad de trabajos",
+  "RCO 8: contacto con energía eléctrica en obra",
+  "RCO 19: caídas por vano y shaft",
+  "Cartilla de verificación RCO: para qué sirve y quién la aplica"]}
+];
+
 /* Grupos de etapas. El campo "Etapas de desarrollo del trabajo" de Foco acepta 2000
    caracteres, así que varias labores relacionadas se pueden acoplar en una sola etapa.
    Cada grupo produce una etapa cuyo texto encadena las labores que lo componen y cuyos
@@ -410,14 +495,15 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=9;
-const APP_VER="v9";
+const CAT_VER=10;
+const APP_VER="v10";
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
 
 function defaults(){
   return {
     peligros: JSON.parse(JSON.stringify(PELIGROS_SEED)),
     grupos:   JSON.parse(JSON.stringify(GRUPOS_SEED)),
+    temas:    JSON.parse(JSON.stringify(TEMAS_SEED)),
     labores:  JSON.parse(JSON.stringify(LABORES_SEED)),
     personas: JSON.parse(JSON.stringify(PERSONAS_SEED)),
     arts: [],
@@ -449,6 +535,19 @@ function migrarCatalogo(raw){
 
   const seedG=JSON.parse(JSON.stringify(GRUPOS_SEED));
   DB.grupos = seedG.concat((DB.grupos||[]).filter(g=>!seedG.some(s=>s.id===g.id)));
+
+  // Temas: se reponen los de fábrica y se conservan los que agregó el usuario.
+  const seedT=JSON.parse(JSON.stringify(TEMAS_SEED));
+  (DB.temas||[]).forEach(cat=>{
+    const dest=seedT.find(s=>s.cat===cat.cat);
+    const propios=(cat.temas||[]).filter(t=>{
+      const fab=TEMAS_SEED.find(s=>s.cat===cat.cat);
+      return !fab || !fab.temas.includes(t);
+    });
+    if(dest) propios.forEach(t=>{ if(!dest.temas.includes(t)) dest.temas.push(t); });
+    else if(propios.length) seedT.push({cat:cat.cat, temas:propios});
+  });
+  DB.temas = seedT;
 
   // Labores que fueron de fábrica en versiones anteriores y ya no existen. Se borran;
   // las que creó el usuario (cualquier otro id) se conservan.
@@ -801,13 +900,80 @@ function pasoDatos(a,d){
   ["si","no"].forEach(v=>ch.appendChild(h("button",{type:"button",class:"chip"+(d.charla===v?" on":""),
     onClick:()=>{d.charla=v;save();render();}}, v==="si"?"Sí":"No")));
   c.appendChild(ch);
-  if(d.charla==="si") campoTexto(c,"Tema a tratar",d.tema,100,v=>{d.tema=v;save();});
+  if(d.charla==="si"){
+    campoTexto(c,"Tema a tratar",d.tema,100,v=>{d.tema=v;save();});
+    c.appendChild(selectorTema(d));
+  }
 
   a.appendChild(c);
   a.appendChild(h("button",{class:"btn wide",onClick:()=>{step=1;render();}},"Siguiente · Cuadrilla →"));
   a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",
     onClick:()=>{ if(confirm("¿Empezar un ART en blanco?")){DB.draft=nuevoDraft();copiados={};save();render();} }},
     "Empezar de cero"));
+}
+
+// Temas usados en los ART guardados, con la fecha más reciente de cada uno.
+function temasUsados(){
+  const m=new Map();
+  (DB.arts||[]).forEach(r=>{
+    const t=(r.draft&&r.draft.tema||"").trim();
+    if(t && (!m.has(t) || m.get(t)<r.fecha)) m.set(t, r.fecha);
+  });
+  return m;
+}
+function diasDesde(iso){
+  if(!iso) return 9999;
+  return Math.round((Date.now()-new Date(iso+"T00:00:00").getTime())/86400000);
+}
+// Selector de tema: sugerencia automática y lista completa por categoría.
+function selectorTema(d){
+  const usados=temasUsados();
+  const todos=(DB.temas||[]).flatMap(c=>c.temas);
+  const box=h("div",{style:"margin-top:8px"});
+
+  box.appendChild(h("div",{class:"row"},
+    h("button",{class:"btn sm grow",onClick:()=>{
+      // Se releen los usados al tocar el botón: si se guardó un ART desde que se
+      // dibujó la pantalla, el tema recién usado ya cuenta como usado.
+      const u=temasUsados(), lista=(DB.temas||[]).flatMap(c=>c.temas);
+      const nuevos=lista.filter(t=>!u.has(t) && t!==d.tema);
+      const pool=nuevos.length?nuevos
+        :lista.filter(t=>t!==d.tema)
+              .sort((a,b)=>diasDesde(u.get(b))-diasDesde(u.get(a))).slice(0,10);
+      d.tema=pool[Math.floor(Math.random()*pool.length)]||d.tema;
+      save();render();}},"Sugerir tema"),
+    h("button",{class:"btn sm sec grow",onClick:()=>{
+      d._verTemas=!d._verTemas;save();render();}},
+      d._verTemas?"Cerrar lista":"Elegir de la lista")));
+
+  if(!d._verTemas){
+    const sinUsar=todos.filter(t=>!usados.has(t)).length;
+    box.appendChild(h("div",{class:"muted small",style:"margin-top:4px",
+      text:`${todos.length} temas en el catálogo · ${sinUsar} sin usar todavía`}));
+    return box;
+  }
+
+  (DB.temas||[]).forEach(cat=>{
+    const dt=h("details",{class:"acc"});
+    const pend=cat.temas.filter(t=>!usados.has(t)).length;
+    dt.appendChild(h("summary",{},
+      h("span",{class:"grow"},
+        h("span",{text:cat.cat}),
+        h("span",{class:"sub2",text:`${cat.temas.length} temas · ${pend} sin usar`}))));
+    const body=h("div",{class:"body"});
+    cat.temas.forEach(t=>{
+      const dias=usados.has(t)?diasDesde(usados.get(t)):null;
+      const reciente=dias!==null&&dias<=30;
+      body.appendChild(h("button",{type:"button",
+        class:"chip pel"+(d.tema===t?" on":""),
+        style:reciente?"opacity:.55":"",
+        onClick:()=>{d.tema=t;d._verTemas=false;save();render();}},
+        t+(dias!==null?`  · hace ${dias} d`:"")));
+    });
+    dt.appendChild(body);
+    box.appendChild(dt);
+  });
+  return box;
 }
 
 function campoTexto(c,label,val,max,onSet,hint){
@@ -1348,6 +1514,31 @@ function vPeligros(a){
     DB.peligros.push({n,nombre:"",medidas:[]});editId=n;subview="edit";save();render();}},
     "+ Agregar peligro"));
   a.appendChild(h("div",{class:"hr"}));
+
+  // Temas de la charla diaria: un textarea por categoría, un tema por línea.
+  const ct=h("div",{class:"card"});
+  ct.appendChild(h("h3",{text:"Temas de charla diaria"}));
+  ct.appendChild(h("div",{class:"muted small",
+    text:"Un tema por línea. Se eligen desde el Paso 1 del ART, en «Tema a tratar»."}));
+  (DB.temas||[]).forEach((cat,i)=>{
+    ct.appendChild(h("label",{class:"f",text:cat.cat+` (${cat.temas.length})`}));
+    const ta=h("textarea",{style:"min-height:110px;font-size:13px",
+      onBlur:e=>{
+        cat.temas=e.target.value.split("\n").map(s=>s.trim()).filter(Boolean);
+        save();render();}});
+    ta.value=cat.temas.join("\n");
+    ct.appendChild(ta);
+    const largos=cat.temas.filter(t=>t.length>100).length;
+    if(largos) ct.appendChild(h("div",{class:"count over",
+      text:`${largos} tema(s) pasan los 100 caracteres`}));
+  });
+  ct.appendChild(h("button",{class:"btn sm sec wide",style:"margin-top:10px",onClick:()=>{
+    const n=prompt("Nombre de la categoría nueva:"); if(!n||!n.trim()) return;
+    DB.temas=DB.temas||[]; DB.temas.push({cat:n.trim(),temas:[]}); save(); render();}},
+    "+ Agregar categoría de temas"));
+  a.appendChild(ct);
+
+  a.appendChild(h("div",{class:"hr"}));
   a.appendChild(h("div",{class:"muted small",
     text:`Catálogo de fábrica versión ${DB.catVer||"?"} · app ${APP_VER}`}));
   a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",onClick:exportar},
@@ -1360,6 +1551,7 @@ function vPeligros(a){
     DB.peligros=JSON.parse(JSON.stringify(PELIGROS_SEED));
     DB.grupos=JSON.parse(JSON.stringify(GRUPOS_SEED));
     DB.labores=JSON.parse(JSON.stringify(LABORES_SEED));
+    DB.temas=JSON.parse(JSON.stringify(TEMAS_SEED));
     save();render();toast("Catálogo de fábrica restaurado");}},
     "Restaurar catálogo de fábrica"));
   if(localStorage.getItem(KEY_PREV))
