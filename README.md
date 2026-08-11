@@ -30,7 +30,7 @@ Si alguien hace hoy una labor que normalmente no hace, se activa como "parcial" 
      *Copiar*. Al copiar queda en verde, así no se pierde el hilo al saltar entre las dos apps.
      Las etapas vienen **comprimidas, una por acordeón**: se abre solo la que se está pasando a
      Foco y el resto queda fuera del camino. Dentro de cada una: el texto de la etapa (editable,
-     con contador de 100 caracteres y botón *Copiar texto de la etapa*), los peligros a
+     con contador de 2000 caracteres y botón *Copiar texto de la etapa*), los peligros a
      seleccionar y las medidas a marcar. *Restaurar* devuelve el texto original del catálogo.
      Arriba hay *Copiar las N etapas*, *Abrir todas* y *Cerrar todas*.
    - **Texto completo**: todo el ART en un bloque, para copiar, compartir o guardar.
@@ -49,11 +49,39 @@ Foco Prevención, en letra chica. Está tanto en el paso de revisión como en la
 |---|---|
 | **ART** | El del día (los 4 pasos de arriba) |
 | **Personal** | Nómina por **iniciales** y cargo, y qué labores hace cada uno (principales / parciales). El RUT es un campo opcional que queda solo en el teléfono |
-| **Labores** | Cada labor = una etapa del ART: su texto, su orden, sus peligros y qué fuerza en el checklist |
+| **Labores** | Cada labor: su texto, su grupo, su orden, sus peligros y qué fuerza en el checklist |
 | **Peligros** | Catálogo numerado igual que Foco (01 Golpeado contra, 04 Caída de Altura, …) con sus medidas de control |
 | **Historial** | ART guardados: copiar de nuevo o reusar como borrador |
 
 Las labores marcadas **BASE** entran siempre: ingreso a obra, traslado, orden y aseo, retiro de obra.
+
+## Grupos: varias labores en una sola etapa
+
+El campo "Etapas de desarrollo del trabajo" de Foco acepta **2000 caracteres**, no 100. Eso permite
+acoplar labores relacionadas en una sola etapa en vez de gastar un casillero por cada una.
+
+Las labores del mismo **grupo** se juntan: el texto encadena sus descripciones y los peligros son
+la unión de todos. Los grupos que vienen armados:
+
+| Grupo | Labores que acopla |
+|---|---|
+| Accesos y desplazamientos en obra | ingreso a obra + traslado y escaleras + retiro de obra |
+| Movimiento e instalación de ventanas | traslado de ventanas + instalación con rotomartillo |
+| Corte y carpintería con herramientas | corte con esmeril + carpintería en madera |
+| Estanqueidad e impermeabilización de rasgos | pruebas de estanqueidad + Sikatop 107 Seal |
+
+Sellos en altura, pulido y picado, albañilería y orden y aseo quedan como **etapa propia**: son
+tareas con riesgos bien distintos y conviene que se lean separadas — sobre todo la de altura.
+
+Con toda la cuadrilla, esto baja el ART de **12 etapas a 7**, y la más larga usa 206 de los 2000
+caracteres disponibles.
+
+En el paso de revisión hay un interruptor **Etapas acopladas por grupo / Una etapa por labor** para
+cambiarlo en el momento, sin tocar el catálogo. Los grupos se crean y se editan en **Labores →
+Editar → Grupo**, incluido *+ grupo nuevo*.
+
+Al quitar una etapa acoplada se quitan todas sus labores, y cada una se puede devolver por separado
+desde la lista de *Quitadas*.
 
 ## Partida cargada: instalación de ventanas
 
@@ -162,7 +190,8 @@ Después abrir `http://localhost:8082/ART.html`.
 
 ## Notas
 
-- Foco limita varios campos a 100 caracteres; la app avisa en rojo cuando un texto se pasa.
+- "Etapas de desarrollo del trabajo" acepta 2000 caracteres; los demás campos, 100. La app avisa
+  en rojo cuando un texto se pasa del límite que corresponde.
 - El formulario acepta 13 etapas como máximo; si se pasan, sale aviso en el paso de revisión.
 - Los RCO se encienden solos según los peligros presentes (04 → RCO 1, 27 → RCO 2, 28 → RCO 8 y 18,
   03 → RCO 19). Igual se pueden cambiar uno por uno a mano.

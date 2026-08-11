@@ -312,18 +312,30 @@ const CHECK_OBS_BASE = {
 
 /* ---------- 2. SEMILLA: labores y personas ---------- */
 
+/* Grupos de etapas. El campo "Etapas de desarrollo del trabajo" de Foco acepta 2000
+   caracteres, así que varias labores relacionadas se pueden acoplar en una sola etapa.
+   Cada grupo produce una etapa cuyo texto encadena las labores que lo componen y cuyos
+   peligros son la unión de todos. Una labor sin grupo sigue siendo su propia etapa. */
+const GRUPOS_SEED = [
+ {id:"g-acceso",  nombre:"Accesos y desplazamientos en obra", orden:1},
+ {id:"g-ventanas",nombre:"Movimiento e instalación de ventanas", orden:20},
+ {id:"g-herram",  nombre:"Corte y carpintería con herramientas", orden:40},
+ {id:"g-sellado", nombre:"Estanqueidad e impermeabilización de rasgos", orden:70}
+];
+
 const LABORES_SEED = [
- {id:"l-ingreso", nombre:"Ingreso a obra", base:true, orden:1, peligros:[1,2], check:{}},
+ {id:"l-ingreso", nombre:"Ingreso a obra", base:true, orden:1, grupo:"g-acceso",
+  peligros:[1,2], check:{}},
 
  {id:"l-traslado",nombre:"Traslado de un lugar a otro en obra, desplazamiento por escaleras (caminar)",
-  base:true, orden:2, peligros:[1,2,3], check:{}},
+  base:true, orden:2, grupo:"g-acceso", peligros:[1,2,3], check:{}},
 
  {id:"l-mov",     nombre:"Traslado, movimiento y distribución de ventanas y elementos pesados",
-  corto:"traslado de ventanas", orden:10, peligros:[1,2,3,5,9,18,27], check:{4:"si"},
+  corto:"traslado de ventanas", orden:10, grupo:"g-ventanas", peligros:[1,2,3,5,9,18,27], check:{4:"si"},
   checkObs:{4:"guantes anticorte, calzado de seguridad"}},
 
  {id:"l-instal",  nombre:"Instalación de ventanas con rotomartillo y atornillador inalámbrico, nivel láser",
-  corto:"instalación de ventanas", orden:20, peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
+  corto:"instalación de ventanas", orden:20, grupo:"g-ventanas", peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"lentes de seguridad, protector auditivo, guantes"}},
 
  {id:"l-sellos",  nombre:"Sellos exteriores en altura con pistola calafatera y silicona",
@@ -333,11 +345,11 @@ const LABORES_SEED = [
             2:"silicona: HDS revisada, uso en zona ventilada"}},
 
  {id:"l-corte",   nombre:"Corte de tornillos, enfierradura y rasgos con esmeril angular (corte y diamantado)",
-  corto:"corte con esmeril", orden:40, peligros:[1,2,3,6,8,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
+  corto:"corte con esmeril", orden:40, grupo:"g-herram", peligros:[1,2,3,6,8,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"careta facial, lentes de seguridad, protector auditivo, guantes anticorte"}},
 
  {id:"l-carpint", nombre:"Carpintería en madera con sierra circular, serrucho, tizador y herramientas manuales",
-  corto:"carpintería en madera", orden:50, peligros:[1,2,3,6,9,13,17,18,27,28], check:{4:"si",12:"si",6:"si"},
+  corto:"carpintería en madera", orden:50, grupo:"g-herram", peligros:[1,2,3,6,9,13,17,18,27,28], check:{4:"si",12:"si",6:"si"},
   checkObs:{4:"lentes de seguridad, protector auditivo, guantes anticorte"}},
 
  {id:"l-pulido",  nombre:"Pulido de rasgos con pulidora de hormigón y picado de hormigón con cango",
@@ -345,10 +357,10 @@ const LABORES_SEED = [
   checkObs:{4:"respirador P100, careta facial, guantes anti vibración, protector auditivo"}},
 
  {id:"l-estanq",  nombre:"Pruebas de estanqueidad: sellado de despiches con cinta y llenado de agua",
-  corto:"pruebas de estanqueidad", orden:70, peligros:[1,2,3,9,18,27], check:{}},
+  corto:"pruebas de estanqueidad", orden:70, grupo:"g-sellado", peligros:[1,2,3,9,18,27], check:{}},
 
  {id:"l-imperm",  nombre:"Impermeabilización de rasgos con Sikatop 107 Seal, mezclador eléctrico y brocha",
-  corto:"impermeabilización de rasgos", orden:75, peligros:[1,2,3,6,10,11,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
+  corto:"impermeabilización de rasgos", orden:75, grupo:"g-sellado", peligros:[1,2,3,6,10,11,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
   checkObs:{4:"guantes de nitrilo, lentes de seguridad, respirador para vapores orgánicos",
             2:"Sikatop 107 Seal bicomponente: HDS revisada, envases rotulados y cerrados"}},
 
@@ -360,7 +372,8 @@ const LABORES_SEED = [
  {id:"l-aseo",    nombre:"Orden y aseo en lugar de trabajo", base:true, orden:90,
   peligros:[1,2,3,9,18,27,30], check:{}},
 
- {id:"l-retiro",  nombre:"Retiro de obra", base:true, orden:99, peligros:[1,2], check:{}}
+ {id:"l-retiro",  nombre:"Retiro de obra", base:true, orden:99, grupo:"g-acceso",
+  peligros:[1,2], check:{}}
 ];
 
 // Cargo -> labores sugeridas al crear una persona nueva.
@@ -390,11 +403,14 @@ const PERSONAS_SEED = [
 /* ---------- 3. ESTADO ---------- */
 
 const KEY="art_v1";
+// Foco acepta 2000 caracteres en "Etapas de desarrollo del trabajo" y 100 en el resto.
+const MAX_ETAPA=2000;
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
 
 function defaults(){
   return {
     peligros: JSON.parse(JSON.stringify(PELIGROS_SEED)),
+    grupos:   JSON.parse(JSON.stringify(GRUPOS_SEED)),
     labores:  JSON.parse(JSON.stringify(LABORES_SEED)),
     personas: JSON.parse(JSON.stringify(PERSONAS_SEED)),
     arts: [],
@@ -454,6 +470,7 @@ function fechaCL(iso){ if(!iso) return ""; const[a,m,d]=iso.split("-"); return `
 function pad2(n){ return String(n).padStart(2,"0"); }
 function pel(n){ return DB.peligros.find(p=>p.n===n); }
 function lab(id){ return DB.labores.find(l=>l.id===id); }
+function grupo(id){ return (DB.grupos||[]).find(g=>g.id===id); }
 function per(id){ return DB.personas.find(p=>p.id===id); }
 // El RUT es opcional: si está vacío se muestra solo iniciales y cargo.
 function rotulo(p){ return (p.rut?p.rut+" - ":"")+p.nombre+" — "+p.cargo; }
@@ -475,6 +492,7 @@ function nuevoDraft(){
     excluidas: [],            // ids de labor auto quitadas a mano
     manuales: [],             // etapas escritas a mano {id,nombre,peligros:[]}
     textoOv: {},              // etapaId -> texto reescrito solo para este ART
+    agrupar: true,            // acoplar labores del mismo grupo en una etapa
     orden: [],                // ids en el orden elegido
     rcoOv: {},                // n -> "si"/"no"
     clOv: {},                 // i -> {v, obs}
@@ -493,18 +511,40 @@ function laboresActivas(d){
   (d.excluidas||[]).forEach(id=>set.delete(id));
   return [...set].map(lab).filter(Boolean).sort((a,b)=>(a.orden||50)-(b.orden||50));
 }
-// Etapas finales = labores activas + etapas manuales, en el orden guardado.
+// Etapas finales = labores activas (agrupadas si corresponde) + etapas manuales.
 function etapas(d){
   const ov=d.textoOv||{};
-  let list = laboresActivas(d).map(l=>({
-    id:l.id, nombre:ov[l.id]||l.nombre,
-    peligros:(d.pelOv[l.id] || l.peligros || []).slice().sort((a,b)=>a-b),
-    manual:false
-  }));
+  let list;
+  if(d.agrupar===false){
+    list = laboresActivas(d).map(l=>({
+      id:l.id, nombre:ov[l.id]||l.nombre,
+      peligros:(d.pelOv[l.id] || l.peligros || []).slice().sort((a,b)=>a-b),
+      manual:false, labores:[l.id]
+    }));
+  } else {
+    // Las labores de un mismo grupo se acoplan en una etapa: textos encadenados y
+    // peligros unidos. Una labor sin grupo queda como etapa propia.
+    const bolsas=new Map();
+    laboresActivas(d).forEach(l=>{
+      const g=l.grupo?grupo(l.grupo):null;
+      const key=g?g.id:l.id;
+      if(!bolsas.has(key)) bolsas.set(key,{id:key,g:g,ls:[],orden:g?g.orden:(l.orden||50)});
+      bolsas.get(key).ls.push(l);
+    });
+    list=[...bolsas.values()].sort((a,b)=>a.orden-b.orden).map(b=>{
+      const nombre = b.g
+        ? `${b.g.nombre}: ${b.ls.map(l=>l.nombre).join(". ")}`
+        : b.ls[0].nombre;
+      const auto=[...new Set(b.ls.flatMap(l=>d.pelOv[l.id]||l.peligros||[]))];
+      return {id:b.id, nombre:ov[b.id]||nombre,
+              peligros:(d.pelOv[b.id]||auto).slice().sort((x,y)=>x-y),
+              manual:false, labores:b.ls.map(l=>l.id)};
+    });
+  }
   (d.manuales||[]).forEach(m=>list.push({
     id:m.id, nombre:ov[m.id]||m.nombre,
     peligros:(d.pelOv[m.id] || m.peligros || []).slice().sort((a,b)=>a-b),
-    manual:true
+    manual:true, labores:[]
   }));
   if(d.orden && d.orden.length){
     const pos = id => { const i=d.orden.indexOf(id); return i<0?999:i; };
@@ -601,7 +641,7 @@ function campos(d){
             copiar:a.obs, nocopy:!a.obs, sec:"previas", q:q});
   });
   et.slice(0,13).forEach((e,i)=>{
-    c.push({l:`${i+1}.Etapas de desarrollo del trabajo`, v:e.nombre, max:100,
+    c.push({l:`${i+1}.Etapas de desarrollo del trabajo`, v:e.nombre, max:MAX_ETAPA,
             sec:"art", et:i, id:e.id});
     c.push({l:`${i+1}.Descripción — peligros a seleccionar`, v:peligrosTxt(e.peligros),
             sec:"art", et:i});
@@ -785,9 +825,9 @@ function pasoRevision(a,d){
 
   if(et.length>13) a.appendChild(h("div",{class:"alert bad",
     text:`Hay ${et.length} etapas y el formulario solo acepta 13. Quita o junta ${et.length-13}.`}));
-  const largas=et.filter(e=>e.nombre.length>100);
+  const largas=et.filter(e=>e.nombre.length>MAX_ETAPA);
   if(largas.length) a.appendChild(h("div",{class:"alert",
-    text:`${largas.length} etapa(s) pasan los 100 caracteres. Se cortarán al pegar.`}));
+    text:`${largas.length} etapa(s) pasan los ${MAX_ETAPA} caracteres. Se cortarán al pegar.`}));
   const enUso=[...new Set(et.flatMap(e=>e.peligros))].map(pel).filter(Boolean);
   const revs=enUso.filter(p=>p.rev);
   if(revs.length) a.appendChild(h("div",{class:"alert",
@@ -806,6 +846,14 @@ function pasoRevision(a,d){
   // --- Etapas ---
   const ce=h("div",{class:"card"});
   ce.appendChild(h("h3",{text:`Etapas de desarrollo (${et.length})`}));
+  const sinAgrupar=laboresActivas(d).length+(d.manuales||[]).length;
+  ce.appendChild(h("div",{class:"row wrap"},
+    h("button",{type:"button",class:"chip"+(d.agrupar!==false?" on":""),onClick:()=>{
+      d.agrupar=(d.agrupar===false); save(); render();}},
+      d.agrupar!==false?`✓ Etapas acopladas por grupo (${et.length} de ${sinAgrupar})`
+                       :`○ Una etapa por labor (${sinAgrupar})`)));
+  ce.appendChild(h("div",{class:"muted small",style:"margin-bottom:6px",
+    text:"Foco acepta 2000 caracteres por etapa, así que las labores del mismo grupo se juntan en una sola. Los grupos se arman en la pestaña Labores."}));
   ce.appendChild(h("div",{class:"row wrap",style:"margin-bottom:6px"},
     h("button",{class:"btn xs ghost",onClick:()=>{
       ce.querySelectorAll("details.acc").forEach(x=>x.open=true);}},"Abrir todas"),
@@ -825,8 +873,10 @@ function pasoRevision(a,d){
       h("button",{class:"btn xs ghost",onClick:()=>mover(d,e.id,1)},"↓ bajar"),
       h("div",{class:"grow"}),
       h("button",{class:"btn xs danger",onClick:()=>{
+        // Una etapa puede venir de varias labores: se excluyen todas.
         if(e.manual) d.manuales=d.manuales.filter(m=>m.id!==e.id);
-        else d.excluidas.push(e.id);
+        else (e.labores&&e.labores.length?e.labores:[e.id]).forEach(id=>{
+          if(!d.excluidas.includes(id)) d.excluidas.push(id); });
         save();render();}},"✕ quitar")));
     const pw=h("div",{class:"row wrap"});
     DB.peligros.forEach(p=>{
@@ -966,12 +1016,13 @@ function salidaEtapas(a,d,cards){
     const body=h("div",{class:"body"});
 
     // Texto de la etapa: se puede reescribir solo para este ART, sin tocar el catálogo.
-    const ed=h("textarea",{style:"min-height:56px;font-size:14px"});
+    const ed=h("textarea",{style:"min-height:90px;font-size:14px"});
     ed.value=e.nombre;
-    const cnt=h("div",{class:"count"+(e.nombre.length>100?" over":""),text:e.nombre.length+"/100"});
+    const cnt=h("div",{class:"count"+(e.nombre.length>MAX_ETAPA?" over":""),
+                       text:e.nombre.length+"/"+MAX_ETAPA});
     ed.addEventListener("input",()=>{
-      cnt.textContent=ed.value.length+"/100";
-      cnt.className="count"+(ed.value.length>100?" over":"");
+      cnt.textContent=ed.value.length+"/"+MAX_ETAPA;
+      cnt.className="count"+(ed.value.length>MAX_ETAPA?" over":"");
     });
     ed.addEventListener("blur",()=>{
       const v=ed.value.trim();
@@ -1108,13 +1159,21 @@ function edPersona(a){
 function vLabores(a){
   if(subview==="edit") return edLabor(a);
   a.appendChild(h("div",{class:"muted small",
-    text:"Una labor = una etapa del ART. Las marcadas BASE siempre entran (ingreso, traslado, aseo, retiro)."}));
+    text:"Las labores del mismo grupo se acoplan en una sola etapa del ART (Foco acepta 2000 caracteres). Las marcadas BASE siempre entran."}));
+  const gs=(DB.grupos||[]).slice().sort((x,y)=>x.orden-y.orden);
+  if(gs.length) a.appendChild(h("div",{class:"card"},
+    h("h3",{text:"Grupos de etapas"}),
+    ...gs.map(g=>h("div",{class:"small",style:"padding:3px 0"},
+      h("span",{style:"color:var(--acc2);font-weight:700",text:g.nombre+": "}),
+      DB.labores.filter(l=>l.grupo===g.id).map(l=>l.corto||l.nombre).join(", ")||"(vacío)"))));
   DB.labores.slice().sort((x,y)=>(x.orden||50)-(y.orden||50)).forEach(l=>{
     const it=h("div",{class:"item"});
     it.appendChild(h("div",{class:"row"},
       h("div",{class:"grow"},
         h("div",{class:"t",text:l.nombre}),
-        h("div",{class:"s",text:(l.base?"BASE · ":"")+"orden "+(l.orden||50)+" · "+(l.peligros||[]).length+" peligros"})),
+        h("div",{class:"s",text:(l.base?"BASE · ":"")+
+          (l.grupo&&grupo(l.grupo)?"grupo: "+grupo(l.grupo).nombre+" · ":"etapa propia · ")+
+          (l.peligros||[]).length+" peligros"})),
       h("button",{class:"btn xs sec",onClick:()=>{editId=l.id;subview="edit";render();}},"Editar")));
     const bw=h("div",{style:"margin-top:6px"});
     (l.peligros||[]).forEach(n=>{const p=pel(n); if(p) bw.appendChild(h("span",{class:"badge",text:pad2(n)+"."+p.nombre}));});
@@ -1137,7 +1196,32 @@ function edLabor(a){
   c.appendChild(h("input",{type:"text",value:l.corto||"",placeholder:"Ej: instalación de ventanas",
     onBlur:e=>{l.corto=e.target.value.trim();save();}}));
 
-  c.appendChild(h("label",{class:"f",text:"Orden en el ART"}));
+  c.appendChild(h("label",{class:"f",text:"Grupo (se acopla con las demás labores del grupo)"}));
+  const gw=h("div",{class:"row wrap"});
+  gw.appendChild(h("button",{type:"button",class:"chip"+(!l.grupo?" on":""),
+    onClick:()=>{delete l.grupo;save();render();}},"Sin grupo · etapa propia"));
+  (DB.grupos||[]).forEach(g=>gw.appendChild(h("button",{type:"button",
+    class:"chip"+(l.grupo===g.id?" on":""),
+    onClick:()=>{l.grupo=g.id;save();render();}},g.nombre)));
+  gw.appendChild(h("button",{type:"button",class:"chip",onClick:()=>{
+    const n=prompt("Nombre del grupo nuevo:"); if(!n||!n.trim()) return;
+    const g={id:nid("g"),nombre:n.trim(),orden:l.orden||50};
+    DB.grupos=DB.grupos||[]; DB.grupos.push(g); l.grupo=g.id; save(); render();}},"+ grupo nuevo"));
+  c.appendChild(gw);
+  if(l.grupo){
+    const g=grupo(l.grupo);
+    const hermanas=DB.labores.filter(x=>x.grupo===l.grupo);
+    c.appendChild(h("div",{class:"muted small",style:"margin-top:6px",
+      text:`Se acopla con: ${hermanas.filter(x=>x.id!==l.id).map(x=>x.corto||x.nombre).join(", ")||"(ninguna todavía)"}`}));
+    c.appendChild(h("label",{class:"f",text:"Nombre del grupo"}));
+    c.appendChild(h("input",{type:"text",value:g.nombre,
+      onBlur:e=>{g.nombre=e.target.value.trim()||g.nombre;save();render();}}));
+    c.appendChild(h("label",{class:"f",text:"Orden del grupo en el ART"}));
+    c.appendChild(h("input",{type:"text",value:g.orden,
+      onBlur:e=>{g.orden=parseInt(e.target.value)||g.orden;save();}}));
+  }
+
+  c.appendChild(h("label",{class:"f",text:"Orden de la labor dentro del grupo"}));
   c.appendChild(h("input",{type:"text",value:l.orden||50,onBlur:e=>{l.orden=parseInt(e.target.value)||50;save();}}));
 
   c.appendChild(h("div",{class:"row",style:"margin-top:10px"},
