@@ -165,6 +165,26 @@ El texto de medidas se genera con el mismo formato del documento impreso:
 01.Coordinación de trabajos con mas de una persona en traslado de materiales,01.Mantener distancia segura…
 ```
 
+## Actualizaciones del catálogo
+
+La app guarda su catálogo en el navegador la primera vez que se abre. Sin un mecanismo de
+migración, ese catálogo queda congelado y las mejoras del código nuevo **nunca llegan al
+teléfono**, aunque la app se recargue.
+
+Por eso el código lleva `CAT_VER`. Cuando ese número sube, al abrir la app se actualizan
+**peligros, grupos y labores de fábrica**, se conservan los que haya creado el usuario, y no se
+tocan personas, historial ni el borrador en curso. Antes de migrar se guarda un respaldo completo
+en `art_v1_respaldo`, restaurable desde **Peligros → Volver al estado anterior a la actualización**.
+
+**Al cambiar el catálogo semilla hay que subir `CAT_VER`**, además de la `CACHE` de `sw.js`. Si una
+labor de fábrica se elimina, su id va a la lista `RETIRADAS` dentro de `migrarCatalogo()` para que
+se borre de los teléfonos en vez de quedar colgando.
+
+La versión activa se ve en el encabezado (`v9`) y en **Peligros**, abajo del todo.
+
+El service worker busca actualización al abrir la app y cada vez que se vuelve a ella; cuando entra
+una versión nueva, la página se recarga sola una vez.
+
 ## Respaldo
 
 Pestaña **Peligros** → *Exportar respaldo (JSON)* guarda personal, labores, peligros e historial.

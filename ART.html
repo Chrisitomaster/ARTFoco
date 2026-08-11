@@ -403,8 +403,15 @@ const PERSONAS_SEED = [
 /* ---------- 3. ESTADO ---------- */
 
 const KEY="art_v1";
+const KEY_PREV="art_v1_respaldo";
 // Foco acepta 2000 caracteres en "Etapas de desarrollo del trabajo" y 100 en el resto.
 const MAX_ETAPA=2000;
+/* Versión del catálogo de fábrica (peligros, grupos y labores). Al subirla, la app
+   actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
+   catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
+   Nunca toca personas, ART guardados ni el borrador en curso. */
+const CAT_VER=9;
+const APP_VER="v9";
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
 
 function defaults(){
@@ -422,9 +429,44 @@ function defaults(){
 function load(){
   try{
     const raw = localStorage.getItem(KEY);
-    if(!raw){ DB = defaults(); save(); return; }
+    if(!raw){ DB = defaults(); DB.catVer=CAT_VER; save(); return; }
     DB = Object.assign(defaults(), JSON.parse(raw));
-  }catch(e){ DB = defaults(); }
+    migrarCatalogo(raw);
+  }catch(e){ DB = defaults(); DB.catVer=CAT_VER; }
+}
+
+/* Pone al día el catálogo de fábrica sin borrar lo del usuario:
+   - peligros y labores de fábrica: se actualizan por su id/número
+   - peligros y labores creados por el usuario: se conservan intactos
+   - personas, historial y borrador: no se tocan
+   Antes de migrar deja un respaldo completo, restaurable desde la pestaña Peligros. */
+function migrarCatalogo(raw){
+  if(DB.catVer===CAT_VER) return;
+  try{ localStorage.setItem(KEY_PREV, raw); }catch(e){}
+
+  const seedP=JSON.parse(JSON.stringify(PELIGROS_SEED));
+  DB.peligros = seedP.concat((DB.peligros||[]).filter(p=>!seedP.some(s=>s.n===p.n)));
+
+  const seedG=JSON.parse(JSON.stringify(GRUPOS_SEED));
+  DB.grupos = seedG.concat((DB.grupos||[]).filter(g=>!seedG.some(s=>s.id===g.id)));
+
+  // Labores que fueron de fábrica en versiones anteriores y ya no existen. Se borran;
+  // las que creó el usuario (cualquier otro id) se conservan.
+  const RETIRADAS=["l-andamio","l-picado","l-ventanas","l-termin","l-moldaje","l-superv"];
+  const seedL=JSON.parse(JSON.stringify(LABORES_SEED));
+  DB.labores = seedL.concat((DB.labores||[]).filter(l=>
+    !seedL.some(s=>s.id===l.id) && !RETIRADAS.includes(l.id)));
+
+  // Si una persona apunta a una labor que ya no existe, se limpia la referencia.
+  const ids=DB.labores.map(l=>l.id);
+  (DB.personas||[]).forEach(p=>{
+    p.principales=(p.principales||[]).filter(i=>ids.includes(i));
+    p.parciales=(p.parciales||[]).filter(i=>ids.includes(i));
+  });
+
+  DB.avisoMigracion=CAT_VER;
+  DB.catVer=CAT_VER;
+  save();
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(DB)); }catch(e){ toast("No se pudo guardar"); } }
 function nid(p){ DB.seq++; return p+DB.seq; }
@@ -718,6 +760,17 @@ function renderTabs(){
 /* ----- 7.1 Vista ART (stepper) ----- */
 function vArt(a){
   const d=D();
+  if(DB.avisoMigracion){
+    const al=h("div",{class:"alert"});
+    al.appendChild(h("div",{text:`Catálogo actualizado a la versión ${DB.avisoMigracion}: peligros, `+
+      `grupos y labores quedaron como los del código nuevo. Tus personas, tus ART guardados y este `+
+      `borrador no se tocaron. Si tenías medidas editadas a mano, están en el respaldo.`}));
+    al.appendChild(h("div",{class:"row",style:"margin-top:8px"},
+      h("button",{class:"btn xs sec",onClick:()=>{delete DB.avisoMigracion;save();render();}},"Entendido"),
+      h("button",{class:"btn xs ghost",onClick:()=>{view="peligros";delete DB.avisoMigracion;save();render();}},
+        "Ver respaldo")));
+    a.appendChild(al);
+  }
   a.appendChild(h("div",{class:"steps"},
     ...[0,1,2,3].map(i=>h("div",{class:i<=step?"on":""}))));
   [pasoDatos,pasoCuadrilla,pasoRevision,pasoSalida][step](a,d);
@@ -1115,6 +1168,12 @@ function vPersonas(a){
   a.appendChild(h("button",{class:"btn wide",style:"margin-top:12px",
     onClick:()=>{const p={id:nid("p"),rut:"",nombre:"",cargo:"",principales:[],parciales:[],activo:true};
       DB.personas.push(p);editId=p.id;subview="edit";save();render();}},"+ Agregar persona"));
+  a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",onClick:()=>{
+    if(!confirm("Reemplaza la nómina por la de fábrica: 8 personas por iniciales con sus labores. "+
+                "Se pierde lo que hayas editado aquí. ¿Seguir?")) return;
+    DB.personas=JSON.parse(JSON.stringify(PERSONAS_SEED));
+    save();render();toast("Nómina de fábrica restaurada");}},
+    "Restaurar nómina de fábrica"));
 }
 function edPersona(a){
   const p=per(editId); if(!p){subview=null;return render();}
@@ -1289,8 +1348,28 @@ function vPeligros(a){
     DB.peligros.push({n,nombre:"",medidas:[]});editId=n;subview="edit";save();render();}},
     "+ Agregar peligro"));
   a.appendChild(h("div",{class:"hr"}));
-  a.appendChild(h("button",{class:"btn ghost wide",onClick:exportar},"Exportar respaldo (JSON)"));
-  a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",onClick:importar},"Importar respaldo"));
+  a.appendChild(h("div",{class:"muted small",
+    text:`Catálogo de fábrica versión ${DB.catVer||"?"} · app ${APP_VER}`}));
+  a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",onClick:exportar},
+    "Exportar respaldo (JSON)"));
+  a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",onClick:importar},
+    "Importar respaldo"));
+  a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",onClick:()=>{
+    if(!confirm("Vuelve peligros, grupos y labores al catálogo de fábrica. Personas, historial y "+
+                "borrador no se tocan. ¿Seguir?")) return;
+    DB.peligros=JSON.parse(JSON.stringify(PELIGROS_SEED));
+    DB.grupos=JSON.parse(JSON.stringify(GRUPOS_SEED));
+    DB.labores=JSON.parse(JSON.stringify(LABORES_SEED));
+    save();render();toast("Catálogo de fábrica restaurado");}},
+    "Restaurar catálogo de fábrica"));
+  if(localStorage.getItem(KEY_PREV))
+    a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",onClick:()=>{
+      if(!confirm("Vuelve TODO a como estaba antes de la última actualización de catálogo, "+
+                  "incluidas personas e historial. ¿Seguir?")) return;
+      const prev=localStorage.getItem(KEY_PREV);
+      if(!prev) return toast("No hay respaldo");
+      localStorage.setItem(KEY,prev); location.reload();}},
+      "Volver al estado anterior a la actualización"));
 }
 function edPeligro(a){
   const p=pel(editId); if(!p){subview=null;return render();}
@@ -1357,8 +1436,27 @@ load();
 document.body.dataset.theme = DB.theme||"dark";
 D(); save();
 render();
-if("serviceWorker" in navigator)
-  navigator.serviceWorker.register("sw.js").catch(()=>{});
+document.getElementById("sub").textContent =
+  "Foco Prevención · Cond. A. Fuchslocher · "+APP_VER;
+
+/* El service worker guarda la app para usarla sin señal. Si se queda con una copia
+   vieja, los cambios no se ven aunque el servidor ya tenga la nueva. Por eso: se
+   busca actualización al abrir y al volver a la app, y cuando entra una versión
+   nueva se recarga sola una vez. */
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js").then(reg=>{
+    reg.update().catch(()=>{});
+    document.addEventListener("visibilitychange",()=>{
+      if(!document.hidden) reg.update().catch(()=>{});
+    });
+  }).catch(()=>{});
+  let recargando=false;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{
+    if(recargando) return;
+    recargando=true;
+    location.reload();
+  });
+}
 </script>
 </body>
 </html>
