@@ -41,6 +41,27 @@ cambiarlo de forma permanente hay que hacerlo en la pestaña **Labores**.
 **El texto oficial de las 13 preguntas previas** está dentro de la app: bajo cada pregunta hay una
 viñeta *texto oficial de la pregunta* que despliega el enunciado completo tal cual aparece en
 Foco Prevención, en letra chica. Está tanto en el paso de revisión como en la salida.
+
+## Comentarios fijos de las etapas previas
+
+Siete preguntas traen un comentario que se repite en todos los ART y se carga solo:
+
+| # | Pregunta | Comentario |
+|---|---|---|
+| 1 | Área de trabajo en condiciones | Se coordina orden y aseo para mantener las buenas condiciones durante la jornada. |
+| 3 | Estados de emergencia | Se considera evacuación a zonas seguras ante sismos, incendio estructural y condiciones climáticas adversas. |
+| 4 | EPP específico | Se usa arnés de seguridad con doble cabo de vida, máscara respirador doble vía de medio rostro y careta facial. |
+| 5 | Personal capacitado | Personal cuenta con inducción de obra vigente y capacitación en trabajos en altura, uso de herramientas eléctricas y manejo manual de carga. |
+| 6 | Herramientas manuales | Herramientas manuales presentarán los códigos de colores del mes correspondiente. |
+| 10 | Andamios y plataformas | Se habilita el tránsito a andamios siempre que presenten tarjeta que lo autorice. |
+| 12 | Herramientas eléctricas | Herramientas y extensiones revisadas por el depto. de mantención de obra, con código de color del mes; se retira de uso toda la que no lo presente o tenga el cable dañado. |
+
+La **pregunta 2** se deja sin comentario fijo a propósito: la llenan las labores del día con los
+productos que se van a usar (silicona, Sikatop 107 Seal, mortero EIFS). Si no hay químicos en la
+jornada, queda vacía.
+
+Se editan en **Peligros → Comentarios fijos de las etapas previas**, y en el paso de revisión se
+pueden cambiar solo para esa jornada sin alterar el fijo.
 5. **Guardar en historial** para poder reusarlo otro día.
 
 ## Las 4 pestañas de mantención

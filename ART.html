@@ -306,9 +306,18 @@ const CHECKLIST = [
 
 // Respuestas por defecto del checklist (se sobreescriben por labor y a mano).
 const CHECK_BASE = {1:"si",2:"si",3:"si",4:"si",5:"si",6:"si",7:"no",8:"no",9:"no",10:"na",11:"no",12:"si",13:"no"};
+/* Comentarios fijos que el supervisor repite en todos sus ART. Se editan desde la
+   pestaña Peligros y se pueden cambiar por jornada en el paso de revisión.
+   La pregunta 2 se deja vacía a propósito: la llenan las labores del día con los
+   productos que se van a usar (silicona, Sikatop, mortero EIFS). */
 const CHECK_OBS_BASE = {
- 6:"color verde, en proceso de cambio a color del mes",
- 12:"color verde, en proceso de cambio a color del mes"};
+ 1:"Se coordina orden y aseo para mantener las buenas condiciones durante la jornada.",
+ 3:"Se considera evacuación a zonas seguras ante sismos, incendio estructural y condiciones climáticas adversas.",
+ 4:"Se usa arnés de seguridad con doble cabo de vida, máscara respirador doble vía de medio rostro y careta facial.",
+ 5:"Personal cuenta con inducción de obra vigente y capacitación en trabajos en altura, uso de herramientas eléctricas y manejo manual de carga.",
+ 6:"Herramientas manuales presentarán los códigos de colores del mes correspondiente.",
+ 10:"Se habilita el tránsito a andamios siempre que presenten tarjeta que lo autorice.",
+ 12:"Herramientas y extensiones revisadas por el depto. de mantención de obra, con código de color del mes; se retira de uso toda la que no lo presente o tenga el cable dañado."};
 
 /* ---------- 2. SEMILLA: labores y personas ---------- */
 
@@ -432,8 +441,7 @@ const LABORES_SEED = [
     "el avance con señas y avisar en cambios de dirección o desniveles, manteniendo manos y dedos fuera de la línea "+
     "de aprisionamiento. Después: dejar las ventanas aplomadas, afianzadas y separadas de las vías de tránsito, "+
     "con el acopio señalizado.",
-  peligros:[1,2,3,5,9,18,27], check:{4:"si"},
-  checkObs:{4:"guantes anticorte, calzado de seguridad"}},
+  peligros:[1,2,3,5,9,18,27], check:{4:"si"}},
 
  {id:"l-instal",  nombre:"Instalación de ventanas con rotomartillo y atornillador inalámbrico, nivel láser",
   corto:"instalación de ventanas", orden:20, grupo:"g-ventanas",
@@ -444,8 +452,7 @@ const LABORES_SEED = [
     "de seguridad y protector auditivo, y mantener manos y dedos fuera del punto de aprisionamiento entre el marco "+
     "y el rasgo. Después: retirar despuntes y tornillos del piso, desenergizar y guardar las herramientas, y dejar "+
     "el vano protegido y señalizado.",
-  peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
-  checkObs:{4:"lentes de seguridad, protector auditivo, guantes"}},
+  peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"}},
 
  {id:"l-sellos",  nombre:"Sellos exteriores en altura con pistola calafatera y silicona",
   corto:"sellos exteriores en altura", orden:30,
@@ -457,9 +464,7 @@ const LABORES_SEED = [
     "Después: cerrar y rotular los envases, retirar sobrantes al punto de residuos y descender por los accesos "+
     "autorizados, sin pasar del andamio al edificio.",
   peligros:[1,2,3,4,10,11,18,27], check:{4:"si",10:"si",2:"si"},
-  checkObs:{4:"arnés con dos cabos de vida, línea de vida o punto de anclaje",
-            10:"plataforma de trabajo autorizada, tarjeta verde",
-            2:"silicona: HDS revisada, uso en zona ventilada"}},
+  checkObs:{2:"silicona: HDS revisada, uso en zona ventilada"}},
 
  {id:"l-corte",   nombre:"Corte de tornillos, enfierradura y rasgos con esmeril angular (corte y diamantado)",
   corto:"corte con esmeril", orden:40, grupo:"g-herram",
@@ -469,8 +474,7 @@ const LABORES_SEED = [
     "lejos de personas y materiales; para cambiar el disco, desenergizar la herramienta y esperar su detención total. "+
     "Después: no tomar discos ni piezas recién cortadas hasta que enfríen, verificar que no queden focos de ignición "+
     "en el sector y retirar los despuntes cortantes del área de trabajo.",
-  peligros:[1,2,3,6,8,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
-  checkObs:{4:"careta facial, lentes de seguridad, protector auditivo, guantes anticorte"}},
+  peligros:[1,2,3,6,8,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"}},
 
  {id:"l-carpint", nombre:"Carpintería en madera con sierra circular, serrucho, tizador y herramientas manuales",
   corto:"carpintería en madera", orden:50, grupo:"g-herram",
@@ -480,8 +484,7 @@ const LABORES_SEED = [
     "anillos; usar lentes de seguridad, protector auditivo y guantes anticorte al manipular las piezas. "+
     "Después: esperar la detención total antes de dejar la herramienta, desenergizarla, retirar despuntes y clavos "+
     "del sector y dejar el banco ordenado.",
-  peligros:[1,2,3,6,9,13,17,18,27,28], check:{4:"si",12:"si",6:"si"},
-  checkObs:{4:"lentes de seguridad, protector auditivo, guantes anticorte"}},
+  peligros:[1,2,3,6,9,13,17,18,27,28], check:{4:"si",12:"si",6:"si"}},
 
  {id:"l-pulido",  nombre:"Pulido de rasgos con pulidora de hormigón y picado de hormigón con cango",
   corto:"pulido y picado de hormigón", orden:60,
@@ -491,8 +494,7 @@ const LABORES_SEED = [
     "levanta polvo; usar careta facial, protector auditivo y guantes anti vibración, y rotar el puesto de trabajo "+
     "para limitar el tiempo de exposición a sílice y vibraciones. Después: humectar y retirar los escombros sin "+
     "barrer en seco, limpiar el equipo y guardar los filtros del respirador protegidos del polvo.",
-  peligros:[1,2,3,6,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
-  checkObs:{4:"respirador P100, careta facial, guantes anti vibración, protector auditivo"}},
+  peligros:[1,2,3,6,12,13,15,17,18,27,28], check:{4:"si",12:"si"}},
 
  {id:"l-estanq",  nombre:"Pruebas de estanqueidad: sellado de despiches con cinta y llenado de agua",
   corto:"pruebas de estanqueidad", orden:70, grupo:"g-sellado",
@@ -513,8 +515,7 @@ const LABORES_SEED = [
     "contacto con piel y ojos. Después: cerrar y rotular los envases, lavar las herramientas en el punto habilitado "+
     "sin descargar al suelo ni al alcantarillado, y disponer los sobrantes como residuo peligroso.",
   peligros:[1,2,3,6,10,11,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
-  checkObs:{4:"guantes de nitrilo, lentes de seguridad, respirador para vapores orgánicos",
-            2:"Sikatop 107 Seal bicomponente: HDS revisada, envases rotulados y cerrados"}},
+  checkObs:{2:"Sikatop 107 Seal bicomponente: HDS revisada, envases rotulados y cerrados"}},
 
  {id:"l-albanil", nombre:"Rectificación de rasgos y albañilería: reparación EIFS, malla, mortero y picota",
   corto:"albañilería y rectificación de rasgos", orden:80,
@@ -525,8 +526,7 @@ const LABORES_SEED = [
     "y aplicar la malla EIFS y el mortero rectificando las cotas. Después: retirar los escombros al punto de acopio "+
     "segregado, lavar las herramientas sin descargar al suelo y dejar el rasgo protegido hasta el fraguado.",
   peligros:[1,2,3,6,9,10,12,13,15,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
-  checkObs:{4:"lentes de seguridad, guantes, respirador P100",
-            2:"mortero y mezcla EIFS: HDS revisada, manejo de residuos en zona habilitada"}},
+  checkObs:{2:"mortero y mezcla EIFS: HDS revisada, manejo de residuos en zona habilitada"}},
 
  {id:"l-aseo",    nombre:"Orden y aseo en lugar de trabajo", base:true, orden:90,
   detalle:"Antes: identificar los residuos generados en la jornada y los puntos de acopio habilitados para cada tipo. "+
@@ -578,8 +578,8 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=11;
-const APP_VER="v11";
+const CAT_VER=12;
+const APP_VER="v12";
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
 
 function defaults(){
@@ -587,6 +587,7 @@ function defaults(){
     peligros: JSON.parse(JSON.stringify(PELIGROS_SEED)),
     grupos:   JSON.parse(JSON.stringify(GRUPOS_SEED)),
     temas:    JSON.parse(JSON.stringify(TEMAS_SEED)),
+    obsFijas: JSON.parse(JSON.stringify(CHECK_OBS_BASE)),
     labores:  JSON.parse(JSON.stringify(LABORES_SEED)),
     personas: JSON.parse(JSON.stringify(PERSONAS_SEED)),
     arts: [],
@@ -631,6 +632,12 @@ function migrarCatalogo(raw){
     else if(propios.length) seedT.push({cat:cat.cat, temas:propios});
   });
   DB.temas = seedT;
+
+  // Comentarios fijos: se reponen los de fábrica y se conservan los que el usuario
+  // haya escrito en preguntas que no traen texto de fábrica.
+  const fij=JSON.parse(JSON.stringify(CHECK_OBS_BASE));
+  Object.keys(DB.obsFijas||{}).forEach(k=>{ if(!fij[k]) fij[k]=DB.obsFijas[k]; });
+  DB.obsFijas = fij;
 
   // Labores que fueron de fábrica en versiones anteriores y ya no existen. Se borran;
   // las que creó el usuario (cualquier otro id) se conservan.
@@ -800,8 +807,8 @@ function rcoCalc(d){
 }
 // Checklist: base -> override por labor (si gana) -> override manual.
 function checkCalc(d){
-  const out={};
-  CHECKLIST.forEach(c=>out[c.i]={v:CHECK_BASE[c.i]||"na", obs:CHECK_OBS_BASE[c.i]||""});
+  const out={}, fijas=DB.obsFijas||CHECK_OBS_BASE;
+  CHECKLIST.forEach(c=>out[c.i]={v:CHECK_BASE[c.i]||"na", obs:fijas[c.i]||""});
   laboresActivas(d).forEach(l=>{
     Object.keys(l.check||{}).forEach(k=>{
       if(l.check[k]==="si") out[k].v="si";
@@ -1242,9 +1249,12 @@ function pasoRevision(a,d){
         d.clOv[q.i]=Object.assign({},d.clOv[q.i],{v}); save();render();}},l));
     });
     it.appendChild(tri);
-    const obs=h("input",{type:"text",placeholder:"Medida de control aplicada / observación",
-      value:cur.obs,style:"margin-top:7px",
+    // Textarea y no input: los comentarios fijos llegan a 165 caracteres y en una
+    // sola línea no se alcanzan a leer en el celular.
+    const obs=h("textarea",{placeholder:"Medida de control aplicada / observación",
+      style:"margin-top:7px;min-height:64px;font-size:13px",
       onBlur:e=>{d.clOv[q.i]=Object.assign({},d.clOv[q.i],{obs:e.target.value});save();}});
+    obs.value=cur.obs;
     it.appendChild(obs);
     cc.appendChild(it);
   });
@@ -1626,6 +1636,26 @@ function vPeligros(a){
     "+ Agregar peligro"));
   a.appendChild(h("div",{class:"hr"}));
 
+  // Comentarios fijos de las etapas previas: se repiten en todos los ART.
+  const co=h("div",{class:"card"});
+  co.appendChild(h("h3",{text:"Comentarios fijos de las etapas previas"}));
+  co.appendChild(h("div",{class:"muted small",
+    text:"Se cargan solos en cada ART. En el paso de revisión se pueden cambiar solo por esa jornada. "+
+         "La pregunta 2 se deja vacía a propósito: la llenan las labores del día con sus productos."}));
+  DB.obsFijas=DB.obsFijas||JSON.parse(JSON.stringify(CHECK_OBS_BASE));
+  CHECKLIST.forEach(q=>{
+    co.appendChild(h("label",{class:"f",text:q.i+". "+q.corto}));
+    const ta=h("textarea",{style:"min-height:60px;font-size:13px",
+      placeholder:"Sin comentario fijo",
+      onBlur:e=>{
+        const v=e.target.value.trim();
+        if(v) DB.obsFijas[q.i]=v; else delete DB.obsFijas[q.i];
+        save();}});
+    ta.value=DB.obsFijas[q.i]||"";
+    co.appendChild(ta);
+  });
+  a.appendChild(co);
+
   // Temas de la charla diaria: un textarea por categoría, un tema por línea.
   const ct=h("div",{class:"card"});
   ct.appendChild(h("h3",{text:"Temas de charla diaria"}));
@@ -1663,6 +1693,7 @@ function vPeligros(a){
     DB.grupos=JSON.parse(JSON.stringify(GRUPOS_SEED));
     DB.labores=JSON.parse(JSON.stringify(LABORES_SEED));
     DB.temas=JSON.parse(JSON.stringify(TEMAS_SEED));
+    DB.obsFijas=JSON.parse(JSON.stringify(CHECK_OBS_BASE));
     save();render();toast("Catálogo de fábrica restaurado");}},
     "Restaurar catálogo de fábrica"));
   if(localStorage.getItem(KEY_PREV))
