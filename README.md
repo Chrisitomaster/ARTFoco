@@ -73,8 +73,24 @@ la unión de todos. Los grupos que vienen armados:
 Sellos en altura, pulido y picado, albañilería y orden y aseo quedan como **etapa propia**: son
 tareas con riesgos bien distintos y conviene que se lean separadas — sobre todo la de altura.
 
-Con toda la cuadrilla, esto baja el ART de **12 etapas a 7**, y la más larga usa 206 de los 2000
-caracteres disponibles.
+Con toda la cuadrilla, esto baja el ART de **12 etapas a 7**.
+
+## Detalle de cada etapa
+
+Cada labor lleva un campo `detalle` con la descripción de **antes, durante y después**, que es lo
+que el formulario pide explícitamente ("el responsable debe indicar las etapas principales — antes,
+durante y después del trabajo"). Ese texto es el que se pega en Foco.
+
+Con el detalle activado y la cuadrilla completa, las 7 etapas usan entre **562 y 1429 caracteres**
+de los 2000 disponibles. Sin detalle, entre 32 y 211.
+
+En el paso de revisión hay un segundo interruptor, **Con antes, durante y después / Solo el
+título**, para bajar el nivel de detalle sin tocar el catálogo. Cuando se acoplan varias labores,
+el texto las numera —`1) … 2) …`— para que se lea la secuencia.
+
+Los encabezados de la app siempre muestran el **título corto** y el largo del texto
+(`1429 car. · 13 peligros · …`); el texto completo está dentro del acordeón, editable. El detalle
+de cada labor se edita en **Labores → Editar → Detalle**.
 
 En el paso de revisión hay un interruptor **Etapas acopladas por grupo / Una etapa por labor** para
 cambiarlo en el momento, sin tocar el catálogo. Los grupos se crean y se editan en **Labores →

@@ -410,54 +410,137 @@ const GRUPOS_SEED = [
 
 const LABORES_SEED = [
  {id:"l-ingreso", nombre:"Ingreso a obra", base:true, orden:1, grupo:"g-acceso",
+  detalle:"Antes: marca de asistencia en portería, verificación de credencial y participación en la charla diaria. "+
+    "Durante: revisión del EPP básico (casco con barbiquejo, lentes, calzado de seguridad y chaleco reflectante) y "+
+    "del estado de salud para la jornada; ingreso por las vías peatonales habilitadas respetando la señalización. "+
+    "Después: presentación con la línea de mando y confirmación del sector de trabajo asignado.",
   peligros:[1,2], check:{}},
 
  {id:"l-traslado",nombre:"Traslado de un lugar a otro en obra, desplazamiento por escaleras (caminar)",
-  base:true, orden:2, grupo:"g-acceso", peligros:[1,2,3], check:{}},
+  base:true, orden:2, grupo:"g-acceso",
+  detalle:"Antes: identificar la ruta autorizada hasta el sector y verificar que esté señalizada, iluminada y despejada. "+
+    "Durante: transitar solo por zonas habilitadas, sin cruzar áreas segregadas ni pasar bajo cargas suspendidas; en "+
+    "escaleras usar el pasamanos y mantener tres puntos de apoyo, sin cargar materiales que impidan ver el camino. "+
+    "Después: informar a la línea de mando cualquier interferencia, derrame u obstrucción detectada en el trayecto.",
+  peligros:[1,2,3], check:{}},
 
  {id:"l-mov",     nombre:"Traslado, movimiento y distribución de ventanas y elementos pesados",
-  corto:"traslado de ventanas", orden:10, grupo:"g-ventanas", peligros:[1,2,3,5,9,18,27], check:{4:"si"},
+  corto:"traslado de ventanas", orden:10, grupo:"g-ventanas",
+  detalle:"Antes: revisar peso y dimensiones de la ventana, definir la ruta y el punto de acopio, y confirmar que "+
+    "hay al menos dos personas para la maniobra. Durante: levantar con las piernas y la espalda recta respetando "+
+    "el límite de 25 kg por persona; tomar los perfiles por los puntos de agarre con guantes anticorte, coordinar "+
+    "el avance con señas y avisar en cambios de dirección o desniveles, manteniendo manos y dedos fuera de la línea "+
+    "de aprisionamiento. Después: dejar las ventanas aplomadas, afianzadas y separadas de las vías de tránsito, "+
+    "con el acopio señalizado.",
+  peligros:[1,2,3,5,9,18,27], check:{4:"si"},
   checkObs:{4:"guantes anticorte, calzado de seguridad"}},
 
  {id:"l-instal",  nombre:"Instalación de ventanas con rotomartillo y atornillador inalámbrico, nivel láser",
-  corto:"instalación de ventanas", orden:20, grupo:"g-ventanas", peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
+  corto:"instalación de ventanas", orden:20, grupo:"g-ventanas",
+  detalle:"Antes: verificar las medidas del vano, marcar los puntos de fijación y confirmar que las herramientas "+
+    "tengan el código de color del mes, sus guardas completas y las baterías o extensiones en buen estado. "+
+    "Durante: presentar y aplomar la ventana con el nivel láser, perforar el hormigón con rotomartillo sujetando "+
+    "firme la herramienta para controlar la reacción de giro, y fijar con atornillador inalámbrico; usar lentes "+
+    "de seguridad y protector auditivo, y mantener manos y dedos fuera del punto de aprisionamiento entre el marco "+
+    "y el rasgo. Después: retirar despuntes y tornillos del piso, desenergizar y guardar las herramientas, y dejar "+
+    "el vano protegido y señalizado.",
+  peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"lentes de seguridad, protector auditivo, guantes"}},
 
  {id:"l-sellos",  nombre:"Sellos exteriores en altura con pistola calafatera y silicona",
-  corto:"sellos exteriores en altura", orden:30, peligros:[1,2,3,4,10,11,18,27], check:{4:"si",10:"si",2:"si"},
+  corto:"sellos exteriores en altura", orden:30,
+  detalle:"Antes: verificar la tarjeta verde de autorización de la plataforma o andamio, revisar el arnés y sus dos "+
+    "cabos de vida, identificar el punto de anclaje o la línea de vida independiente, y tener a mano la hoja de datos "+
+    "de seguridad de la silicona. Durante: permanecer 100% amarrado durante todo el trabajo en altura; aplicar el "+
+    "sello con pistola calafatera en zona ventilada usando guantes de nitrilo y lentes; llevar las herramientas en "+
+    "porta herramientas y mantener segregada el área bajo la vertical para evitar caída de materiales. "+
+    "Después: cerrar y rotular los envases, retirar sobrantes al punto de residuos y descender por los accesos "+
+    "autorizados, sin pasar del andamio al edificio.",
+  peligros:[1,2,3,4,10,11,18,27], check:{4:"si",10:"si",2:"si"},
   checkObs:{4:"arnés con dos cabos de vida, línea de vida o punto de anclaje",
             10:"plataforma de trabajo autorizada, tarjeta verde",
             2:"silicona: HDS revisada, uso en zona ventilada"}},
 
  {id:"l-corte",   nombre:"Corte de tornillos, enfierradura y rasgos con esmeril angular (corte y diamantado)",
-  corto:"corte con esmeril", orden:40, grupo:"g-herram", peligros:[1,2,3,6,8,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
+  corto:"corte con esmeril", orden:40, grupo:"g-herram",
+  detalle:"Antes: revisar el esmeril angular, su guarda de protección y la compatibilidad del disco con el material "+
+    "a cortar; despejar el sector de material combustible y confirmar la codificación de herramientas y extensiones. "+
+    "Durante: cortar siempre con la guarda puesta, careta facial, lentes y protector auditivo, dirigiendo las chispas "+
+    "lejos de personas y materiales; para cambiar el disco, desenergizar la herramienta y esperar su detención total. "+
+    "Después: no tomar discos ni piezas recién cortadas hasta que enfríen, verificar que no queden focos de ignición "+
+    "en el sector y retirar los despuntes cortantes del área de trabajo.",
+  peligros:[1,2,3,6,8,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"careta facial, lentes de seguridad, protector auditivo, guantes anticorte"}},
 
  {id:"l-carpint", nombre:"Carpintería en madera con sierra circular, serrucho, tizador y herramientas manuales",
-  corto:"carpintería en madera", orden:50, grupo:"g-herram", peligros:[1,2,3,6,9,13,17,18,27,28], check:{4:"si",12:"si",6:"si"},
+  corto:"carpintería en madera", orden:50, grupo:"g-herram",
+  detalle:"Antes: revisar la sierra circular, su guarda retráctil y el estado del disco; despejar el banco de trabajo, "+
+    "asegurar la pieza a cortar y verificar el código de color de las herramientas manuales. Durante: mantener las "+
+    "manos fuera de la línea de corte, no retirar ni bloquear la guarda, y no operar con ropa suelta, pulseras ni "+
+    "anillos; usar lentes de seguridad, protector auditivo y guantes anticorte al manipular las piezas. "+
+    "Después: esperar la detención total antes de dejar la herramienta, desenergizarla, retirar despuntes y clavos "+
+    "del sector y dejar el banco ordenado.",
+  peligros:[1,2,3,6,9,13,17,18,27,28], check:{4:"si",12:"si",6:"si"},
   checkObs:{4:"lentes de seguridad, protector auditivo, guantes anticorte"}},
 
  {id:"l-pulido",  nombre:"Pulido de rasgos con pulidora de hormigón y picado de hormigón con cango",
-  corto:"pulido y picado de hormigón", orden:60, peligros:[1,2,3,6,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
+  corto:"pulido y picado de hormigón", orden:60,
+  detalle:"Antes: humectar la superficie a intervenir, delimitar y señalizar el sector, y verificar el respirador "+
+    "doble vía con filtros P100 haciendo la prueba de sello; revisar la pulidora, el cango y sus extensiones. "+
+    "Durante: pulir o picar manteniendo la captación de polvo cuando esté disponible y humectando de nuevo si se "+
+    "levanta polvo; usar careta facial, protector auditivo y guantes anti vibración, y rotar el puesto de trabajo "+
+    "para limitar el tiempo de exposición a sílice y vibraciones. Después: humectar y retirar los escombros sin "+
+    "barrer en seco, limpiar el equipo y guardar los filtros del respirador protegidos del polvo.",
+  peligros:[1,2,3,6,12,13,15,17,18,27,28], check:{4:"si",12:"si"},
   checkObs:{4:"respirador P100, careta facial, guantes anti vibración, protector auditivo"}},
 
  {id:"l-estanq",  nombre:"Pruebas de estanqueidad: sellado de despiches con cinta y llenado de agua",
-  corto:"pruebas de estanqueidad", orden:70, grupo:"g-sellado", peligros:[1,2,3,9,18,27], check:{}},
+  corto:"pruebas de estanqueidad", orden:70, grupo:"g-sellado",
+  detalle:"Antes: confirmar que la ventana esté instalada y sellada, preparar la cinta de aluminio y ubicar los "+
+    "bidones de agua cerca del punto de prueba por una ruta despejada. Durante: tapar los despiches con cinta, "+
+    "llenar con agua sin sobrepasar el nivel indicado y observar filtraciones; trasladar los bidones entre dos "+
+    "personas o en cantidades bajo el límite de carga manual, cortando la cinta con cuchillo cartonero retráctil "+
+    "y guantes anticorte. Después: evacuar el agua al punto autorizado, secar el piso de inmediato para evitar "+
+    "caídas al mismo nivel y registrar el resultado de la prueba.",
+  peligros:[1,2,3,9,18,27], check:{}},
 
  {id:"l-imperm",  nombre:"Impermeabilización de rasgos con Sikatop 107 Seal, mezclador eléctrico y brocha",
-  corto:"impermeabilización de rasgos", orden:75, grupo:"g-sellado", peligros:[1,2,3,6,10,11,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
+  corto:"impermeabilización de rasgos", orden:75, grupo:"g-sellado",
+  detalle:"Antes: revisar la hoja de datos de seguridad del Sikatop 107 Seal, disponer de guantes de nitrilo, lentes "+
+    "y respirador para vapores orgánicos, y verificar el mezclador eléctrico, su guarda y la extensión por vía aérea. "+
+    "Durante: dosificar y mezclar ambos componentes en zona ventilada sin trasvasijar a envases sin rótulo, "+
+    "manteniendo las manos alejadas del eje del mezclador; aplicar con brocha sobre el rasgo limpio evitando el "+
+    "contacto con piel y ojos. Después: cerrar y rotular los envases, lavar las herramientas en el punto habilitado "+
+    "sin descargar al suelo ni al alcantarillado, y disponer los sobrantes como residuo peligroso.",
+  peligros:[1,2,3,6,10,11,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
   checkObs:{4:"guantes de nitrilo, lentes de seguridad, respirador para vapores orgánicos",
             2:"Sikatop 107 Seal bicomponente: HDS revisada, envases rotulados y cerrados"}},
 
  {id:"l-albanil", nombre:"Rectificación de rasgos y albañilería: reparación EIFS, malla, mortero y picota",
-  corto:"albañilería y rectificación de rasgos", orden:80, peligros:[1,2,3,6,9,10,12,13,15,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
+  corto:"albañilería y rectificación de rasgos", orden:80,
+  detalle:"Antes: revisar el estado del rasgo y las cotas de los pasos, definir la mezcla de mortero o EIFS a usar, "+
+    "y verificar picota, espátula, martillo, mezclador eléctrico y esmeril con disco diamantado. Durante: picotear "+
+    "las deformidades con lentes de seguridad y guantes, cortando el rasgo solo con disco diamantado y la guarda "+
+    "puesta; humectar para controlar el polvo de sílice, preparar la mezcla en zona ventilada con guantes de nitrilo "+
+    "y aplicar la malla EIFS y el mortero rectificando las cotas. Después: retirar los escombros al punto de acopio "+
+    "segregado, lavar las herramientas sin descargar al suelo y dejar el rasgo protegido hasta el fraguado.",
+  peligros:[1,2,3,6,9,10,12,13,15,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
   checkObs:{4:"lentes de seguridad, guantes, respirador P100",
             2:"mortero y mezcla EIFS: HDS revisada, manejo de residuos en zona habilitada"}},
 
  {id:"l-aseo",    nombre:"Orden y aseo en lugar de trabajo", base:true, orden:90,
+  detalle:"Antes: identificar los residuos generados en la jornada y los puntos de acopio habilitados para cada tipo. "+
+    "Durante: retirar despuntes, tornillos y elementos cortantes usando guantes anticorte, segregar los residuos "+
+    "según su clasificación y despejar las vías de tránsito; humectar antes de barrer para no levantar polvo, y "+
+    "respetar el límite de carga manual al mover sacos y escombros. Después: dejar el sector delimitado, iluminado "+
+    "y sin obstrucciones, confirmando que los vanos y shaft queden tapados, señalizados y segregados.",
   peligros:[1,2,3,9,18,27,30], check:{}},
 
  {id:"l-retiro",  nombre:"Retiro de obra", base:true, orden:99, grupo:"g-acceso",
+  detalle:"Antes: guardar herramientas y equipos en el pañol y confirmar que el sector quede seguro para el turno "+
+    "siguiente. Durante: retirarse por las vías peatonales habilitadas, sin transitar bajo cargas suspendidas ni "+
+    "por áreas segregadas. Después: reportar a la línea de mando los pendientes, incidentes o condiciones inseguras "+
+    "detectadas durante la jornada, y marcar la salida en portería.",
   peligros:[1,2], check:{}}
 ];
 
@@ -495,8 +578,8 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=10;
-const APP_VER="v10";
+const CAT_VER=11;
+const APP_VER="v11";
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
 
 function defaults(){
@@ -634,6 +717,7 @@ function nuevoDraft(){
     manuales: [],             // etapas escritas a mano {id,nombre,peligros:[]}
     textoOv: {},              // etapaId -> texto reescrito solo para este ART
     agrupar: true,            // acoplar labores del mismo grupo en una etapa
+    detallado: true,          // incluir el antes/durante/después de cada labor
     orden: [],                // ids en el orden elegido
     rcoOv: {},                // n -> "si"/"no"
     clOv: {},                 // i -> {v, obs}
@@ -655,10 +739,16 @@ function laboresActivas(d){
 // Etapas finales = labores activas (agrupadas si corresponde) + etapas manuales.
 function etapas(d){
   const ov=d.textoOv||{};
+  // Con el detalle activado, cada labor aporta su descripción de antes, durante y
+  // después; si no, aporta solo su título. Foco acepta 2000 caracteres por etapa.
+  const txt = l => (d.detallado!==false && l.detalle)
+    ? `${l.nombre}. ${l.detalle}` : l.nombre;
+  // Rótulo corto para los encabezados de la app; el texto largo es solo para copiar.
+  const rot = b => b.g ? b.g.nombre : (b.ls?b.ls[0].nombre:b.nombre);
   let list;
   if(d.agrupar===false){
     list = laboresActivas(d).map(l=>({
-      id:l.id, nombre:ov[l.id]||l.nombre,
+      id:l.id, nombre:ov[l.id]||txt(l), titulo:l.nombre,
       peligros:(d.pelOv[l.id] || l.peligros || []).slice().sort((a,b)=>a-b),
       manual:false, labores:[l.id]
     }));
@@ -673,17 +763,18 @@ function etapas(d){
       bolsas.get(key).ls.push(l);
     });
     list=[...bolsas.values()].sort((a,b)=>a.orden-b.orden).map(b=>{
+      // Con varias labores acopladas se numeran, para que se lea la secuencia.
       const nombre = b.g
-        ? `${b.g.nombre}: ${b.ls.map(l=>l.nombre).join(". ")}`
-        : b.ls[0].nombre;
+        ? `${b.g.nombre}. `+b.ls.map((l,i)=>`${i+1}) ${txt(l)}`).join(" ")
+        : txt(b.ls[0]);
       const auto=[...new Set(b.ls.flatMap(l=>d.pelOv[l.id]||l.peligros||[]))];
-      return {id:b.id, nombre:ov[b.id]||nombre,
+      return {id:b.id, nombre:ov[b.id]||nombre, titulo:rot(b),
               peligros:(d.pelOv[b.id]||auto).slice().sort((x,y)=>x-y),
               manual:false, labores:b.ls.map(l=>l.id)};
     });
   }
   (d.manuales||[]).forEach(m=>list.push({
-    id:m.id, nombre:ov[m.id]||m.nombre,
+    id:m.id, nombre:ov[m.id]||m.nombre, titulo:m.nombre,
     peligros:(d.pelOv[m.id] || m.peligros || []).slice().sort((a,b)=>a-b),
     manual:true, labores:[]
   }));
@@ -1066,13 +1157,18 @@ function pasoRevision(a,d){
   const ce=h("div",{class:"card"});
   ce.appendChild(h("h3",{text:`Etapas de desarrollo (${et.length})`}));
   const sinAgrupar=laboresActivas(d).length+(d.manuales||[]).length;
+  const masLarga=Math.max(0,...et.map(e=>e.nombre.length));
   ce.appendChild(h("div",{class:"row wrap"},
     h("button",{type:"button",class:"chip"+(d.agrupar!==false?" on":""),onClick:()=>{
       d.agrupar=(d.agrupar===false); save(); render();}},
       d.agrupar!==false?`✓ Etapas acopladas por grupo (${et.length} de ${sinAgrupar})`
-                       :`○ Una etapa por labor (${sinAgrupar})`)));
+                       :`○ Una etapa por labor (${sinAgrupar})`),
+    h("button",{type:"button",class:"chip"+(d.detallado!==false?" on":""),onClick:()=>{
+      d.detallado=(d.detallado===false); save(); render();}},
+      d.detallado!==false?"✓ Con antes, durante y después":"○ Solo el título")));
   ce.appendChild(h("div",{class:"muted small",style:"margin-bottom:6px",
-    text:"Foco acepta 2000 caracteres por etapa, así que las labores del mismo grupo se juntan en una sola. Los grupos se arman en la pestaña Labores."}));
+    text:`Foco acepta 2000 caracteres por etapa. La más larga usa ${masLarga}. `+
+         `Los grupos se arman en la pestaña Labores y el detalle se edita en cada labor.`}));
   ce.appendChild(h("div",{class:"row wrap",style:"margin-bottom:6px"},
     h("button",{class:"btn xs ghost",onClick:()=>{
       ce.querySelectorAll("details.acc").forEach(x=>x.open=true);}},"Abrir todas"),
@@ -1084,8 +1180,10 @@ function pasoRevision(a,d){
     dt.appendChild(h("summary",{},
       h("span",{class:"num",text:(i+1)+"."}),
       h("span",{class:"grow"},
-        h("span",{text:e.nombre,style:e.nombre.length>100?"color:var(--warn)":""}),
-        h("span",{class:"sub2",text:`${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`}))));
+        h("span",{text:e.titulo||e.nombre,
+                  style:e.nombre.length>MAX_ETAPA?"color:var(--warn)":""}),
+        h("span",{class:"sub2",
+          text:`${e.nombre.length} car. · ${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`}))));
     const body=h("div",{class:"body"});
     body.appendChild(h("div",{class:"row",style:"margin-bottom:7px"},
       h("button",{class:"btn xs ghost",onClick:()=>mover(d,e.id,-1)},"↑ subir"),
@@ -1228,8 +1326,9 @@ function salidaEtapas(a,d,cards){
     const resumen=h("summary",{},
       h("span",{class:"num",text:(i+1)+"."}),
       h("span",{class:"grow"},
-        h("span",{class:"tit",text:e.nombre}),
-        h("span",{class:"sub2",text:`${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`})));
+        h("span",{class:"tit",text:e.titulo||e.nombre}),
+        h("span",{class:"sub2",
+          text:`${e.nombre.length} car. · ${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`})));
     dt.appendChild(resumen);
 
     const body=h("div",{class:"body"});
@@ -1247,7 +1346,9 @@ function salidaEtapas(a,d,cards){
       const v=ed.value.trim();
       d.textoOv=d.textoOv||{};
       if(v && v!==e.nombre){ d.textoOv[e.id]=v; save(); }
-      resumen.querySelector(".tit").textContent=v||e.nombre;
+      // El encabezado mantiene el título corto; solo se refresca el largo del texto.
+      resumen.querySelector(".sub2").textContent =
+        `${(v||e.nombre).length} car. · ${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`;
     });
     body.appendChild(h("label",{class:"f",text:"Texto de la etapa (editable)"}));
     body.appendChild(ed);
@@ -1398,7 +1499,8 @@ function vLabores(a){
         h("div",{class:"t",text:l.nombre}),
         h("div",{class:"s",text:(l.base?"BASE · ":"")+
           (l.grupo&&grupo(l.grupo)?"grupo: "+grupo(l.grupo).nombre+" · ":"etapa propia · ")+
-          (l.peligros||[]).length+" peligros"})),
+          (l.peligros||[]).length+" peligros · "+
+          (l.detalle?l.detalle.length+" car. de detalle":"sin detalle")})),
       h("button",{class:"btn xs sec",onClick:()=>{editId=l.id;subview="edit";render();}},"Editar")));
     const bw=h("div",{style:"margin-top:6px"});
     (l.peligros||[]).forEach(n=>{const p=pel(n); if(p) bw.appendChild(h("span",{class:"badge",text:pad2(n)+"."+p.nombre}));});
@@ -1416,6 +1518,15 @@ function edLabor(a){
   const ta=h("textarea",{onBlur:e=>{l.nombre=e.target.value;save();render();}});
   ta.value=l.nombre; c.appendChild(ta);
   c.appendChild(h("div",{class:"count"+(l.nombre.length>100?" over":""),text:l.nombre.length+"/100"}));
+
+  c.appendChild(h("label",{class:"f",
+    text:"Detalle: antes, durante y después (es lo que se pega en la etapa)"}));
+  const td=h("textarea",{style:"min-height:150px;font-size:13px",
+    placeholder:"Antes: … Durante: … Después: …",
+    onBlur:e=>{l.detalle=e.target.value.trim();save();render();}});
+  td.value=l.detalle||"";
+  c.appendChild(td);
+  c.appendChild(h("div",{class:"count",text:(l.detalle||"").length+" caracteres"}));
 
   c.appendChild(h("label",{class:"f",text:"Nombre corto (para el campo «Trabajo a realizar»)"}));
   c.appendChild(h("input",{type:"text",value:l.corto||"",placeholder:"Ej: instalación de ventanas",
