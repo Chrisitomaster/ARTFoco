@@ -323,7 +323,9 @@ const RCOS = [
 // Peligro -> RCO que se activa automáticamente.
 // Peligro (01-31) -> RCO que enciende en "Sí".
 const PELIGRO_RCO = {
-  3:[19], 4:[1], 5:[7], 6:[7,18], 8:[15], 9:[18], 10:[10], 11:[10],
+  // Sin RCO 7: su cartilla trata de bloqueo de maquinaria, que no aplica a la partida,
+  // y el supervisor no la llena. El atrapamiento (05, 06) queda en las medidas de la etapa.
+  3:[19], 4:[1], 6:[18], 8:[15], 9:[18], 10:[10], 11:[10],
   15:[18], 16:[16], 17:[18], 19:[15], 20:[3], 21:[4,5], 22:[14],
   23:[6], 24:[9], 26:[13], 27:[2], 28:[8,18]};
 
@@ -638,6 +640,9 @@ const LABORES_SEED = [
 
  {id:"l-traslado",nombre:"Traslado de un lugar a otro en obra, desplazamiento por escaleras (caminar)",
   base:true, orden:2, grupo:"g-acceso",
+  // RCO directo de la labor, además de los que encienden sus peligros: el tránsito
+  // peatonal en obra es lo que el supervisor verifica en la cartilla RCO 6.
+  rcos:[6],
   detalle:"Antes: identificar la ruta autorizada hasta el sector y verificar que esté señalizada, iluminada y despejada. "+
     "Durante: transitar solo por zonas habilitadas, sin cruzar áreas segregadas ni pasar bajo cargas suspendidas; en "+
     "escaleras usar el pasamanos y mantener tres puntos de apoyo, sin cargar materiales que impidan ver el camino. "+
@@ -818,8 +823,8 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=13;
-const APP_VER="v13";
+const CAT_VER=14;
+const APP_VER="v14";
 // Foco amplió "Trabajo a realizar" a 2000 caracteres.
 const MAX_TRABAJO=2000;
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
@@ -1062,6 +1067,8 @@ function rcoCalc(d){
   etapas(d).forEach(e=>e.peligros.forEach(n=>{
     (PELIGRO_RCO[n]||[]).forEach(r=>on.add(r));
   }));
+  // Algunas labores encienden un RCO por sí mismas, sin pasar por un peligro.
+  laboresActivas(d).forEach(l=>(l.rcos||[]).forEach(r=>on.add(r)));
   const out={};
   for(let i=1;i<=19;i++) out[i] = on.has(i)?"si":"no";
   Object.keys(d.rcoOv).forEach(k=>out[k]=d.rcoOv[k]);
@@ -2049,6 +2056,7 @@ function rcoDelDia(d){
 function trabajoRCO(n,d){
   if(!d) return "";
   return laboresActivas(d).filter(l=>
+    (l.rcos||[]).includes(n) ||
     (d.pelOv[l.id]||l.peligros||[]).some(p=>(PELIGRO_RCO[p]||[]).includes(n)))
     .map(l=>l.corto||l.nombre).join(", ");
 }
