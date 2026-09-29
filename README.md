@@ -231,6 +231,39 @@ En el **Paso 1**, con la charla en "Sí", aparecen dos botones:
 Los temas se editan en **Peligros → Temas de charla diaria**: un cuadro por categoría, un tema por
 línea, más *+ Agregar categoría*. Viajan en el respaldo JSON.
 
+## Cartillas RCO
+
+La pestaña **RCO** guarda las ocho Cartillas de Verificación que se llenan en Foco como actividad
+aparte: N°1, 2, 6, 8, 10, 15, 18 y 19. Las preguntas están en el orden del formulario y las
+respuestas vienen tal como quedaron en los ejemplares firmados del 23/09/2026.
+
+- Cada respuesta es un botón grande **SÍ / NO / N/A**; al tocarlo cambia y queda guardado para las
+  siguientes. *Restaurar mi ejemplar* devuelve la cartilla a como venía.
+- Las que el ART en curso deja en Sí salen primero, marcadas **HOY**. Si el ART deja en Sí un RCO
+  sin cartilla cargada, sale un aviso.
+- Cada cartilla trae dos textos para "Trabajo a realizar": el del ejemplar y el que arma la
+  cuadrilla del día (las labores cuyos peligros encienden ese RCO).
+- En la salida del ART aparece una tarjeta con las cartillas que tocan ese día.
+
+## Maestra polifuncional
+
+M.P (iniciales provisorias) tiene dos labores, ambas bajo 1,8 m de altura, así que no suman
+caída de altura (04) ni RCO 1:
+
+- **Sellado interior y exterior en primeros pisos** desde plataforma portátil o escalera tipo A,
+  acoplada con los sellos en altura de los ventaneros en la etapa *Sellado de ventanas*.
+- **Limpieza de ventanas, celosías y bajadas de agua** con diluyente Duco y paños, acoplada con
+  orden y aseo en la etapa *Orden, aseo y limpieza*.
+
+Cuando de un grupo viene una sola labor ese día, la etapa lleva el nombre de esa labor y no el del
+grupo.
+
+## Pantalla dividida
+
+Sin bloqueo de orientación en el manifiesto: con orientación fija, Android achica la app entera
+al dividir la pantalla. El contenido ocupa todo el ancho del teléfono, y cuando la ventana queda
+baja (menos de 560 px) la cabecera y la barra inferior se compactan sin achicar la letra.
+
 ## Actualizaciones del catálogo
 
 La app guarda su catálogo en el navegador la primera vez que se abre. Sin un mecanismo de

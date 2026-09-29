@@ -4,7 +4,7 @@
   "start_url": "ART.html",
   "scope": ".",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#1b2430",
   "theme_color": "#1e2a38",
   "lang": "es-CL",

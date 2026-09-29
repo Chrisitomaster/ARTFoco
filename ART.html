@@ -19,9 +19,11 @@ body[data-theme="light"]{
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{background:var(--bg);color:var(--txt);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:64px}
-#app{max-width:640px;margin:0 auto;padding:12px 12px 24px}
+/* Ancho: ocupa toda la pantalla del teléfono, también en pantalla dividida o apaisada.
+   Solo en escritorio se limita, para que las líneas no queden de un metro. */
+#app{max-width:1100px;margin:0 auto;padding:12px 12px 24px}
 header.top{position:sticky;top:0;z-index:20;background:var(--bg2);border-bottom:1px solid var(--line);padding:10px 12px}
-header.top .wrap{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px}
+header.top .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px}
 header.top h1{font-size:17px;margin:0;flex:1;font-weight:700;letter-spacing:.3px}
 header.top .sub{font-size:11px;color:var(--txt2);font-weight:500}
 .btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:11px 14px;font-size:15px;font-weight:600;cursor:pointer}
@@ -92,6 +94,44 @@ textarea{min-height:70px;resize:vertical}
 .toast.show{opacity:1}
 .acc-h{display:flex;align-items:center;gap:8px;cursor:pointer;padding:9px 0;font-weight:700;font-size:14px}
 .acc-h .ar{color:var(--txt2);font-size:12px}
+/* Medidas de control con el número del peligro grande, para ubicarlas rápido
+   en el selector de Foco mientras se marcan. */
+.pelblk{margin:0 0 12px}
+.pelblk:last-child{margin-bottom:0}
+.pelhd{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.pnum{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:36px;
+  padding:0 6px;border-radius:9px;background:var(--acc);color:#fff;font-size:22px;font-weight:800;
+  letter-spacing:.5px;flex-shrink:0}
+.pelhd .pnom{font-weight:700;font-size:15px}
+.medrow{display:flex;gap:9px;align-items:flex-start;padding:5px 0;border-top:1px dashed var(--line)}
+.mnum{font-size:18px;font-weight:800;color:var(--acc2);min-width:34px;line-height:1.2;flex-shrink:0}
+.medrow .mtx{font-size:14px;line-height:1.4}
+.peltag{display:inline-flex;align-items:center;gap:6px;margin:0 8px 8px 0;font-size:14px}
+.peltag .pnum{min-width:38px;height:30px;font-size:18px}
+/* Cartillas RCO: respuesta grande y tocable */
+.rcoq{display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.rcoq:first-of-type{border-top:0}
+.rcoq .qn{font-size:17px;font-weight:800;color:var(--txt2);min-width:26px}
+.rcoq .qt{flex:1;font-size:13px;line-height:1.4}
+.resp{min-width:64px;padding:9px 0;border-radius:9px;border:0;font:inherit;font-size:17px;
+  font-weight:800;color:#fff;cursor:pointer;flex-shrink:0}
+.resp.si{background:var(--ok)} .resp.no{background:var(--no)} .resp.na{background:var(--na)}
+.rcosec{margin:14px 0 4px;font-size:12px;font-weight:800;letter-spacing:.8px;color:var(--acc2);
+  text-transform:uppercase}
+.hoy{display:inline-block;background:var(--ok);color:#fff;border-radius:6px;padding:1px 7px;
+  font-size:11px;font-weight:800;margin-left:6px;vertical-align:middle}
+/* Pantalla dividida o teléfono apaisado: poca altura. Se compactan la cabecera y la
+   barra inferior para dejarle el espacio al contenido, sin achicar la letra. */
+@media (max-height:560px){
+  header.top{padding:5px 12px}
+  header.top h1{font-size:15px}
+  header.top .sub{display:none}
+  .tabs button{padding:5px 2px 6px}
+  .tabs button .ic{display:none}
+  body{padding-bottom:36px}
+  #app{padding-top:8px}
+  .toast{bottom:44px}
+}
 /* Acordeón de etapa: comprime la etapa con sus peligros y medidas */
 details.acc{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--bg2)}
 details.acc>summary{list-style:none;cursor:pointer;padding:11px;font-size:14px;font-weight:600;
@@ -136,7 +176,8 @@ pre.full{white-space:pre-wrap;word-break:break-word;background:var(--bg2);border
 
 /* Catálogo completo de peligros de Foco Prevención (01 a 31), con la numeración y las
    medidas de control transcritas del propio selector de la app.
-   Los peligros sin medidas (14, 16, 19, 20-26, 29, 31) no aplican a instalación de
+   El 25 (caída de planchón en túneles) se quitó a pedido del supervisor: no aplica a
+   edificación. Los peligros sin medidas (14, 16, 19, 20-24, 26, 29, 31) no aplican a instalación de
    ventanas: existen solo para que la numeración calce con Foco. Si alguna vez se
    necesitan, se les cargan las medidas desde la pestaña Peligros. */
 const PELIGROS_SEED = [
@@ -243,7 +284,6 @@ const PELIGROS_SEED = [
  {n:22,nombre:"Derrumbes", medidas:[]},
  {n:23,nombre:"Interacción hombre maquina", medidas:[]},
  {n:24,nombre:"Liberación descontrolada de energía", medidas:[]},
- {n:25,nombre:"Caída de planchón en desarrollo de túneles", medidas:[]},
  {n:26,nombre:"Proyección de materiales por tronaduras", medidas:[]},
  {n:27,nombre:"Caída de materiales", medidas:[
    "Eliminar verticalidad de trabajos simultáneos",
@@ -285,7 +325,7 @@ const RCOS = [
 const PELIGRO_RCO = {
   3:[19], 4:[1], 5:[7], 6:[7,18], 8:[15], 9:[18], 10:[10], 11:[10],
   15:[18], 16:[16], 17:[18], 19:[15], 20:[3], 21:[4,5], 22:[14],
-  23:[6], 24:[9], 25:[12], 26:[13], 27:[2], 28:[8,18]};
+  23:[6], 24:[9], 26:[13], 27:[2], 28:[8,18]};
 
 // Checklist "Etapas previas del trabajo" (13). corto = etiqueta en pantalla.
 const CHECKLIST = [
@@ -318,6 +358,175 @@ const CHECK_OBS_BASE = {
  6:"Herramientas manuales presentarán los códigos de colores del mes correspondiente.",
  10:"Se habilita el tránsito a andamios siempre que presenten tarjeta que lo autorice.",
  12:"Herramientas y extensiones revisadas por el depto. de mantención de obra, con código de color del mes; se retira de uso toda la que no lo presente o tenga el cable dañado."};
+
+/* Cartillas de Verificación RCO (actividad aparte en Foco Prevención). Preguntas en el
+   orden del formulario y respuestas tal como el supervisor las llenó en sus ejemplares
+   firmados del 23/09/2026. Los textos conservan la redacción de la cartilla oficial,
+   incluidos sus errores de tipeo, para reconocerlos al compararlos en pantalla. */
+const CARTILLAS_SEED = {
+ 1:{nombre:"Caída por trabajo en altura", codigo:"SSOMA-ME-RCO-01-CV-01",
+  trabajo:"sello exterior de ventanas en andamios", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["Trabajador/es cuenta con examen de altura física aprobado y vigente","si"],
+   ["Trabajador/es cuenta con capacitación aprobada sobre trabajo en altura, riesgos inherentes y sus medidas de control","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Cuenta con procedimiento de trabajo en altura","na"],
+   ["El procedimiento de trabajo en altura fue difundido y evaluado al personal","si"],
+   ["Cuenta con personal capacitado para rescate en altura","na"],
+   ["Existe procedimiento para rescate en altura","na"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["Cuenta con arnés de seguridad, cabos de vida y punto de anclaje certificados","si"],
+   ["El Sistema personal de detención de caídas (SPDC) cuenta con verificación de su estado","si"],
+   ["Cuenta con cintas anti trauma y dispositivo absolvedor de impacto certificado (en caso de aplicar)","si"],
+   ["Cuenta con barandas, rodapié, arrostramiento y/o antivuelco (Para el caso de andamios)","si"],
+   ["La plataforma cuenta con certificación, capacidad de carga y punto de anclaje (En caso de plataforma móvil)","na"],
+   ["Los vanos y shaft, se encuentran identificados, tapados, segregados y señalizados","si"],
+   ["Se encuentra segregado y señalizados los niveles inferiores, advirtiendo el peligro de trabajo en altura","na"],
+   ["Los bordes de la superficie que se realizan trabajos en altura, cuentan con barandas ancladas o autosustentable","si"]]}]},
+
+ 2:{nombre:"Caída de materiales", codigo:"SSOMA-ME-RCO-02-CV-02",
+  trabajo:"sello exterior de ventanas en andamios", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["Trabajador/es cuenta con capacitación aprobada sobre trabajo en altura, riesgos inherentes y sus medidas de control","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["En el procedimiento de trabajo en altura se considera el uso de herramientas y los controles para prevenir su caída","si"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["Plataformas de trabajo con rodapiés, protecciones (mallas, pantallas) y libres de objetos que puedan caer","si"],
+   ["Las herramientas, equipos y materiales se encuentran sujetos con sistema de amarre y/o protegidos contra caídas","si"],
+   ["Se encuentra segregado los niveles inferiores a los que se realice trabajo con herramientas, equipos y/o materiales","si"],
+   ["Se cuenta con señalización que advierta el riesgo de caída de materiales y/o herramientas","si"],
+   ["Se instalaron protecciones como pantallas, techos, red de contención laterales para pasos peatonales en niveles inferiores","na"],
+   ["Existe comunicación bidireccional entre nivel de trabajo y nivel inferior en el cao de transito peatonal o trabajos simultáneos","na"]]}]},
+
+ 6:{nombre:"Interacción hombre máquina", codigo:"SSOMA-ME-RCO-06-CV-06",
+  trabajo:"tránsito peatonal en obra", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["El operador cuenta con examen de salud vigente","na"],
+   ["El operador cuenta con evaluación psicosensotécnico rigurosa","si"],
+   ["El operador de la maquinaria y/o equipo cuenta con certificado de competencias","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Se cuenta con plan de transito, Lay Out de transito, diagrama, plano u otro mecanismo, para la identificación general de accesos vehiculares y maquinarias","si"],
+   ["Se cuenta con publicación y difusión de plan de transito, lay out, plano u otro mecanismo de identificación de vías de transito generales del centro de trabajo, obra o faena","na"],
+   ["El personal de apoyo en la s operaciones de maquinaria y/o equipos cuenta con ropa de trabajo de alta visibilidad con reflectantes","na"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["El área de operación se encuentra totalmente segregada","na"],
+   ["Las vías de transito peatonal y cruces están señalizados y segregados respecto a las vías de transito u operación de maquinaria","si"],
+   ["Los estacionamientos de equipos, maquinaria y vehículos evitan la exposición del personal a la línea de fuego","na"],
+   ["Las instalaciones menores (como baños, garitas u otros), esta segregados de la interacción con vehículos y maquinarias","si"],
+   ["Se cuenta con sistema de comunicación bidireccional entre paletero o señalero y operador","si"],
+   ["La ubicación del señalero o paletero evita la exposición a línea de fuego o interacción de hombre maquina","si"],
+   ["Se instalaron bloqueos y se verifico ausencia de energía en maquinaria o equipo para realizar mantenciones","na"],
+   ["Se realiza el parqueo del equipo, maquinaria o vehículo de acuerdo a procedimiento, instalando cuñas u otro dispositivo para impedir el desplazamiento","na"]]}]},
+
+ 8:{nombre:"Contacto con energía eléctrica", codigo:"SSOMA-ME-RCO-08-CV-08",
+  trabajo:"uso de herramientas eléctricas y extensiones", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["El personal que interviene equipos y sistemas eléctricos cuenta con capacitación y certificación de acuerdo al nivel de tensión","na"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Cuentan con procedimiento para la aislación y bloqueo","na"],
+   ["Cuanta con procedimiento, instructivo y/o ART especifica para trabajos con equipos energizados","na"],
+   ["Se realizo identificación de las fuentes de energía involucrada en la tarea","na"],
+   ["Están identificados los puntos de bloqueo en terreno","na"],
+   ["Los equipos a intervenir están aislados y bloqueados de acuerdo a procedimiento","na"],
+   ["Se cumple con el numero de bloqueos existentes en terreno v/s los indicados en el registro","na"],
+   ["Se realiza verificación de ausencia de energía en el sistema","na"],
+   ["La energía eléctrica residual fueron eliminadas","na"],
+   ["Las actividades con maquinaria identifican la existencia de zonas eléctricas energizadas y respetan distancias de seguridad","na"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["El personal utiliza elementos de protección personal dieléctricos e ignífugos de acuerdo a la actividad que desarrolla","na"],
+   ["Se verifica el estado de los elementos de protección personal dieléctricas e ignífugos","na"],
+   ["Para los trabajos en circuitos eléctricos se usa solo herramientas aisladas","na"],
+   ["Cuentan con verificación y estado de herramientas","si"],
+   ["Se cuenta con Kit de operación y rescate en sala eléctrica","na"],
+   ["Los equipos e instalaciones cuentan con protecciones eléctricas","si"],
+   ["Los equipos e instalaciones eléctricas cuentan con sistema de puesta a tierra","si"]]}]},
+
+ 10:{nombre:"Contacto con sustancias peligrosas", codigo:"SSOMA-ME-RCO-10-CV-10",
+  trabajo:"sello exterior de ventanas con sikaflex 11fc y silicona acetica blanca y limpieza con diluyente", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["El personal cuenta con capacitación en el manejo de sustancias y residuos peligrosos","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Se dispone de procedimiento para el manejo de sustancias peligrosas","si"],
+   ["Se dispone de procedimiento para el caso de derrame de sustancias peligrosas","si"],
+   ["Se dispone de personal capacitado en el procedimiento en caso de derrame de sustancias peligrosas","si"],
+   ["El personal cuenta con las hojas de datos de seguridad de las sustancias que esta manipulando","si"],
+   ["El personal cuenta con los elementos de protección personal adecuados según el tipo de sustancia y/o residuo peligroso","si"],
+   ["Las sustancias manipuladas están debidamente rotuladas","si"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["El acceso es restringido y/o controlado a las áreas de almacenamiento de sustancias o residuos peligrosos","si"],
+   ["Las áreas de almacenamiento de sustancias o residuos peligrosos están debidamente señalizados","si"],
+   ["En bodegas comunes que almacenan mas de 6 T de sustancias peligrosas cuentan con ducha y lavaojos","na"],
+   ["Los trabajadores que están expuestos a sustancias toxicas o infecciosas cuentan con dos casilleros individuales","si"]]}]},
+
+ 15:{nombre:"Incendio", codigo:"SSOMA-ME-RCO-15-CV-15",
+  trabajo:"sello exterior en proximidad a secado de fachada con turbo calefactor", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["El personal cuenta con capacitación sobre sistemas de extinción","si"],
+   ["El personal cuenta con certificación de competencias técnicas para trabajos de soldadura, en el caso que aplique","na"]]},
+  {t:"Requisitos de la organización", q:[
+   ["El área de trabajo cuenta con acceso restringido y señalización que advierta los riegos presentes de la actividad","si"],
+   ["El área de trabajo cuenta con vigía que este alerta ante posible inicio de fuego, verifica ausencia de posibles focos de ignición posterior al termino de los trabajos en caliente y/o llama abierta","si"],
+   ["Los trabajos en caliente y/o con llama abierta, cuentan con autorización para su ejecución","si"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["El área cuenta con biombos, pantallas, carpas, u otro mecanismo para la prevenir la propagación de partículas y/o material incandescente","na"],
+   ["Se protegen con material ignifugo elementos que se pudiesen dañar y/o entrar en combustión","na"],
+   ["Se cuenta con sistema de extinción operativo y de acceso expedito","si"],
+   ["Se identifico la existencia de material combustible en el área y se tomaron controles para prevenir su ignición accidental","si"],
+   ["Si se realiza trabajos en espacios confinados o de poca ventilación, se verifico la ausencia de gases inflamables","na"],
+   ["Los equipos como soldadoras, esmeriles, Etc. cuentan con mantención al día","na"],
+   ["Se verifico el estado de los equipos utilizados en la actividad de trabajo en caliente","si"],
+   ["Se verifico el estado de los cilindros de gas y si su presión es la adecuada para realizar el trabajo","na"],
+   ["Los equipos de soldadura cuentan con dispositivo anti retorno","na"],
+   ["El personal cuenta con elementos de protección personal especifico para realizar trabajos en caliente","na"]]}]},
+
+ 18:{nombre:"Exposición a lesiones por uso de herramientas portátiles accionadas por energía", codigo:"SSOMA-ME-RCO-18-CV-18",
+  trabajo:"corte de madera sierra circular y corte de metales y rasgos con esmeril angular", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["Los trabajador que realicen trabajos con herramientas portátiles accionadas con energía cuentan con examen médico que valide sus aptitudes físicas.","si"],
+   ["Los trabajadores que realizan trabajos con herramientas portátiles accionadas por energía tienen categoría M1. Y en caso de ser M2 cuentan con tutoría o calificación para ello.","si"],
+   ["Los trabajadores cuentan con capacitación específica sobre el uso de herramientas y su riesgos asociados.","si"],
+   ["Se realiza inspección para verificar el estado de las herramientas, previo a su uso.","si"],
+   ["Los trabajadores cuentan con elementos de protección personal adecuados para el tipo de herramienta que utilizaran, verificando que no existan ropas o elementos susceptibles de ser atrapados.","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Se cuenta con programa de mantenimiento de herramientas portátiles accionadas por energía, de acuerdo a lo recomendado por el fabricante y su mantención se realiza por personal competente.","si"],
+   ["Las herramientas accionadas por energía cuentan con revisión mensual de su estado, realizada por un especialista y son codificadas de acuerdo al color del mes. (Se considerar como valida la codificación establecida por el cliente)","si"],
+   ["Los sistemas de conexionado (enchufe o acoples) de herramientas portátiles accionadas por energía, cuentan con la información mínima de identificación voltaje o presión, según corresponda.","si"],
+   ["Se cuenta con procedimiento que regule las actividades con herramientas portátiles accionadas por energía indicando métodos seguros de trabajo, riesgos inherentes y medidas de control.","si"],
+   ["Se cuenta con método para la calificación a los trabajadores con tutoría en el uso de herramientas accionadas con energía.","si"],
+   ["Las herramientas portátiles accionadas por energía cuentan con especificaciones de diseño y uso en idioma español disponible para consulta de los trabajadores.","si"],
+   ["Se cuenta con sistemas de contención de partículas para trabajos con herramientas como esmeril, soldadora u otros que generen proyección de materiales o partículas.","na"],
+   ["Se utiliza herramientas especialmente diseñadas con aislación y certificación en los trabajo con presencia de agua y/o alta concentración de vapores o gases.","na"],
+   ["La conexión de herramientas portátiles eléctricas se hace a tableros eléctricos u otras conexiones que cuenten con protección diferencial y la puesta a tierra correspondiente","si"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["Las herramientas accionadas por energía cuentan con certificación del fabricante u otro organismo competente.","si"],
+   ["Los accesorios fabricados o adaptados para el uso de herramientas, cuentan con diseño de ingeniería y certificación de un organismo competente.","si"],
+   ["Las herramientas cuentan con todas sus protecciones de acuerdo a su diseño.","si"],
+   ["Las herramientas cuentan con lugar adecuado para su almacenamiento.","si"],
+   ["Las herramientas de corte o punzantes son almacenadas con sus filos y/o puntas protegidas.","na"]]}]},
+
+ 19:{nombre:"Caídas por vano y shaft", codigo:"SSOMA-ME-RCO-19-CV-19",
+  trabajo:"instalación y sello de ventanas en vanos de fachada", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["Trabajador/a cuenta con examen de altura física aprobado y vigente.","si"],
+   ["Trabajador/a cuenta con capacitación aprobada sobre trabajo en altura, con ítem específico asociado al control de Vano y Shaf, Piques, Ductos de Grandiametro, Riesgos Inherentes y sus medidas de control.","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Cuenta con un procedimeinto de trabajo en altura que contenga las actividades con presencia de aberturas en el piso y/o laterales.","si"],
+   ["El procedimiento de trabajo en altura incorpora requqrimientos y controles establecidos en el RCO N°19, siendo difundido a todo el personal y a su vez evaluada.","si"],
+   ["Existe procedimiento para rescate en altura y primeros auxilios que contenga tipos de rescates, sus alcances, recursos y metodologías","si"],
+   ["Existe personal capacitado en rescates y actividades con potencial de caídas de altura a través de estas aberturas en el piso y/o laterales.","na"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["Los vanos y shafts, Piques mineros y/o Laterales se encuentran; Señalizados, tapados y segregados en su perimetro.","si"],
+   ["Los Vanos y Shafts ,Piques mineros y/o Laterales cuentan con la tarjeta de identificación e Inspección diaria por Supervisión del área y Supervisor SSOMA Terreno, dejando registro diario firmado en “Tarjeta de Identificación e Inspección de Vanos y Shaft”.","na"],
+   ["Los vanos y Shaft, Piques mineros y/o Laterales cuentan con señalización de advertencia indicando la leyenda “Peligro - Vano - No Retirar - No Cargar”.","na"],
+   ["La segregación considera un cierre perimetral con material sólido como barrera dura, el cual debe constar de baranda superior (1m), baranda intermedia (50cm) y rodapiés por todo el perímetro de la segregación del vano.","na"],
+   ["El personal que trabaja en vanos, shafts, Piques mineros y/o Laterales cuenta con arnés de seguridad, cabos de vida y punto de anclaje certificados.","si"],
+   ["Los vanos laterales se encuentran segregados con barrera dura a 1m y 50 cm, y con la fijación correspondiente para evitar su retiro o desarme.","na"],
+   ["Las áreas donde estén identificado estas aberturas en el piso y/o laterales se encuentran debidamente iluminadas.","si"],
+   ["Cuenta con inspección previo uso de todos los elementos y componentes de un Sistema Personal de Detención de Caídas (SPDC).","si"],
+   ["En áreas con presencia de vanos y shaft existe segregación esta para evitar que personal que no participe en esta tarea se aproxime a este lugar de trabajo.","na"],
+   ["Frente al retiro de Protecciones ya instaladas existe permiso de ingreso al área firmado por responsables dueños del área como: supervisor de especialidad estructura, supervisor a cargo del trabajo y supervisor SSOMA Terreno.","na"],
+   ["Se da cunplimiento obligatorio al Absoluto de Seguridad N°14 Siempre verificaré que vanos y shaft estén debidamente segregados, señalizados y tapados.","si"]]}]}
+};
 
 /* ---------- 2. SEMILLA: labores y personas ---------- */
 
@@ -414,7 +623,9 @@ const GRUPOS_SEED = [
  {id:"g-acceso",  nombre:"Accesos y desplazamientos en obra", orden:1},
  {id:"g-ventanas",nombre:"Movimiento e instalación de ventanas", orden:20},
  {id:"g-herram",  nombre:"Corte y carpintería con herramientas", orden:40},
- {id:"g-sellado", nombre:"Estanqueidad e impermeabilización de rasgos", orden:70}
+ {id:"g-sellos",  nombre:"Sellado de ventanas", orden:30},
+ {id:"g-sellado", nombre:"Estanqueidad e impermeabilización de rasgos", orden:70},
+ {id:"g-limpieza",nombre:"Orden, aseo y limpieza", orden:90}
 ];
 
 const LABORES_SEED = [
@@ -454,17 +665,30 @@ const LABORES_SEED = [
     "el vano protegido y señalizado.",
   peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"}},
 
- {id:"l-sellos",  nombre:"Sellos exteriores en altura con pistola calafatera y silicona",
-  corto:"sellos exteriores en altura", orden:30,
+ {id:"l-sellos",  nombre:"Sellos exteriores en altura con pistola calafatera, Sikaflex 11FC y silicona acética",
+  corto:"sellos exteriores en altura", orden:30, grupo:"g-sellos",
   detalle:"Antes: verificar la tarjeta verde de autorización de la plataforma o andamio, revisar el arnés y sus dos "+
     "cabos de vida, identificar el punto de anclaje o la línea de vida independiente, y tener a mano la hoja de datos "+
-    "de seguridad de la silicona. Durante: permanecer 100% amarrado durante todo el trabajo en altura; aplicar el "+
+    "de seguridad del Sikaflex 11FC y de la silicona acética. Durante: permanecer 100% amarrado durante todo el trabajo en altura; aplicar el "+
     "sello con pistola calafatera en zona ventilada usando guantes de nitrilo y lentes; llevar las herramientas en "+
     "porta herramientas y mantener segregada el área bajo la vertical para evitar caída de materiales. "+
     "Después: cerrar y rotular los envases, retirar sobrantes al punto de residuos y descender por los accesos "+
     "autorizados, sin pasar del andamio al edificio.",
   peligros:[1,2,3,4,10,11,18,27], check:{4:"si",10:"si",2:"si"},
-  checkObs:{2:"silicona: HDS revisada, uso en zona ventilada"}},
+  checkObs:{2:"Sikaflex 11FC y silicona acética: HDS revisada, uso en zona ventilada"}},
+
+ // Maestra polifuncional: sella en primeros pisos, bajo 1,8 m. Sin caída de altura (04).
+ {id:"l-sellos-p1",nombre:"Sellado interior y exterior de ventanas en primeros pisos, desde plataforma portátil o escalera tipo A",
+  corto:"sellado en primeros pisos", orden:31, grupo:"g-sellos",
+  detalle:"Antes: revisar la plataforma de andamio portátil (tarjeta de autorización, ruedas con freno, barandas y "+
+    "rodapié) y la escalera tipo A (peldaños, tensores y apoyos antideslizantes), y tener a mano la hoja de datos de "+
+    "seguridad del sellante. Durante: sellar por interior y exterior sin superar 1,8 m de altura de trabajo; abrir la "+
+    "escalera completamente con sus tensores trabados, mantener tres puntos de apoyo y no subir a los dos últimos "+
+    "peldaños; no desplazar la plataforma con la trabajadora arriba; aplicar el sello con pistola calafatera en zona "+
+    "ventilada, con guantes de nitrilo y lentes de seguridad. Después: cerrar y rotular los envases, retirar sobrantes "+
+    "al punto de residuos y guardar plataforma y escalera fuera de las vías de tránsito.",
+  peligros:[1,2,3,10,11,18,27], check:{2:"si",10:"si"},
+  checkObs:{2:"Sikaflex 11FC y silicona acética: HDS revisada, uso en zona ventilada"}},
 
  {id:"l-corte",   nombre:"Corte de tornillos, enfierradura y rasgos con esmeril angular (corte y diamantado)",
   corto:"corte con esmeril", orden:40, grupo:"g-herram",
@@ -528,7 +752,21 @@ const LABORES_SEED = [
   peligros:[1,2,3,6,9,10,12,13,15,17,18,27,28,30], check:{4:"si",12:"si",2:"si"},
   checkObs:{2:"mortero y mezcla EIFS: HDS revisada, manejo de residuos en zona habilitada"}},
 
- {id:"l-aseo",    nombre:"Orden y aseo en lugar de trabajo", base:true, orden:90,
+ // Maestra polifuncional: limpieza con diluyente (inflamable) en primeros pisos, bajo 1,8 m.
+ {id:"l-limpieza",nombre:"Limpieza de ventanas, celosías y bajadas de agua en primeros pisos con diluyente Duco y paños",
+  corto:"limpieza de ventanas y celosías", orden:85, grupo:"g-limpieza",
+  detalle:"Antes: revisar la hoja de datos de seguridad del diluyente Duco (líquido inflamable), disponer de guantes de "+
+    "nitrilo, lentes de seguridad y respirador para vapores orgánicos, alejar la tarea de fuentes de calor y chispas, y "+
+    "revisar la plataforma de andamio portátil y la escalera tipo A. Durante: aplicar el diluyente sobre el paño en la "+
+    "cantidad mínima, con el envase rotulado y cerrado entre usos y trabajando en zona ventilada; limpiar celosías y "+
+    "perfiles con guantes por sus cantos cortantes; limpiar las bajadas de agua desde la plataforma con frenos trabados "+
+    "o la escalera tipo A abierta, con tres puntos de apoyo y sin superar 1,8 m de altura de trabajo. Después: depositar "+
+    "los paños contaminados en el contenedor de residuos peligrosos, guardar el diluyente en su lugar de almacenamiento "+
+    "y dejar el sector limpio y despejado.",
+  peligros:[1,2,3,9,10,11,18,27,30], check:{2:"si",10:"si"},
+  checkObs:{2:"diluyente Duco: HDS revisada, inflamable y lejos de fuentes de calor, paños contaminados a residuos peligrosos"}},
+
+ {id:"l-aseo",    nombre:"Orden y aseo en lugar de trabajo", base:true, orden:90, grupo:"g-limpieza",
   detalle:"Antes: identificar los residuos generados en la jornada y los puntos de acopio habilitados para cada tipo. "+
     "Durante: retirar despuntes, tornillos y elementos cortantes usando guantes anticorte, segregar los residuos "+
     "según su clasificación y despejar las vías de tránsito; humectar antes de barrer para no levantar polvo, y "+
@@ -551,6 +789,7 @@ const CARGO_LABORES = {
  "ventanero":["l-instal","l-sellos"],
  "carpintero":["l-mov","l-corte","l-carpint"],
  "terminaciones":["l-estanq","l-imperm"],
+ "polifuncional":["l-limpieza","l-sellos-p1"],
  "albañil":["l-albanil"], "albanil":["l-albanil"]
 };
 
@@ -564,7 +803,8 @@ const PERSONAS_SEED = [
  ["C.F","Por definir",            ["l-estanq","l-imperm"],                    []],
  ["C.R","Ventanero",              ["l-instal","l-sellos"],                    []],
  ["F.A","Ventanero",              ["l-instal","l-sellos"],                    []],
- ["C.Ñ","Ventanero",              ["l-instal","l-sellos"],                    []]
+ ["C.Ñ","Ventanero",              ["l-instal","l-sellos"],                    []],
+ ["M.P","Maestra polifuncional",  ["l-limpieza","l-sellos-p1"],               []]
 ].map((p,i)=>({id:"p"+(i+1), rut:"", nombre:p[0], cargo:p[1],
                 principales:p[2], parciales:p[3], activo:true}));
 
@@ -578,8 +818,10 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=12;
-const APP_VER="v12";
+const CAT_VER=13;
+const APP_VER="v13";
+// Foco amplió "Trabajo a realizar" a 2000 caracteres.
+const MAX_TRABAJO=2000;
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
 
 function defaults(){
@@ -588,6 +830,7 @@ function defaults(){
     grupos:   JSON.parse(JSON.stringify(GRUPOS_SEED)),
     temas:    JSON.parse(JSON.stringify(TEMAS_SEED)),
     obsFijas: JSON.parse(JSON.stringify(CHECK_OBS_BASE)),
+    cartillas: JSON.parse(JSON.stringify(CARTILLAS_SEED)),
     labores:  JSON.parse(JSON.stringify(LABORES_SEED)),
     personas: JSON.parse(JSON.stringify(PERSONAS_SEED)),
     arts: [],
@@ -614,8 +857,13 @@ function migrarCatalogo(raw){
   if(DB.catVer===CAT_VER) return;
   try{ localStorage.setItem(KEY_PREV, raw); }catch(e){}
 
+  // Peligros que fueron de fábrica y se retiraron: se borran en vez de quedar como
+  // si los hubiera creado el usuario.
+  const PELIGROS_RETIRADOS=[25];
   const seedP=JSON.parse(JSON.stringify(PELIGROS_SEED));
-  DB.peligros = seedP.concat((DB.peligros||[]).filter(p=>!seedP.some(s=>s.n===p.n)));
+  DB.peligros = seedP.concat((DB.peligros||[]).filter(p=>
+    !seedP.some(s=>s.n===p.n) && !PELIGROS_RETIRADOS.includes(p.n)));
+  (DB.labores||[]).forEach(l=>{ l.peligros=(l.peligros||[]).filter(n=>!PELIGROS_RETIRADOS.includes(n)); });
 
   const seedG=JSON.parse(JSON.stringify(GRUPOS_SEED));
   DB.grupos = seedG.concat((DB.grupos||[]).filter(g=>!seedG.some(s=>s.id===g.id)));
@@ -645,6 +893,17 @@ function migrarCatalogo(raw){
   const seedL=JSON.parse(JSON.stringify(LABORES_SEED));
   DB.labores = seedL.concat((DB.labores||[]).filter(l=>
     !seedL.some(s=>s.id===l.id) && !RETIRADAS.includes(l.id)));
+
+  // Personas que se suman a la nómina de fábrica en una versión nueva. Solo se agregan
+  // si no están: el resto de la nómina es del usuario y no se toca.
+  const PERSONAS_NUEVAS=["p9"];
+  DB.personas=DB.personas||[];
+  PERSONAS_SEED.filter(p=>PERSONAS_NUEVAS.includes(p.id) && !DB.personas.some(x=>x.id===p.id))
+    .forEach(p=>DB.personas.push(JSON.parse(JSON.stringify(p))));
+
+  // Cartillas RCO: se agregan las de fábrica que falten; las respuestas que el
+  // usuario ya ajustó se respetan.
+  DB.cartillas=Object.assign(JSON.parse(JSON.stringify(CARTILLAS_SEED)), DB.cartillas||{});
 
   // Si una persona apunta a una labor que ya no existe, se limpia la referencia.
   const ids=DB.labores.map(l=>l.id);
@@ -751,7 +1010,10 @@ function etapas(d){
   const txt = l => (d.detallado!==false && l.detalle)
     ? `${l.nombre}. ${l.detalle}` : l.nombre;
   // Rótulo corto para los encabezados de la app; el texto largo es solo para copiar.
-  const rot = b => b.g ? b.g.nombre : (b.ls?b.ls[0].nombre:b.nombre);
+  // Si de un grupo hoy vino una sola labor, se usa el nombre de esa labor: evita que
+  // "Orden y aseo" salga rotulado como "Orden, aseo y limpieza" cuando no hay limpieza.
+  const acoplada = b => b.g && b.ls.length>1;
+  const rot = b => acoplada(b) ? b.g.nombre : b.ls[0].nombre;
   let list;
   if(d.agrupar===false){
     list = laboresActivas(d).map(l=>({
@@ -771,7 +1033,7 @@ function etapas(d){
     });
     list=[...bolsas.values()].sort((a,b)=>a.orden-b.orden).map(b=>{
       // Con varias labores acopladas se numeran, para que se lea la secuencia.
-      const nombre = b.g
+      const nombre = acoplada(b)
         ? `${b.g.nombre}. `+b.ls.map((l,i)=>`${i+1}) ${txt(l)}`).join(" ")
         : txt(b.ls[0]);
       const auto=[...new Set(b.ls.flatMap(l=>d.pelOv[l.id]||l.peligros||[]))];
@@ -850,15 +1112,16 @@ function peligrosTxt(nums){
   return nums.map(n=>{ const p=pel(n); return p?`${pad2(n)}.${p.nombre}`:""; })
              .filter(Boolean).join(", ");
 }
-// Resumen para el campo "Trabajo a realizar", que Foco limita a 100 caracteres.
-// Usa el nombre corto de cada labor y corta en la última coma que quepa.
+// Texto para el campo "Trabajo a realizar" (2000 caracteres en Foco). Lleva el nombre
+// completo de cada labor del día, sin las de base (ingreso, traslado, aseo, retiro),
+// que no son trabajo propiamente tal. Si pasara del límite, corta en el último "; ".
 function trabajoAuto(d){
   const l=laboresActivas(d).filter(x=>!x.base);
   if(!l.length) return "";
-  const txt=l.map(x=>x.corto||x.nombre.split(/[,:]/)[0].trim().toLowerCase()).join(", ");
-  if(txt.length<=100) return txt;
-  const corte=txt.lastIndexOf(", ",100);
-  return corte>0 ? txt.slice(0,corte) : txt.slice(0,100);
+  const txt=l.map(x=>x.nombre).join("; ");
+  if(txt.length<=MAX_TRABAJO) return txt;
+  const corte=txt.lastIndexOf("; ",MAX_TRABAJO);
+  return corte>0 ? txt.slice(0,corte) : txt.slice(0,MAX_TRABAJO);
 }
 
 /* ---------- 6. GENERACIÓN DE SALIDA ---------- */
@@ -866,7 +1129,7 @@ function trabajoAuto(d){
 // Lista de campos en el ORDEN EXACTO del formulario de Foco Prevención.
 function campos(d){
   const c=[], et=etapas(d), rc=rcoCalc(d), ck=checkCalc(d);
-  c.push({l:"Trabajo a realizar", v:d.trabajo||trabajoAuto(d), max:100});
+  c.push({l:"Trabajo a realizar", v:d.trabajo||trabajoAuto(d), max:MAX_TRABAJO});
   c.push({l:"Área de trabajo", v:d.area, max:100});
   const def=[d.proc&&"Procedimiento",d.instr&&"Instructivo",d.gestion&&"Gestión del cambio"].filter(Boolean);
   c.push({l:"El trabajo o actividad está definida por", v:def.join(" + ")||"(ninguno)", nocopy:true});
@@ -883,9 +1146,9 @@ function campos(d){
     c.push({l:`${i+1}.Etapas de desarrollo del trabajo`, v:e.nombre, max:MAX_ETAPA,
             sec:"art", et:i, id:e.id});
     c.push({l:`${i+1}.Descripción — peligros a seleccionar`, v:peligrosTxt(e.peligros),
-            sec:"art", et:i});
+            sec:"art", et:i, tipo:"pel", pel:e.peligros});
     c.push({l:`${i+1}.Descripción — medidas a marcar`, v:medidasLista(e.peligros),
-            copiar:medidasTxt(e.peligros), sec:"art", et:i});
+            copiar:medidasTxt(e.peligros), sec:"art", et:i, tipo:"med", pel:e.peligros});
   });
   for(let i=1;i<=19;i++)
     c.push({l:`RCO N°${i} ${RCOS[i-1]}`, v:rc[i]==="si"?"SÍ":"No", nocopy:true, sec:"rco"});
@@ -937,18 +1200,19 @@ const app=()=>document.getElementById("app");
 function render(){
   const a=app(); a.innerHTML="";
   document.getElementById("ttl").textContent =
-    {art:"ART del día",personas:"Personal",labores:"Labores",peligros:"Peligros y medidas",hist:"Historial"}[view]||"ART Rápida";
+    {art:"ART del día",personas:"Personal",labores:"Labores",peligros:"Peligros y medidas",
+     rco:"Cartillas RCO",hist:"Historial"}[view]||"ART Rápida";
   const bb=document.getElementById("backBtn");
   bb.style.display = (subview||(view==="art"&&step>0))?"":"none";
   bb.onclick = ()=>{ if(subview){subview=null;editId=null;} else step--; render(); };
-  ({art:vArt,personas:vPersonas,labores:vLabores,peligros:vPeligros,hist:vHist}[view]||vArt)(a);
+  ({art:vArt,personas:vPersonas,labores:vLabores,peligros:vPeligros,rco:vRCO,hist:vHist}[view]||vArt)(a);
   renderTabs();
   window.scrollTo(0,0);
 }
 function renderTabs(){
   const t=document.getElementById("tabs"); t.innerHTML="";
   [["art","📋","ART"],["personas","👷","Personal"],["labores","🧰","Labores"],
-   ["peligros","⚠️","Peligros"],["hist","🕘","Historial"]].forEach(([k,ic,lb])=>{
+   ["peligros","⚠️","Peligros"],["rco","🛡️","RCO"],["hist","🕘","Historial"]].forEach(([k,ic,lb])=>{
     t.appendChild(h("button",{class:view===k?"on":"",onClick:()=>{view=k;subview=null;editId=null;render();}},
       h("span",{class:"ic",text:ic}), lb));
   });
@@ -960,8 +1224,9 @@ function vArt(a){
   if(DB.avisoMigracion){
     const al=h("div",{class:"alert"});
     al.appendChild(h("div",{text:`Catálogo actualizado a la versión ${DB.avisoMigracion}: peligros, `+
-      `grupos y labores quedaron como los del código nuevo. Tus personas, tus ART guardados y este `+
-      `borrador no se tocaron. Si tenías medidas editadas a mano, están en el respaldo.`}));
+      `grupos, labores y cartillas RCO quedaron como los del código nuevo. A tu nómina solo se `+
+      `suma la gente nueva de fábrica; tus ediciones, tus ART guardados y este borrador no se `+
+      `tocaron. Si tenías medidas editadas a mano, están en el respaldo.`}));
     al.appendChild(h("div",{class:"row",style:"margin-top:8px"},
       h("button",{class:"btn xs sec",onClick:()=>{delete DB.avisoMigracion;save();render();}},"Entendido"),
       h("button",{class:"btn xs ghost",onClick:()=>{view="peligros";delete DB.avisoMigracion;save();render();}},
@@ -980,8 +1245,8 @@ function pasoDatos(a,d){
   c.appendChild(h("label",{class:"f",text:"Fecha"}));
   c.appendChild(h("input",{type:"date",value:d.fecha,onChange:e=>{d.fecha=e.target.value;save();}}));
 
-  campoTexto(c,"Trabajo o actividad a realizar",d.trabajo,100,v=>{d.trabajo=v;save();},
-    "Se autocompleta según la cuadrilla si lo dejas vacío");
+  campoTexto(c,"Trabajo o actividad a realizar",d.trabajo,MAX_TRABAJO,v=>{d.trabajo=v;save();},
+    "Si lo dejas vacío se arma solo con las labores de la cuadrilla (hasta 2000 caracteres).");
   campoTexto(c,"Área de trabajo",d.area,100,v=>{d.area=v;save();});
 
   c.appendChild(h("label",{class:"f",text:"El trabajo está definido por"}));
@@ -1076,11 +1341,15 @@ function selectorTema(d){
 
 function campoTexto(c,label,val,max,onSet,hint){
   c.appendChild(h("label",{class:"f",text:label}));
-  const inp=h("input",{type:"text",value:val||"",placeholder:"Ingrese texto...",
+  // Hasta 100 caracteres basta una línea; los campos de 2000 necesitan un cuadro.
+  const largo=max>100;
+  const inp=h(largo?"textarea":"input",{type:largo?null:"text",value:largo?null:(val||""),
+    placeholder:"Ingrese texto...",style:largo?"min-height:90px":null,
     onBlur:e=>{onSet(e.target.value); cnt.textContent=e.target.value.length+"/"+max;
                cnt.className="count"+(e.target.value.length>max?" over":"");},
     onInput:e=>{cnt.textContent=e.target.value.length+"/"+max;
                 cnt.className="count"+(e.target.value.length>max?" over":"");}});
+  if(largo) inp.value=val||"";
   c.appendChild(inp);
   const cnt=h("div",{class:"count"+((val||"").length>max?" over":""),text:(val||"").length+"/"+max});
   c.appendChild(cnt);
@@ -1302,10 +1571,37 @@ function cajaCopiar(c){
     lbl.appendChild(h("span",{class:"badge",style:"border-color:var(--no);color:var(--no)",
       text:(c.v||"").length+"/"+c.max}));
   box.appendChild(lbl);
-  const cuerpo=h("div",{class:"val"}, h("div",{text:c.v||"—"}));
+  const cuerpo=h("div",{class:"val"},
+    c.tipo==="med" ? medidasHTML(c.pel)
+    : c.tipo==="pel" ? peligrosHTML(c.pel)
+    : h("div",{text:c.v||"—"}));
   if(c.q) cuerpo.appendChild(preguntaOficial(c.q));
   box.appendChild(cuerpo);
   return box;
+}
+
+// Peligros de una etapa con su número en grande, como se buscan en el selector de Foco.
+function peligrosHTML(nums){
+  const w=h("div");
+  nums.forEach(n=>{ const p=pel(n); if(!p) return;
+    w.appendChild(h("span",{class:"peltag"},h("span",{class:"pnum",text:pad2(n)}),p.nombre)); });
+  return w;
+}
+// Medidas agrupadas por peligro: número grande en la cabecera y en cada medida, para
+// ubicarlas de un vistazo al ir marcando las casillas en Foco.
+function medidasHTML(nums){
+  const w=h("div");
+  nums.forEach(n=>{
+    const p=pel(n); if(!p) return;
+    const b=h("div",{class:"pelblk"});
+    b.appendChild(h("div",{class:"pelhd"},h("span",{class:"pnum",text:pad2(n)}),
+      h("span",{class:"pnom",text:p.nombre})));
+    if(!p.medidas.length) b.appendChild(h("div",{class:"muted small",text:"(sin medidas cargadas)"}));
+    p.medidas.forEach(m=>b.appendChild(h("div",{class:"medrow"},
+      h("span",{class:"mnum",text:pad2(n)+"."}),h("span",{class:"mtx",text:m}))));
+    w.appendChild(b);
+  });
+  return w;
 }
 
 // Viñeta desplegable con el enunciado tal cual aparece en Foco Prevención.
@@ -1410,6 +1706,17 @@ function pasoSalida(a,d){
       }
       a.appendChild(cajaCopiar(c));
     });
+  }
+
+  const hoyRco=rcoDelDia(d);
+  if(hoyRco.length){
+    const cr=h("div",{class:"card"});
+    cr.appendChild(h("h3",{text:"Cartillas RCO para hoy"}));
+    cr.appendChild(h("div",{class:"small",style:"margin-bottom:8px",
+      text:hoyRco.map(n=>`N°${n}${DB.cartillas&&DB.cartillas[n]?"":" (sin plantilla)"}`).join(" · ")}));
+    cr.appendChild(h("button",{class:"btn sm wide",onClick:()=>{view="rco";render();}},
+      "Ir a las cartillas RCO"));
+    a.appendChild(cr);
   }
 
   a.appendChild(h("div",{class:"hr"}));
@@ -1524,10 +1831,10 @@ function vLabores(a){
 function edLabor(a){
   const l=lab(editId); if(!l){subview=null;return render();}
   const c=h("div",{class:"card"});
-  c.appendChild(h("label",{class:"f",text:"Nombre de la etapa (así se pega en Foco, máx 100)"}));
+  c.appendChild(h("label",{class:"f",text:"Nombre de la labor (título de la etapa en Foco)"}));
   const ta=h("textarea",{onBlur:e=>{l.nombre=e.target.value;save();render();}});
   ta.value=l.nombre; c.appendChild(ta);
-  c.appendChild(h("div",{class:"count"+(l.nombre.length>100?" over":""),text:l.nombre.length+"/100"}));
+  c.appendChild(h("div",{class:"count",text:l.nombre.length+" caracteres"}));
 
   c.appendChild(h("label",{class:"f",
     text:"Detalle: antes, durante y después (es lo que se pega en la etapa)"}));
@@ -1729,7 +2036,93 @@ function edPeligro(a){
   a.appendChild(c);
 }
 
-/* ----- 7.5 Historial ----- */
+/* ----- 7.5 Cartillas RCO ----- */
+
+// RCO en "Sí" en el ART en curso (vacío si todavía no hay cuadrilla).
+function rcoDelDia(d){
+  if(!d || !Object.keys(d.presentes||{}).length) return [];
+  const rc=rcoCalc(d);
+  return Object.keys(rc).filter(k=>rc[k]==="si").map(Number).sort((a,b)=>a-b);
+}
+// "Trabajo a realizar" de una cartilla según la cuadrilla de hoy: las labores cuyos
+// peligros encienden ese RCO.
+function trabajoRCO(n,d){
+  if(!d) return "";
+  return laboresActivas(d).filter(l=>
+    (d.pelOv[l.id]||l.peligros||[]).some(p=>(PELIGRO_RCO[p]||[]).includes(n)))
+    .map(l=>l.corto||l.nombre).join(", ");
+}
+const RESP_TXT={si:"SÍ",no:"NO",na:"N/A"};
+const RESP_SIG={si:"no",no:"na",na:"si"};
+
+function vRCO(a){
+  DB.cartillas=DB.cartillas||JSON.parse(JSON.stringify(CARTILLAS_SEED));
+  const d=D(), hoy=rcoDelDia(d);
+  a.appendChild(h("div",{class:"muted small",
+    text:"Respuestas tal como en tus cartillas firmadas. Toca SÍ / NO / N/A para cambiarla: "+
+         "queda guardada para las próximas. Las marcadas HOY son las que el ART en curso deja en Sí."}));
+
+  const sinPlantilla=hoy.filter(n=>!DB.cartillas[n]);
+  if(sinPlantilla.length) a.appendChild(h("div",{class:"alert",
+    text:"El ART de hoy deja en Sí RCO sin plantilla cargada: "+
+      sinPlantilla.map(n=>`N°${n} ${RCOS[n-1]}`).join(", ")+
+      ". Si llenas esa cartilla en Foco, mándame un ejemplar y la agrego."}));
+
+  const nums=Object.keys(DB.cartillas).map(Number)
+    .sort((x,y)=>(hoy.includes(y)-hoy.includes(x))||(x-y));
+  nums.forEach(n=>{
+    const ca=DB.cartillas[n];
+    const todas=ca.secs.flatMap(s=>s.q);
+    const cuenta=r=>todas.filter(q=>q[1]===r).length;
+    const dt=h("details",{class:"acc"});
+    if(hoy.includes(n) && hoy.length<=3) dt.open=true;
+    dt.appendChild(h("summary",{},
+      h("span",{class:"pnum",text:String(n)}),
+      h("span",{class:"grow"},
+        h("span",{text:ca.nombre}), hoy.includes(n)?h("span",{class:"hoy",text:"HOY"}):null,
+        h("span",{class:"sub2",
+          text:`${todas.length} preguntas · ${cuenta("si")} SÍ · ${cuenta("no")} NO · ${cuenta("na")} N/A`}))));
+
+    const body=h("div",{class:"body"});
+    body.appendChild(cajaCopiar({l:"Trabajo a realizar (el de tu ejemplar)",v:ca.trabajo}));
+    const auto=trabajoRCO(n,d);
+    if(auto && auto!==ca.trabajo)
+      body.appendChild(cajaCopiar({l:"Trabajo a realizar según la cuadrilla de hoy",v:auto}));
+
+    let k=0;
+    ca.secs.forEach(sec=>{
+      body.appendChild(h("div",{class:"rcosec",text:sec.t}));
+      sec.q.forEach(q=>{
+        k++;
+        const btn=h("button",{type:"button",class:"resp "+q[1],text:RESP_TXT[q[1]]});
+        btn.addEventListener("click",ev=>{
+          ev.preventDefault();
+          q[1]=RESP_SIG[q[1]]; save();
+          btn.className="resp "+q[1]; btn.textContent=RESP_TXT[q[1]];
+        });
+        body.appendChild(h("div",{class:"rcoq"},
+          h("span",{class:"qn",text:k+"."}), h("span",{class:"qt",text:q[0]}), btn));
+      });
+    });
+
+    const tb=h("textarea",{placeholder:"Trabajo a realizar habitual de esta cartilla",
+      style:"margin-top:10px;min-height:56px;font-size:13px",
+      onBlur:e=>{ca.trabajo=e.target.value.trim();save();}});
+    tb.value=ca.trabajo||"";
+    body.appendChild(h("label",{class:"f",text:"Editar el trabajo habitual de esta cartilla"}));
+    body.appendChild(tb);
+    body.appendChild(h("div",{class:"row",style:"margin-top:8px"},
+      h("div",{class:"muted small grow",text:ca.codigo}),
+      h("button",{class:"btn xs ghost",onClick:()=>{
+        if(!confirm("¿Volver esta cartilla a como estaba en tu ejemplar?")) return;
+        DB.cartillas[n]=JSON.parse(JSON.stringify(CARTILLAS_SEED[n]));
+        save();render();toast("Cartilla restaurada");}},"Restaurar mi ejemplar")));
+    dt.appendChild(body);
+    a.appendChild(dt);
+  });
+}
+
+/* ----- 7.6 Historial ----- */
 function vHist(a){
   if(!DB.arts.length) return a.appendChild(h("div",{class:"empty",
     text:"Sin ART guardados todavía. Genera uno y toca «Guardar en historial»."}));
