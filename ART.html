@@ -177,8 +177,9 @@ pre.full{white-space:pre-wrap;word-break:break-word;background:var(--bg2);border
 /* Catálogo completo de peligros de Foco Prevención (01 a 31), con la numeración y las
    medidas de control transcritas del propio selector de la app.
    El 25 (caída de planchón en túneles) se quitó a pedido del supervisor: no aplica a
-   edificación. Los peligros sin medidas (14, 16, 19, 20-24, 26, 29, 31) no aplican a instalación de
-   ventanas: existen solo para que la numeración calce con Foco. Si alguna vez se
+   edificación. 19, 20, 21, 23 y 24 son de la partida de izaje, transcritos del selector el
+   29/10/2026. Los que quedan sin medidas (14, 16, 22, 26, 29, 31) no aplican a ninguna
+   partida: existen solo para que la numeración calce con Foco. Si alguna vez se
    necesitan, se les cargan las medidas desde la pestaña Peligros. */
 const PELIGROS_SEED = [
  {n:1, nombre:"Golpeado contra", medidas:[
@@ -278,12 +279,37 @@ const PELIGROS_SEED = [
    "Límite de carga manual 25. Kg Hombres y 20. Kg Mujeres",
    "Realizar pausas de trabajo y rotación del personal",
    "Realizar posturas de carga y descarga conforme a evaluación técnica"]},
- {n:19,nombre:"Incendio", medidas:[]},
- {n:20,nombre:"Caída de carga suspendida", medidas:[]},
- {n:21,nombre:"Choque o volcamiento", medidas:[]},
+ {n:19,nombre:"Incendio", medidas:[
+   "Contar con autorización y permisos para trabajos en caliente",
+   "Disponer de extintor PQS en el área de trabajo.",
+   "Mantener el área libre de líquidos inflamables y/o combustibles.",
+   "Mantener áreas de trabajo ordenados y limpios",
+   "No fumar ni encender fuego en lugares no autorizados",
+   "No realizar trabajo en caliente en el perímetro en donde se utilizando pegamento o algún tipo de solvente."]},
+ {n:20,nombre:"Caída de carga suspendida", medidas:[
+   "Proteger elementos izaje ante la realización de trabajos en caliente",
+   "Proteger posibles cantos vivos al realizar maniobra de izajes",
+   "Verificar el buen estado y correcta compatibilidad de los elementos de izaje versus la carga de izar",
+   "Verificar y chequear previamente elementos de las maniobras"]},
+ {n:21,nombre:"Choque o volcamiento", medidas:[
+   "Los equipos y maquinarias deben transitar por áreas habilitadas y señalizadas",
+   "Respetar las normas de tránsito y velocidad ante la conducción de vehículo liviano",
+   "Señalizar y respetar la velocidad máxima al interior de la obra.",
+   "Solo personal con la autorización y competencias podrá conducir vehículo liviano.",
+   "Uso del cinturón de seguridad"]},
  {n:22,nombre:"Derrumbes", medidas:[]},
- {n:23,nombre:"Interacción hombre maquina", medidas:[]},
- {n:24,nombre:"Liberación descontrolada de energía", medidas:[]},
+ {n:23,nombre:"Interacción hombre maquina", medidas:[
+   "Contar con ropa de trabajo y chalecos de alta visibilidad",
+   "Habilitar señalero y/o paletero",
+   "Mantener distancia con equipos y maquinarias",
+   "Personal capacitado en trabajo con maquinaria",
+   "Segregar el área de trabajo carga y descarga de materiales"]},
+ {n:24,nombre:"Liberación descontrolada de energía", medidas:[
+   "Disponer de sistema anti chicote en uniones y acoples.",
+   "Mangueras y acoples deben estar en buenas condiciones.",
+   "Uso de equipo detección líneas subterráneas",
+   "Verificar existencia de líneas eléctricas de alta, media tensión que pueda afectar trabajos de obra",
+   "Verificar que elementos de equipos presurizados cuenten con abrazaderas de alta presión"]},
  {n:26,nombre:"Proyección de materiales por tronaduras", medidas:[]},
  {n:27,nombre:"Caída de materiales", medidas:[
    "Eliminar verticalidad de trabajos simultáneos",
@@ -325,9 +351,13 @@ const RCOS = [
 const PELIGRO_RCO = {
   // Sin RCO 7: su cartilla trata de bloqueo de maquinaria, que no aplica a la partida,
   // y el supervisor no la llena. El atrapamiento (05, 06) queda en las medidas de la etapa.
-  3:[19], 4:[1], 6:[18], 8:[15], 9:[18], 10:[10], 11:[10],
+  3:[19], 4:[1], 6:[18], 7:[4], 8:[15], 9:[18], 10:[10], 11:[10],
   15:[18], 16:[16], 17:[18], 19:[15], 20:[3], 21:[4,5], 22:[14],
   23:[6], 24:[9], 26:[13], 27:[2], 28:[8,18]};
+
+// RCO que la partida de izaje no enciende: sin ventanas no hay vanos ni shaft (19), y las
+// herramientas portátiles (18) las usa otra cuadrilla con su propio ART.
+const RCO_FUERA_IZAJE=[18,19];
 
 // Checklist "Etapas previas del trabajo" (13). corto = etiqueta en pantalla.
 const CHECKLIST = [
@@ -527,7 +557,90 @@ const CARTILLAS_SEED = {
    ["Cuenta con inspección previo uso de todos los elementos y componentes de un Sistema Personal de Detención de Caídas (SPDC).","si"],
    ["En áreas con presencia de vanos y shaft existe segregación esta para evitar que personal que no participe en esta tarea se aproxime a este lugar de trabajo.","na"],
    ["Frente al retiro de Protecciones ya instaladas existe permiso de ingreso al área firmado por responsables dueños del área como: supervisor de especialidad estructura, supervisor a cargo del trabajo y supervisor SSOMA Terreno.","na"],
-   ["Se da cunplimiento obligatorio al Absoluto de Seguridad N°14 Siempre verificaré que vanos y shaft estén debidamente segregados, señalizados y tapados.","si"]]}]}
+   ["Se da cunplimiento obligatorio al Absoluto de Seguridad N°14 Siempre verificaré que vanos y shaft estén debidamente segregados, señalizados y tapados.","si"]]}]},
+
+ /* Partida de izaje con camión pluma. Preguntas transcritas de las capturas de Foco del
+    29/10/2026; respuestas para el desarme de la instalación de faena con equipo
+    subcontratado. Lo que depende de un documento que todavía no está en mano (plan de
+    izaje, GPS y registro de velocidad del proveedor) parte en NO: se cambia al recibirlo. */
+ 3:{nombre:"Caída de carga suspendida en maniobras de izaje", codigo:"SSOMA-ME-RCO-03-CV-03",
+  trabajo:"izaje y traslado de contenedores de instalación de faena y generador con camión pluma",
+  secs:[
+  {t:"Requisitos de las personas", q:[
+   ["El operador cuenta con examen de salud vigente","si"],
+   ["El operador cuenta con evaluación psicosensotécnico rigurosa vigente","si"],
+   ["El operador cuenta con certificación de competencias que acredite sus competencias técnicas para operar el equipos de izaje","si"],
+   ["El operador de equipos de izaje de tipo móvil, cuenta con su licencia municipal vigente","si"],
+   ["El rigger cuenta con certificación de competencias que acredite sus competencias técnicas","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Se cuenta con plan de izaje que establezca capacidad de equipo, criticidad y la coordinación de la maniobra a realizar, además de las dimensiones, peso y centro de gravedad de la carga","no"],
+   ["Se realizo medición de la velocidad del viento, que este no supere los 50 km por hora para realizar maniobras de izaje","si"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["Los equipos de izaje móvil deberán contar con certificado de operatividad emitido por el proveedor","si"],
+   ["Existe programa de mantención para equipos de izaje de tipo móvil","si"],
+   ["Se realizo verificación del estado del equipo de izaje móvil","si"],
+   ["Los elementos de izaje cuentan con certificación de resistencia","si"],
+   ["Los elementos de izaje cuentan con verificación de su estado","si"],
+   ["Se verifico la estabilidad del terreno y si el equipo esta nivelado y estabilizado","si"],
+   ["Se cuenta con comunicación bidireccional entre operador y rigger","si"],
+   ["Se realizo identificación de líneas o elementos energizados cercanos, se respeta la distancia de seguridad","si"],
+   ["La maniobra de izaje cuenta con segregación en su área de influencia y señalización que advierta el peligro y/o riesgo de la actividad","si"]]}]},
+
+ 4:{nombre:"Choque o volcamiento en conducción de vehículos", codigo:"SSOMA-ME-RCO-04-CV-04",
+  trabajo:"traslado de contenedor en camión por vías interiores de obra con tránsito peatonal", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["El conductor cuenta con examen de salud vigente","si"],
+   ["El conductor cuenta con evaluación psicosensotécnico rigurosa","si"],
+   ["Cuenta con capacitación de manejo a la defensiva","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Se cuenta con procedimiento de conducción de vehículos","si"],
+   ["El vehículo cuenta con dispositivo de monitoreo de GPS","no"],
+   ["Se lleva registro de los excesos de velocidad","no"],
+   ["Conductor porta y usa dispositivo de control de fatiga y somnolencia","na"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["Se realiza verificación diaria del estado del vehículo","si"],
+   ["Existe programa de mantención de vehículos","si"],
+   ["Vehículos son sometidos a mantención según programa de mantención","si"],
+   ["Al interior de obras o faenas, el vehículo cuenta con sistema de comunicación bidireccional","si"]]}]},
+
+ 5:{nombre:"Choque o volcamiento en operación de maquinaria", codigo:"SSOMA-ME-RCO-05-CV-05",
+  trabajo:"operación de camión pluma en el desarme de la instalación de faena", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["El operador cuenta con examen de salud vigente","si"],
+   ["El operador cuenta con evaluación psicosensotécnico rigurosa","si"],
+   ["El operador cuenta con certificado que acredite sus competencias técnicas en la operación del equipo o maquinaria","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["El equipo o maquinaria cuenta con dispositivo de monitoreo de GPS","no"],
+   ["Se lleva registro de los excesos de velocidad","no"],
+   ["El operador porta y usa dispositivo de control de fatiga y somnolencia","na"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["Se realiza verificación diaria del estado del equipo o maquinaria","si"],
+   ["Existe programa de mantención del equipo o maquinaria","si"],
+   ["Los equipos o maquinarias son sometidos a mantención según programa","si"],
+   ["Al interior de obras o faenas, el equipo o maquinaria cuenta con sistema de comunicación bidireccional","si"],
+   ["En operación con riesgo de desbarrancamiento como bancos, zanjas, quebradas, existe pretil de contención","na"],
+   ["Las vías de transito peatonal están segregadas respecto a las vías de transito u operación de equipos, maquinaria y vehículos","si"],
+   ["La operación de equipos o maquinaria cuenta con segregación y señalización que advierta los riesgos presentes","si"]]}]},
+
+ // Las preguntas de presión de la sección 3 aplican por el circuito hidráulico de la pluma.
+ 9:{nombre:"Liberación descontrolada de energía", codigo:"SSOMA-ME-RCO-09-CV-09",
+  trabajo:"traslado de generador eléctrico y operación hidráulica del camión pluma", secs:[
+  {t:"Requisitos de las personas", q:[
+   ["Trabajador/es cuentan con capacitación sobre los riesgos inherentes de la actividad","si"]]},
+  {t:"Requisitos de la organización", q:[
+   ["Cuentan con procedimiento para la aislación y bloqueo","si"],
+   ["Se realizo identificación de las fuentes de energía involucrada en la tarea","si"],
+   ["Están identificados los puntos de bloqueo en terreno","si"],
+   ["Los equipos a intervenir están aislados y bloqueados de acuerdo a procedimiento","si"],
+   ["Se realiza verificación de ausencia de energía en el sistema","si"],
+   ["Las energías residuales fueron eliminadas","si"]]},
+  {t:"Requisitos a los equipos e instalaciones", q:[
+   ["Se instalaron dispositivos de trabas y/o bloqueos mecánicos para impedir desplazamiento o movimientos inesperados","si"],
+   ["Los acoples de altas presiones disponen de sistema de contención para prevenir el efecto látigo en caso de desconexión accidental","si"],
+   ["Se dispone de segregación, y señalización que advierta el peligro presente","si"],
+   ["En sistemas de altas presiones se cuenta con válvulas de alivio","si"],
+   ["Los dispositivos de lectura de niveles de energía funcionan correctamente","si"],
+   ["Se verifico el estado general de los elementos como trabas y bloqueos mecánicos","si"]]}]}
 };
 
 /* ---------- 2. SEMILLA: labores y personas ---------- */
@@ -618,7 +731,13 @@ const TEMAS_SEED = [
   "RCO 2: caída de materiales y verticalidad de trabajos",
   "RCO 8: contacto con energía eléctrica en obra",
   "RCO 19: caídas por vano y shaft",
-  "Cartilla de verificación RCO: para qué sirve y quién la aplica"]}
+  "Cartilla de verificación RCO: para qué sirve y quién la aplica"]},
+ {cat:"Izaje y equipos móviles", temas:[
+  "Maniobras de izaje: nadie bajo ni cerca de la carga suspendida",
+  "Rigger único: un solo señalero da las órdenes al operador",
+  "Camión pluma y líneas eléctricas aéreas: distancia de seguridad",
+  "Eslingas y grilletes: inspección y etiqueta vigente antes de izar",
+  "Tránsito de camiones en obra: velocidad, señalero y peatones"]}
 ];
 
 /* Grupos de etapas. El campo "Etapas de desarrollo del trabajo" de Foco acepta 2000
@@ -631,7 +750,10 @@ const GRUPOS_SEED = [
  {id:"g-herram",  nombre:"Corte y carpintería con herramientas", orden:40},
  {id:"g-sellos",  nombre:"Sellado de ventanas", orden:30},
  {id:"g-sellado", nombre:"Estanqueidad e impermeabilización de rasgos", orden:70},
- {id:"g-limpieza",nombre:"Orden, aseo y limpieza", orden:90}
+ {id:"g-limpieza",nombre:"Orden, aseo y limpieza", orden:90},
+ // Partida de izaje: dos etapas acopladas para que el consolidado quepa en 13.
+ {id:"g-iz-prep", nombre:"Preparación de la maniobra de izaje", orden:82},
+ {id:"g-iz-mov",  nombre:"Izaje, traslado y descarga de contenedores", orden:84}
 ];
 
 const LABORES_SEED = [
@@ -783,6 +905,81 @@ const LABORES_SEED = [
     "y sin obstrucciones, confirmando que los vanos y shaft queden tapados, señalizados y segregados.",
   peligros:[1,2,3,9,18,27,30], check:{}},
 
+ /* ----- Partida de izaje con camión pluma -----
+    No las activa una persona: entran todas al elegir "Ventanas + izaje" o "Solo izaje"
+    en el Paso 1, y se quitan una por una ahí mismo. Equipo y operador son subcontratados;
+    desenergizar y desconectar lo hace el área responsable, no esta cuadrilla. Por eso no
+    encienden la RCO 18 (herramientas portátiles) ni la 19 (el 03 es subir y bajar del
+    equipo, no vanos ni shaft). */
+ {id:"l-iz-area", partida:"izaje", excluyeRco:RCO_FUERA_IZAJE,
+  nombre:"Habilitación del área de maniobra: segregación del radio de izaje, permiso de izaje y designación del rigger",
+  corto:"habilitación del área de izaje", orden:81, grupo:"g-iz-prep",
+  detalle:"Antes: charla con la cuadrilla, el operador y el rigger; verificar el permiso de maniobra de izaje "+
+    "autorizado y el plan de izaje con el peso de cada carga. Durante: segregar el radio completo de maniobra con "+
+    "barreras duras, conos y señalética, desviar el tránsito peatonal por una ruta alternativa señalizada y designar "+
+    "un rigger único, identificado, como el único que da señales al operador. Después: confirmar que nadie ajeno a la "+
+    "maniobra quede dentro del perímetro.",
+  peligros:[1,2,23], check:{7:"si",8:"si"},
+  checkObs:{1:"radio de maniobra segregado con barreras duras y ruta peatonal alternativa señalizada",
+    5:"operador con certificación del equipo y rigger con capacitación en maniobras de izaje",
+    7:"tránsito peatonal y otras cuadrillas en la ruta del camión, ventana horaria coordinada con los jefes de área",
+    8:"permiso de maniobra crítica de izaje autorizado por jefatura y prevención"}},
+
+ {id:"l-iz-pluma", partida:"izaje", excluyeRco:RCO_FUERA_IZAJE,
+  nombre:"Posicionamiento y estabilización del camión pluma",
+  corto:"posicionamiento del camión pluma", orden:82, grupo:"g-iz-prep",
+  detalle:"Antes: revisar el terreno del emplazamiento (compactación, cámaras, zanjas y rellenos) e identificar las "+
+    "líneas eléctricas aéreas del sector. Durante: posicionar el camión, extender por completo los estabilizadores "+
+    "sobre durmientes o placas de reparto, nivelar el equipo y verificar que el giro de la pluma respete la distancia "+
+    "de seguridad a toda línea energizada; subir y bajar del equipo con tres puntos de apoyo. Después: confirmar la "+
+    "nivelación con el indicador del equipo antes de tomar carga.",
+  peligros:[2,3,21,28], check:{13:"si"},
+  checkObs:{13:"camión pluma subcontratado con certificado de operatividad, tabla de cargas y check list del operador"}},
+
+ {id:"l-iz-izaje", partida:"izaje", excluyeRco:RCO_FUERA_IZAJE,
+  nombre:"Aparejamiento, izaje y carga de contenedores sobre el camión de transporte",
+  corto:"izaje y carga de contenedores", orden:83, grupo:"g-iz-mov",
+  detalle:"Antes: confirmar con el área responsable que el contenedor esté desenergizado, desconectado y sin "+
+    "elementos sueltos, y revisar sus puntos de izaje y las eslingas y grilletes con etiqueta vigente. Durante: medir "+
+    "el viento, hacer un izaje de prueba a baja altura, elevar a la mínima altura necesaria y guiar el giro solo con "+
+    "vientos desde fuera de la zona de caída; nadie bajo la carga ni dentro del radio, y se detiene ante viento, falta "+
+    "de visibilidad o ingreso de terceros. Después: trincar el contenedor sobre la plataforma antes de soltar el gancho.",
+  peligros:[1,5,18,20,23,27], check:{4:"si",11:"si",13:"si"},
+  checkObs:{3:"caída de carga suspendida y contacto de la pluma con línea eléctrica aérea",
+    4:"casco con barbiquejo, chaleco reflectante de alta visibilidad y guantes anticorte",
+    11:"eslingas, grilletes y estrobos inspeccionados y etiquetados el mismo día; se retira todo elemento sin etiqueta"}},
+
+ {id:"l-iz-trasl", partida:"izaje", excluyeRco:RCO_FUERA_IZAJE,
+  nombre:"Traslado del camión con contenedor por vías interiores de obra con tránsito peatonal",
+  corto:"traslado de contenedores en camión", orden:84, grupo:"g-iz-mov",
+  detalle:"Antes: confirmar la ruta del plan de tránsito y el amarre de la carga. Durante: avanzar a velocidad "+
+    "reducida con un señalero a pie que antecede al camión y detiene el tránsito peatonal a su paso; respetar la "+
+    "señalización y las vías de obra, sin celular, con cinturón y coordinación visual permanente. Después: verificar "+
+    "que la carga no se haya desplazado al llegar al punto de descarga.",
+  peligros:[2,7,21,23,27], check:{7:"si",13:"si"}, checkObs:{}},
+
+ {id:"l-iz-desc", partida:"izaje", excluyeRco:RCO_FUERA_IZAJE,
+  nombre:"Descarga y posicionamiento de contenedores en el punto de destino",
+  corto:"descarga de contenedores", orden:85, grupo:"g-iz-mov",
+  detalle:"Antes: repetir la revisión de terreno, estabilizadores y líneas aéreas, y segregar el radio antes de soltar "+
+    "el trincado. Durante: izar a la mínima altura, guiar con vientos y bajar de forma controlada hasta apoyar por "+
+    "completo, con el perímetro despejado mientras la carga esté en el aire. Después: retirar eslingas y grilletes, "+
+    "verificar la estabilidad del contenedor y liberar el área.",
+  peligros:[1,2,5,20,21,23,27], check:{11:"si",13:"si"}, checkObs:{}},
+
+ {id:"l-iz-gen", partida:"izaje", excluyeRco:RCO_FUERA_IZAJE,
+  nombre:"Traslado e instalación de generador eléctrico con camión pluma",
+  corto:"traslado de generador", orden:86,
+  detalle:"Antes: confirmar con el área responsable que el generador esté detenido, frío, desenergizado, bloqueado y "+
+    "con el paso de combustible cerrado. Durante: disponer bandeja de contención y kit antiderrame bajo el equipo, "+
+    "izarlo nivelado para no derramar diésel ni aceite y trasladarlo con las mismas condiciones de segregación de los "+
+    "contenedores, con extintor disponible. Después: apoyarlo sobre superficie firme y nivelada en su destino y "+
+    "verificar que no haya fugas antes de entregarlo para su conexión.",
+  peligros:[10,19,20,24,28,30], check:{2:"si",9:"si",11:"si",13:"si"},
+  checkObs:{2:"diésel y aceite del generador con bandeja de contención y kit antiderrame",
+    3:"derrame o incendio de combustible",
+    9:"generador desenergizado y bloqueado por el área responsable antes del traslado"}},
+
  {id:"l-retiro",  nombre:"Retiro de obra", base:true, orden:99, grupo:"g-acceso",
   detalle:"Antes: guardar herramientas y equipos en el pañol y confirmar que el sector quede seguro para el turno "+
     "siguiente. Durante: retirarse por las vías peatonales habilitadas, sin transitar bajo cargas suspendidas ni "+
@@ -813,9 +1010,14 @@ const PERSONAS_SEED = [
  ["C.R","Ventanero",              ["l-instal","l-sellos"],                    []],
  ["F.A","Ventanero",              ["l-instal","l-sellos"],                    []],
  ["C.Ñ","Ventanero",              ["l-instal","l-sellos"],                    []],
- ["M.P","Maestra polifuncional",  ["l-limpieza","l-sellos-p1"],               []]
-].map((p,i)=>({id:"p"+(i+1), rut:"", nombre:p[0], cargo:p[1],
-                principales:p[2], parciales:p[3], activo:true}));
+ ["M.P","Maestra polifuncional",  ["l-limpieza","l-sellos-p1"],               []],
+ // Subcontrato del izaje: firman el ART y solo aparecen en el Paso 2 cuando la partida
+ // de izaje está activa. Sus labores entran por la partida, no por la persona.
+ ["Operador camión pluma","Subcontrato", [], [], "izaje"],
+ ["Rigger / señalero",    "Subcontrato", [], [], "izaje"],
+ ["Conductor camión",     "Subcontrato", [], [], "izaje"]
+].map((p,i)=>Object.assign({id:"p"+(i+1), rut:"", nombre:p[0], cargo:p[1],
+                principales:p[2], parciales:p[3], activo:true}, p[4]?{partida:p[4]}:{}));
 
 /* ---------- 3. ESTADO ---------- */
 
@@ -827,8 +1029,8 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=15;
-const APP_VER="v15";
+const CAT_VER=17;
+const APP_VER="v17";
 // Foco amplió "Trabajo a realizar" a 2000 caracteres.
 const MAX_TRABAJO=2000;
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
@@ -870,6 +1072,13 @@ function migrarCatalogo(raw){
   // si los hubiera creado el usuario.
   const PELIGROS_RETIRADOS=[25];
   const seedP=JSON.parse(JSON.stringify(PELIGROS_SEED));
+  // Si la fábrica no trae medidas para un peligro (19, 20, 21, 23, 24...), se respetan las
+  // que el usuario haya transcrito de Foco en el teléfono: el catálogo no tiene con qué
+  // reemplazarlas.
+  seedP.filter(s=>!s.medidas.length).forEach(s=>{
+    const suyo=(DB.peligros||[]).find(p=>p.n===s.n);
+    if(suyo && (suyo.medidas||[]).length) Object.assign(s, suyo);
+  });
   DB.peligros = seedP.concat((DB.peligros||[]).filter(p=>
     !seedP.some(s=>s.n===p.n) && !PELIGROS_RETIRADOS.includes(p.n)));
   (DB.labores||[]).forEach(l=>{ l.peligros=(l.peligros||[]).filter(n=>!PELIGROS_RETIRADOS.includes(n)); });
@@ -905,7 +1114,7 @@ function migrarCatalogo(raw){
 
   // Personas que se suman a la nómina de fábrica en una versión nueva. Solo se agregan
   // si no están: el resto de la nómina es del usuario y no se toca.
-  const PERSONAS_NUEVAS=["p9"];
+  const PERSONAS_NUEVAS=["p9","p10","p11","p12"];
   DB.personas=DB.personas||[];
   PERSONAS_SEED.filter(p=>PERSONAS_NUEVAS.includes(p.id) && !DB.personas.some(x=>x.id===p.id))
     .forEach(p=>DB.personas.push(JSON.parse(JSON.stringify(p))));
@@ -913,6 +1122,12 @@ function migrarCatalogo(raw){
   // Cartillas RCO: se agregan las de fábrica que falten; las respuestas que el
   // usuario ya ajustó se respetan.
   DB.cartillas=Object.assign(JSON.parse(JSON.stringify(CARTILLAS_SEED)), DB.cartillas||{});
+  // Una cartilla que se guardó cuando la plantilla venía cortada se reemplaza por la
+  // completa: si no, la copia guardada taparía las preguntas que faltaban.
+  Object.keys(DB.cartillas).forEach(n=>{
+    if(DB.cartillas[n].incompleta && CARTILLAS_SEED[n] && !CARTILLAS_SEED[n].incompleta)
+      DB.cartillas[n]=JSON.parse(JSON.stringify(CARTILLAS_SEED[n]));
+  });
 
   // Si una persona apunta a una labor que ya no existe, se limpia la referencia.
   const ids=DB.labores.map(l=>l.id);
@@ -996,17 +1211,45 @@ function nuevoDraft(){
     orden: [],                // ids en el orden elegido
     rcoOv: {},                // n -> "si"/"no"
     clOv: {},                 // i -> {v, obs}
-    pelOv: {}                 // laborId -> [peligros] override
+    pelOv: {},                // laborId -> [peligros] override
+    partida: "ventanas"       // "ventanas" | "consolidado" | "izaje"
   };
 }
 function D(){ if(!DB.draft) DB.draft = nuevoDraft(); return DB.draft; }
 
-// Labores activas = base + las marcadas por cada persona presente.
+/* Partidas del ART. "Ventanas + izaje" es el consolidado: las dos en un solo ART.
+   Un borrador anterior a las partidas no trae el campo y queda como ventanas. */
+function partidasActivas(d){
+  const p=(d&&d.partida)||"ventanas";
+  return p==="consolidado" ? ["ventanas","izaje"] : [p];
+}
+// Las labores de base no son de ninguna partida y entran siempre. Una labor sin partida
+// (todas las de ventanas y las que cree el usuario) cuenta como de ventanas.
+function partidaDe(l){ return l.base ? null : (l.partida||"ventanas"); }
+function laborEnPartida(l,d){ const p=partidaDe(l); return !p || partidasActivas(d).includes(p); }
+// Una persona sin partida (la cuadrilla propia) participa en cualquier ART; el
+// subcontrato del izaje solo cuando esa partida está activa.
+function personaEnPartida(p,d){ return !p.partida || partidasActivas(d).includes(p.partida); }
+/* RCO que una labor no enciende aunque tenga el peligro que normalmente lo hace. En un
+   ART solo de izaje, las de base (traslado por escaleras, orden y aseo) heredan las
+   exclusiones del izaje (RCO_FUERA_IZAJE, junto a PELIGRO_RCO). */
+function rcoExcluidos(l,d){
+  if(l.excluyeRco) return l.excluyeRco;
+  return (l.base && !partidasActivas(d).includes("ventanas")) ? RCO_FUERA_IZAJE : [];
+}
+
+// Labores activas = base + las de izaje si esa partida está activa + las marcadas por
+// cada persona presente, siempre que su partida esté activa.
 function laboresActivas(d){
   const set=new Set();
   DB.labores.filter(l=>l.base).forEach(l=>set.add(l.id));
+  if(partidasActivas(d).includes("izaje"))
+    DB.labores.filter(l=>l.partida==="izaje").forEach(l=>set.add(l.id));
   Object.keys(d.presentes).forEach(pid=>{
-    (d.presentes[pid]||[]).forEach(lid=>set.add(lid));
+    const p=per(pid); if(p && !personaEnPartida(p,d)) return;
+    (d.presentes[pid]||[]).forEach(lid=>{
+      const l=lab(lid); if(l && laborEnPartida(l,d)) set.add(lid);
+    });
   });
   (d.excluidas||[]).forEach(id=>set.delete(id));
   return [...set].map(lab).filter(Boolean).sort((a,b)=>(a.orden||50)-(b.orden||50));
@@ -1063,14 +1306,18 @@ function etapas(d){
   return list;
 }
 function personasPresentes(d){
-  return DB.personas.filter(p=>d.presentes[p.id]);
+  return DB.personas.filter(p=>d.presentes[p.id] && personaEnPartida(p,d));
 }
 // RCO: los que activa cada peligro presente, más overrides manuales.
 function rcoCalc(d){
   const on=new Set();
-  etapas(d).forEach(e=>e.peligros.forEach(n=>{
-    (PELIGRO_RCO[n]||[]).forEach(r=>on.add(r));
-  }));
+  etapas(d).forEach(e=>{
+    // Una etapa no enciende los RCO que excluyen todas sus labores (las del izaje no
+    // encienden la 18 ni la 19). Una etapa escrita a mano no excluye nada.
+    const ls=(e.labores||[]).map(lab).filter(Boolean);
+    const excl=ls.length ? ls.map(l=>rcoExcluidos(l,d)).reduce((a,b)=>a.filter(x=>b.includes(x))) : [];
+    e.peligros.forEach(n=>(PELIGRO_RCO[n]||[]).forEach(r=>{ if(!excl.includes(r)) on.add(r); }));
+  });
   // Algunas labores encienden un RCO por sí mismas, sin pasar por un peligro.
   laboresActivas(d).forEach(l=>(l.rcos||[]).forEach(r=>on.add(r)));
   const out={};
@@ -1079,9 +1326,14 @@ function rcoCalc(d){
   return out;
 }
 // Checklist: base -> override por labor (si gana) -> override manual.
+// Comentarios fijos que hablan de la partida de ventanas (arnés y respirador, capacitación
+// en altura, andamios): en un ART solo de izaje serían falsos y no se cargan.
+const OBS_SOLO_VENTANAS=[4,5,10];
 function checkCalc(d){
   const out={}, fijas=DB.obsFijas||CHECK_OBS_BASE;
-  CHECKLIST.forEach(c=>out[c.i]={v:CHECK_BASE[c.i]||"na", obs:fijas[c.i]||""});
+  const sinVentanas=!partidasActivas(d).includes("ventanas");
+  CHECKLIST.forEach(c=>out[c.i]={v:CHECK_BASE[c.i]||"na",
+    obs:(sinVentanas && OBS_SOLO_VENTANAS.includes(c.i)) ? "" : (fijas[c.i]||"")});
   laboresActivas(d).forEach(l=>{
     Object.keys(l.check||{}).forEach(k=>{
       if(l.check[k]==="si") out[k].v="si";
@@ -1256,6 +1508,8 @@ function pasoDatos(a,d){
   c.appendChild(h("label",{class:"f",text:"Fecha"}));
   c.appendChild(h("input",{type:"date",value:d.fecha,onChange:e=>{d.fecha=e.target.value;save();}}));
 
+  c.appendChild(selectorPartida(d));
+
   campoTexto(c,"Trabajo o actividad a realizar",d.trabajo,MAX_TRABAJO,v=>{d.trabajo=v;save();},
     "Déjalo vacío para usar el texto detallado que arma la cuadrilla (hasta 2000 caracteres).");
   c.appendChild(estadoTrabajo(d));
@@ -1285,6 +1539,39 @@ function pasoDatos(a,d){
   a.appendChild(h("button",{class:"btn ghost wide",style:"margin-top:8px",
     onClick:()=>{ if(confirm("¿Empezar un ART en blanco?")){DB.draft=nuevoDraft();copiados={};save();render();} }},
     "Empezar de cero"));
+}
+
+/* Partidas del ART: solo ventanas (como siempre), consolidado con el izaje, o solo izaje.
+   Con el izaje activo se listan sus labores para quitar las que hoy no se hacen (por
+   ejemplo, el generador), con el mismo mecanismo de "Quitadas" del paso de revisión. */
+function selectorPartida(d){
+  const box=h("div");
+  box.appendChild(h("label",{class:"f",text:"Partidas del ART"}));
+  const row=h("div",{class:"row wrap"});
+  const cur=d.partida||"ventanas";
+  [["ventanas","Ventanas"],["consolidado","Ventanas + izaje"],["izaje","Solo izaje"]].forEach(([v,l])=>{
+    row.appendChild(h("button",{type:"button",class:"chip"+(cur===v?" on":""),onClick:()=>{
+      // Desarmar la instalación de faena con camión pluma cambia rutas, tránsito y
+      // suministro: se marca gestión del cambio, que se puede desmarcar.
+      if(v!=="ventanas" && cur==="ventanas") d.gestion=true;
+      d.partida=v; save(); render();}}, l));
+  });
+  box.appendChild(row);
+  if(!partidasActivas(d).includes("izaje")) return box;
+
+  box.appendChild(h("div",{class:"muted small",style:"margin-top:6px",
+    text:"Labores de izaje que entran hoy (toca para quitar o devolver):"}));
+  const lw=h("div",{class:"row wrap"});
+  DB.labores.filter(l=>l.partida==="izaje").sort((a,b)=>(a.orden||50)-(b.orden||50)).forEach(l=>{
+    const fuera=(d.excluidas||[]).includes(l.id);
+    lw.appendChild(h("button",{type:"button",class:"chip"+(fuera?"":" on"),onClick:()=>{
+      d.excluidas=d.excluidas||[];
+      if(fuera) d.excluidas=d.excluidas.filter(x=>x!==l.id); else d.excluidas.push(l.id);
+      save(); render();}},
+      (fuera?"○ ":"✓ ")+(l.corto||l.nombre)));
+  });
+  box.appendChild(lw);
+  return box;
 }
 
 /* Dice qué texto va a ir en "Trabajo a realizar". Lo escrito a mano manda sobre el
@@ -1409,7 +1696,8 @@ function pasoCuadrilla(a,d){
 
   const acts=h("div",{class:"row wrap",style:"margin-top:10px"});
   acts.appendChild(h("button",{class:"btn sec sm",onClick:()=>{
-    DB.personas.filter(p=>p.activo).forEach(p=>{ if(!d.presentes[p.id]) d.presentes[p.id]=p.principales.slice(); });
+    DB.personas.filter(p=>p.activo && personaEnPartida(p,d))
+      .forEach(p=>{ if(!d.presentes[p.id]) d.presentes[p.id]=p.principales.slice(); });
     save();render();}},"Marcar todos"));
   acts.appendChild(h("button",{class:"btn ghost sm",onClick:()=>{d.presentes={};save();render();}},"Limpiar"));
   const ult=DB.arts[0];
@@ -1418,7 +1706,7 @@ function pasoCuadrilla(a,d){
   c.appendChild(acts);
   a.appendChild(c);
 
-  DB.personas.filter(p=>p.activo).forEach(p=>{
+  DB.personas.filter(p=>p.activo && personaEnPartida(p,d)).forEach(p=>{
     const on = !!d.presentes[p.id];
     const it=h("div",{class:"item",style:on?"border-color:var(--acc)":""});
     it.appendChild(h("div",{class:"row",onClick:()=>{
@@ -1431,7 +1719,7 @@ function pasoCuadrilla(a,d){
       const sel=d.presentes[p.id];
       const lw=h("div",{class:"row wrap",style:"margin-top:8px"});
       [...new Set([...p.principales,...p.parciales])].forEach(lid=>{
-        const l=lab(lid); if(!l) return;
+        const l=lab(lid); if(!l || !laborEnPartida(l,d)) return;
         const act=sel.includes(lid), parcial=p.parciales.includes(lid)&&!p.principales.includes(lid);
         lw.appendChild(h("button",{type:"button",class:"chip"+(act?" on":parcial?" part":""),onClick:ev=>{
           ev.stopPropagation();
@@ -1444,7 +1732,7 @@ function pasoCuadrilla(a,d){
     a.appendChild(it);
   });
 
-  const n=Object.keys(d.presentes).length;
+  const n=personasPresentes(d).length;
   a.appendChild(h("div",{class:"muted small",style:"margin:10px 0",
     text:`${n} persona(s) · ${etapas(d).length} etapas resultantes`}));
   a.appendChild(h("button",{class:"btn wide",disabled:n===0,onClick:()=>{step=2;render();}},
@@ -1777,7 +2065,7 @@ function pasoSalida(a,d){
   a.appendChild(h("div",{class:"hr"}));
   a.appendChild(h("button",{class:"btn sec wide",onClick:()=>{
     DB.arts.unshift({id:nid("a"),fecha:d.fecha,trabajo:d.trabajo||trabajoAuto(d),
-      area:d.area,personas:Object.keys(d.presentes).length,
+      area:d.area,personas:personasPresentes(d).length,
       draft:JSON.parse(JSON.stringify(d)),texto:textoCompleto(d)});
     DB.arts=DB.arts.slice(0,60); save(); toast("Guardado en historial"); view="hist"; render();}},
     "Guardar en historial"));
@@ -1869,7 +2157,7 @@ function vLabores(a){
     it.appendChild(h("div",{class:"row"},
       h("div",{class:"grow"},
         h("div",{class:"t",text:l.nombre}),
-        h("div",{class:"s",text:(l.base?"BASE · ":"")+
+        h("div",{class:"s",text:(l.base?"BASE · ":l.partida==="izaje"?"IZAJE · ":"")+
           (l.grupo&&grupo(l.grupo)?"grupo: "+grupo(l.grupo).nombre+" · ":"etapa propia · ")+
           (l.peligros||[]).length+" peligros · "+
           (l.detalle?l.detalle.length+" car. de detalle":"sin detalle")})),
@@ -2105,7 +2393,8 @@ function trabajoRCO(n,d){
   if(!d) return "";
   return laboresActivas(d).filter(l=>
     (l.rcos||[]).includes(n) ||
-    (d.pelOv[l.id]||l.peligros||[]).some(p=>(PELIGRO_RCO[p]||[]).includes(n)))
+    (!rcoExcluidos(l,d).includes(n) &&
+     (d.pelOv[l.id]||l.peligros||[]).some(p=>(PELIGRO_RCO[p]||[]).includes(n))))
     .map(l=>l.corto||l.nombre).join(", ");
 }
 const RESP_TXT={si:"SÍ",no:"NO",na:"N/A"};
@@ -2140,10 +2429,14 @@ function vRCO(a){
           text:`${todas.length} preguntas · ${cuenta("si")} SÍ · ${cuenta("no")} NO · ${cuenta("na")} N/A`}))));
 
     const body=h("div",{class:"body"});
+    // La plantilla de fábrica sabe si se transcribió completa; si el usuario la
+    // completa a mano, igual se le sigue avisando hasta que llegue la versión nueva.
+    const inc=(CARTILLAS_SEED[n]||{}).incompleta;
+    if(inc) body.appendChild(h("div",{class:"alert",text:inc+" Compárala con Foco antes de transcribirla."}));
     body.appendChild(cajaCopiar({l:"Trabajo a realizar (el de tu ejemplar)",v:ca.trabajo}));
     const auto=trabajoRCO(n,d);
     if(auto && auto!==ca.trabajo)
-      body.appendChild(cajaCopiar({l:"Trabajo a realizar según la cuadrilla de hoy",v:auto}));
+      body.appendChild(cajaCopiar({l:"Trabajo a realizar según la cuadrilla de hoy",v:auto,max:100}));
 
     let k=0;
     ca.secs.forEach(sec=>{

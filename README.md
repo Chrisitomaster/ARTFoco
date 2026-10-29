@@ -120,6 +120,55 @@ Editar → Grupo**, incluido *+ grupo nuevo*.
 Al quitar una etapa acoplada se quitan todas sus labores, y cada una se puede devolver por separado
 desde la lista de *Quitadas*.
 
+## Partidas: ventanas, consolidado y solo izaje
+
+En el **Paso 1**, bajo la fecha, se elige qué cubre el ART:
+
+| Opción | Qué entra |
+|---|---|
+| **Ventanas** | Lo de siempre. Es la opción por defecto y da exactamente el mismo ART que antes. |
+| **Ventanas + izaje** | El consolidado: las labores de la cuadrilla de ventanas más las del izaje, en un solo ART. |
+| **Solo izaje** | Solo el desarme de la instalación de faena con camión pluma, más las labores de base. |
+
+Las labores de izaje no las activa una persona: entran todas al elegir una opción con izaje, y se
+quitan o devuelven una por una ahí mismo, en el Paso 1 (por ejemplo, el traslado del generador si
+ese día no va). Al pasar a una opción con izaje se marca *Gestión del cambio*, que se puede desmarcar.
+
+Con la cuadrilla completa, el consolidado da **10 etapas** de las 13 que acepta Foco, y la más larga
+usa 1.681 de 2.000 caracteres.
+
+### Partida de izaje con camión pluma
+
+Equipo y operador son subcontratados; desenergizar y desconectar contenedores y generador lo hace el
+área responsable, no esta cuadrilla.
+
+| Etapa | Labores | Peligros |
+|---|---|---|
+| Preparación de la maniobra de izaje | habilitación y segregación del radio, permiso, rigger único · posicionamiento y estabilización del camión pluma | 01 02 03 21 23 28 |
+| Izaje, traslado y descarga de contenedores | aparejamiento e izaje · traslado con señalero a pie · descarga en destino | 01 02 05 07 18 20 21 23 27 |
+| Traslado e instalación de generador | etapa propia | 10 19 20 24 28 30 |
+
+- **RCO**: el izaje enciende 2, 3, 4, 5, 6, 8, 9, 10 y 15. **No** enciende la 18 (las herramientas
+  portátiles las usa otra cuadrilla con su propio ART) ni la 19 (el 03 es subir y bajar del camión,
+  no vanos ni shaft). En *Solo izaje* las labores de base heredan esa exclusión; en el consolidado
+  la 18 y la 19 siguen encendidas por ventanas.
+- El peligro **07 Colisionado por** ahora enciende la RCO 4.
+- **Etapas previas**: el izaje pone SÍ en 7 (interferencias), 8 (permiso), 9 (bloqueo, por el
+  generador), 11 (elementos de izaje) y 13 (equipos mayores), con sus comentarios. En *Solo izaje*
+  no se cargan los comentarios fijos de ventanas de las preguntas 4, 5 y 10 (arnés, capacitación en
+  altura, andamios).
+- **Personal**: tres entradas de subcontrato —Operador camión pluma, Rigger / señalero y Conductor
+  camión— que solo aparecen en el Paso 2 cuando hay izaje, para que firmen.
+
+Las medidas de los peligros **19, 20, 21, 23 y 24** están transcritas del selector de Foco del
+29/10/2026, con sus erratas. Ojo: las del **20 Caída de carga suspendida** hablan solo del estado y la
+compatibilidad de los elementos de izaje; que nadie quede bajo la carga se marca en el **23**
+(*Segregar el área de trabajo carga y descarga de materiales*, *Habilitar señalero y/o paletero*) y
+está escrito en el texto de las etapas de izaje y descarga.
+
+Si la fábrica trae un peligro sin medidas y el usuario se las carga en **Peligros → Editar**, una
+actualización del catálogo no las pisa.
+
 ## Partida cargada: instalación de ventanas
 
 | # | Labor | Quién |
@@ -167,10 +216,21 @@ en la partida de instalación de ventanas:
 | 28 | Contacto Eléctrico | instalación, corte, carpintería, pulido, impermeabilización, albañilería |
 | 30 | Contaminación Ambiental | impermeabilización, albañilería, aseo |
 
-Los otros 13 (07, 14, 16, 19, 20 a 26, 29, 31) existen en la app para que la numeración calce con
-Foco, pero quedan **sin medidas de control** porque no aplican a esta partida (conducción,
-radiación UV, incendio, túneles, tronaduras, izaje, buceo, maquinaria pesada, soldadura, flora y
-fauna). Si alguna vez se necesita uno, se le escriben las medidas en **Peligros → Editar**;
+La partida de izaje suma seis más:
+
+| N° | Peligro | Dónde aparece |
+|---|---|---|
+| 07 | Colisionado por | traslado de contenedores en camión |
+| 19 | Incendio | generador |
+| 20 | Caída de carga suspendida | izaje, descarga, generador |
+| 21 | Choque o volcamiento | posicionamiento de la pluma, izaje, traslado, descarga |
+| 23 | Interacción hombre maquina | habilitación del área, izaje, traslado, descarga |
+| 24 | Liberación descontrolada de energía | generador |
+
+Los que quedan (14, 16, 22, 26, 29, 31) existen en la app para que la numeración calce con Foco,
+pero **sin medidas de control** porque no aplican a ninguna partida (radiación UV, inmersión,
+derrumbes, tronaduras, humos metálicos, flora y fauna). El 25 (planchón en túneles) se quitó a pedido
+del supervisor. Si alguna vez se necesita uno, se le escriben las medidas en **Peligros → Editar**;
 mientras tanto, si se selecciona uno vacío la app avisa en el paso de revisión.
 
 **Origen de las medidas de control:** todas están transcritas del propio selector
@@ -233,9 +293,17 @@ línea, más *+ Agregar categoría*. Viajan en el respaldo JSON.
 
 ## Cartillas RCO
 
-La pestaña **RCO** guarda las ocho Cartillas de Verificación que se llenan en Foco como actividad
-aparte: N°1, 2, 6, 8, 10, 15, 18 y 19. Las preguntas están en el orden del formulario y las
-respuestas vienen tal como quedaron en los ejemplares firmados del 23/09/2026.
+La pestaña **RCO** guarda las doce Cartillas de Verificación que se llenan en Foco como actividad
+aparte: N°1, 2, 6, 8, 10, 15, 18 y 19, con las respuestas de los ejemplares firmados del
+23/09/2026, y N°3, 4, 5 y 9 de la partida de izaje, transcritas de las capturas de Foco del
+29/10/2026. Las preguntas están en el orden del formulario y conservan sus erratas.
+
+Cada RCO tiene **una sola versión** de respuestas. Las de izaje parten en **NO** donde falta un
+documento del proveedor: plan de izaje (RCO 3), GPS y registro de velocidad (RCO 4 y 5). Se
+cambian a SÍ al recibirlo.
+
+El "Trabajo a realizar" de la cartilla acepta **100 caracteres** en Foco. Si el texto que arma la
+cuadrilla del día se pasa (pasa en el consolidado con la RCO 6), la tarjeta lo marca en rojo.
 
 - Cada respuesta es un botón grande **SÍ / NO / N/A**; al tocarlo cambia y queda guardado para las
   siguientes. *Restaurar mi ejemplar* devuelve la cartilla a como venía.
@@ -279,7 +347,7 @@ en `art_v1_respaldo`, restaurable desde **Peligros → Volver al estado anterior
 labor de fábrica se elimina, su id va a la lista `RETIRADAS` dentro de `migrarCatalogo()` para que
 se borre de los teléfonos en vez de quedar colgando.
 
-La versión activa se ve en el encabezado (`v9`) y en **Peligros**, abajo del todo.
+La versión activa se ve en el encabezado (`v16`) y en **Peligros**, abajo del todo.
 
 El service worker busca actualización al abrir la app y cada vez que se vuelve a ella; cuando entra
 una versión nueva, la página se recarga sola una vez.
