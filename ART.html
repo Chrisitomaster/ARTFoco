@@ -1030,7 +1030,7 @@ const MAX_ETAPA=2000;
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
 const CAT_VER=17;
-const APP_VER="v19";
+const APP_VER="v20";
 // Foco amplió "Trabajo a realizar" a 2000 caracteres, y "Nombre del proceso o
 // instructivo" también acepta 2000.
 const MAX_TRABAJO=2000;
@@ -1055,10 +1055,22 @@ function defaults(){
 function load(){
   try{
     const raw = localStorage.getItem(KEY);
-    if(!raw){ DB = defaults(); DB.catVer=CAT_VER; save(); return; }
+    if(!raw){ DB = defaults(); DB.catVer=CAT_VER; DB.procesoAuto=1; save(); return; }
     DB = Object.assign(defaults(), JSON.parse(raw));
     migrarCatalogo(raw);
-  }catch(e){ DB = defaults(); DB.catVer=CAT_VER; }
+    migrarProceso();
+  }catch(e){ DB = defaults(); DB.catVer=CAT_VER; DB.procesoAuto=1; }
+}
+/* Desde la v19 "Nombre del proceso o instructivo" se arma solo si está vacío. El texto
+   corto que se escribía antes quedó guardado en el borrador y en los ART del historial
+   (que "Reusar" copia) y tapaba al automático. Se borra una sola vez; lo que el usuario
+   escriba después se respeta. */
+function migrarProceso(){
+  if(DB.procesoAuto) return;
+  if(DB.draft) DB.draft.proceso="";
+  (DB.arts||[]).forEach(r=>{ if(r.draft) r.draft.proceso=""; });
+  DB.procesoAuto=1;
+  save();
 }
 
 /* Pone al día el catálogo de fábrica sin borrar lo del usuario:
@@ -1644,7 +1656,14 @@ function estadoAuto(d,clave,fnAuto,sinAuto){
       box.appendChild(h("button",{class:"btn xs sec",onClick:()=>{d[clave]=auto;save();render();}},
         "Cargarlo en el cuadro para editarlo"));
     }
-  } else if(auto && propio!==auto){
+  } else if(!auto){
+    // Sin cuadrilla todavía no hay automático, pero el texto a mano igual lo va a tapar.
+    box.appendChild(h("div",{class:"alert",
+      text:`Estás usando un texto escrito a mano (${propio.length} caracteres). Bórralo para que `+
+           `se use el automático cuando marques la cuadrilla.`}));
+    box.appendChild(h("button",{class:"btn xs sec",onClick:()=>{d[clave]="";save();render();}},
+      "Borrar y usar el automático"));
+  } else if(propio!==auto){
     box.appendChild(h("div",{class:"alert",
       text:`Estás usando un texto escrito a mano (${propio.length} caracteres). El automático `+
            `de hoy tiene ${auto.length}: «${auto.length>120?auto.slice(0,120)+"…":auto}»`}));
