@@ -23,6 +23,8 @@ Si alguien hace hoy una labor que normalmente no hace, se activa como "parcial" 
    - **Trabajo a realizar** (2000): el nombre de cada labor de la cuadrilla.
    - **Nombre del proceso o instructivo** (2000): los procesos principales del día, uno por etapa,
      y entre paréntesis las labores de las etapas acopladas. Las etapas solo de base no entran.
+     La v20 borró una vez el texto corto que había quedado escrito de antes (en el borrador y en
+     los ART del historial), porque tapaba al automático.
    - **Tema a tratar** (100): *Correcto uso de EPP en obra* más el riesgo principal del día, que es
      el primer RCO en Sí en este orden: 3 carga suspendida, 1 altura, 19 vanos y shaft, 4 y 5
      conducción y maquinaria, 6 hombre-máquina, 8 eléctrico, 9 bloqueo, 2 caída de materiales,
