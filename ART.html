@@ -1030,7 +1030,7 @@ const MAX_ETAPA=2000;
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
 const CAT_VER=17;
-const APP_VER="v17";
+const APP_VER="v18";
 // Foco amplió "Trabajo a realizar" a 2000 caracteres.
 const MAX_TRABAJO=2000;
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
@@ -1327,12 +1327,18 @@ function rcoCalc(d){
 }
 // Checklist: base -> override por labor (si gana) -> override manual.
 // Comentarios fijos que hablan de la partida de ventanas (arnés y respirador, capacitación
-// en altura, andamios): en un ART solo de izaje serían falsos y no se cargan.
-const OBS_SOLO_VENTANAS=[4,5,10];
+// en altura, andamios, herramientas): en un ART solo de izaje serían falsos y no se cargan.
+const OBS_SOLO_VENTANAS=[4,5,6,10,12];
+// En un ART solo de izaje la cuadrilla del camión pluma no usa herramientas manuales ni
+// eléctricas (las usa otro personal, con su propio ART): esas preguntas parten en N/A.
+const CHECK_SOLO_IZAJE={6:"na",12:"na"};
+// Foco acepta 500 caracteres en la observación de cada etapa previa.
+const MAX_OBS=500;
 function checkCalc(d){
   const out={}, fijas=DB.obsFijas||CHECK_OBS_BASE;
   const sinVentanas=!partidasActivas(d).includes("ventanas");
-  CHECKLIST.forEach(c=>out[c.i]={v:CHECK_BASE[c.i]||"na",
+  CHECKLIST.forEach(c=>out[c.i]={
+    v:(sinVentanas && CHECK_SOLO_IZAJE[c.i]) || CHECK_BASE[c.i] || "na",
     obs:(sinVentanas && OBS_SOLO_VENTANAS.includes(c.i)) ? "" : (fijas[c.i]||"")});
   laboresActivas(d).forEach(l=>{
     Object.keys(l.check||{}).forEach(k=>{
@@ -1342,7 +1348,9 @@ function checkCalc(d){
     // Las observaciones de cada labor se suman ítem por ítem, sin repetir.
     Object.keys(l.checkObs||{}).forEach(k=>{
       if(!l.checkObs[k]) return;
-      const ya=out[k].obs?out[k].obs.split(",").map(s=>s.trim()):[];
+      // Sin el punto final de cada tramo: los comentarios fijos terminan en punto y al
+      // juntarlos quedaba "adversas., caída de carga".
+      const ya=out[k].obs?out[k].obs.split(",").map(s=>s.trim().replace(/\.+$/,"")):[];
       l.checkObs[k].split(",").map(s=>s.trim()).filter(Boolean).forEach(s=>{
         if(!ya.some(x=>x.toLowerCase()===s.toLowerCase())) ya.push(s);
       });
@@ -1403,7 +1411,7 @@ function campos(d){
     const a=ck[q.i];
     c.push({l:`Etapa previa ${q.i} — ${q.corto}`,
             v:(a.v==="si"?"SÍ":a.v==="no"?"NO":"N/A") + (a.obs?"  ·  "+a.obs:""),
-            copiar:a.obs, nocopy:!a.obs, sec:"previas", q:q});
+            copiar:a.obs, nocopy:!a.obs, max:MAX_OBS, sec:"previas", q:q});
   });
   et.slice(0,13).forEach((e,i)=>{
     c.push({l:`${i+1}.Etapas de desarrollo del trabajo`, v:e.nombre, max:MAX_ETAPA,
@@ -1756,6 +1764,10 @@ function pasoRevision(a,d){
   if(vacios.length) a.appendChild(h("div",{class:"alert",
     text:"Sin medidas de control cargadas: "+vacios.map(p=>pad2(p.n)+"."+p.nombre).join(", ")+
          ". Escríbelas en la pestaña Peligros o quita el peligro de la etapa."}));
+  const obsLargas=CHECKLIST.filter(q=>(ck[q.i].obs||"").length>MAX_OBS);
+  if(obsLargas.length) a.appendChild(h("div",{class:"alert",
+    text:"Observación sobre los "+MAX_OBS+" caracteres que acepta Foco en la etapa previa "+
+         obsLargas.map(q=>q.i).join(", ")+". Acórtala abajo antes de copiarla."}));
   const propias=enUso.filter(p=>p.propia);
   if(propias.length) a.appendChild(h("div",{class:"alert",
     text:"Medidas redactadas a mano, no copiadas de Foco: "+
@@ -1900,9 +1912,12 @@ function cajaCopiar(c){
   const lbl=h("div",{class:"lbl"}, h("div",{class:"grow",text:c.l}));
   if(!c.nocopy && val) lbl.appendChild(h("button",{class:"btn xs",onClick:()=>{
     copy(val,()=>{copiados[c.l]=1;box.classList.add("done");});}},"Copiar"));
-  if(c.max && (c.v||"").length>c.max)
+  // El largo que importa es el de lo que se pega en Foco (en las etapas previas, solo la
+  // observación, sin el "SÍ ·" de adelante).
+  const largo=(val||"").length;
+  if(c.max && largo>c.max)
     lbl.appendChild(h("span",{class:"badge",style:"border-color:var(--no);color:var(--no)",
-      text:(c.v||"").length+"/"+c.max}));
+      text:largo+"/"+c.max}));
   box.appendChild(lbl);
   const cuerpo=h("div",{class:"val"},
     c.tipo==="med" ? medidasHTML(c.pel)

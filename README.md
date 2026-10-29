@@ -155,8 +155,9 @@ Equipo y operador son subcontratados; desenergizar y desconectar contenedores y 
 - El peligro **07 Colisionado por** ahora enciende la RCO 4.
 - **Etapas previas**: el izaje pone SÍ en 7 (interferencias), 8 (permiso), 9 (bloqueo, por el
   generador), 11 (elementos de izaje) y 13 (equipos mayores), con sus comentarios. En *Solo izaje*
-  no se cargan los comentarios fijos de ventanas de las preguntas 4, 5 y 10 (arnés, capacitación en
-  altura, andamios).
+  no se cargan los comentarios fijos de ventanas de las preguntas 4, 5, 6, 10 y 12 (arnés,
+  capacitación en altura, herramientas, andamios), y la 6 y la 12 parten en N/A: la cuadrilla del
+  camión pluma no usa herramientas.
 - **Personal**: tres entradas de subcontrato —Operador camión pluma, Rigger / señalero y Conductor
   camión— que solo aparecen en el Paso 2 cuando hay izaje, para que firmen.
 
@@ -377,8 +378,9 @@ Después abrir `http://localhost:8082/ART.html`.
 
 ## Notas
 
-- "Etapas de desarrollo del trabajo" acepta 2000 caracteres; los demás campos, 100. La app avisa
-  en rojo cuando un texto se pasa del límite que corresponde.
+- "Etapas de desarrollo del trabajo" acepta 2000 caracteres; la observación de cada etapa previa,
+  500; los demás campos, 100. La app avisa en rojo cuando un texto se pasa del límite que
+  corresponde.
 - El formulario acepta 13 etapas como máximo; si se pasan, sale aviso en el paso de revisión.
 - Los RCO se encienden solos según los peligros presentes (04 → RCO 1, 27 → RCO 2, 28 → RCO 8 y 18,
   03 → RCO 19). Igual se pueden cambiar uno por uno a mano.
