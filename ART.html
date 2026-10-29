@@ -1030,9 +1030,11 @@ const MAX_ETAPA=2000;
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
 const CAT_VER=17;
-const APP_VER="v18";
-// Foco amplió "Trabajo a realizar" a 2000 caracteres.
+const APP_VER="v19";
+// Foco amplió "Trabajo a realizar" a 2000 caracteres, y "Nombre del proceso o
+// instructivo" también acepta 2000.
 const MAX_TRABAJO=2000;
+const MAX_PROCESO=2000;
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
 
 function defaults(){
@@ -1394,6 +1396,47 @@ function trabajoAuto(d){
   const corte=txt.lastIndexOf("; ",MAX_TRABAJO);
   return corte>0 ? txt.slice(0,corte) : txt.slice(0,MAX_TRABAJO);
 }
+// Texto para "Nombre del proceso o instructivo" (2000 caracteres en Foco): los procesos
+// principales del día, uno por etapa y en su orden. Una etapa acoplada nombra entre
+// paréntesis sus labores. Las etapas que son solo de base (ingreso, traslado, retiro)
+// no son un proceso de la partida y no entran.
+function procesoAuto(d){
+  const ps=etapas(d).filter(e=>e.manual || e.labores.some(id=>{ const l=lab(id); return l && !l.base; }))
+    .map(e=>{
+      // En el paréntesis van solo las labores propias del proceso, no las de base (orden
+      // y aseo dentro de "Orden, aseo y limpieza").
+      const ls=e.labores.map(lab).filter(l=>l && !l.base);
+      return e.labores.length>1 ? `${e.titulo} (${ls.map(l=>l.corto||l.nombre).join(", ")})` : e.titulo;
+    });
+  if(!ps.length) return "";
+  const txt="Instructivo ART, procesos principales: "+ps.join("; ");
+  if(txt.length<=MAX_PROCESO) return txt;
+  const corte=txt.lastIndexOf("; ",MAX_PROCESO);
+  return corte>0 ? txt.slice(0,corte) : txt.slice(0,MAX_PROCESO);
+}
+/* Tema de la charla (100 caracteres en Foco): el texto de siempre del supervisor más el
+   riesgo principal del día, que es el primer RCO en Sí según este orden de prioridad. */
+const TEMA_BASE="Correcto uso de EPP en obra";
+const TEMA_RIESGO=[
+  [3, "nadie bajo carga suspendida en maniobras de izaje"],
+  [1, "arnés con doble cabo de vida 100% amarrado en altura"],
+  [19,"vanos y shaft tapados, señalizados y segregados"],
+  [4, "cinturón y velocidad reducida al conducir en obra"],
+  [5, "distancia segura a maquinaria en operación"],
+  [6, "chaleco reflectante y distancia a equipos en movimiento"],
+  [8, "herramientas y extensiones eléctricas revisadas"],
+  [9, "bloqueo y verificación de ausencia de energía"],
+  [2, "porta herramientas y área segregada bajo trabajos"],
+  [18,"lentes, careta y protector auditivo con herramientas"],
+  [10,"guantes de nitrilo y hoja de seguridad de cada producto"],
+  [15,"extintor a mano y control de fuentes de ignición"]];
+function temaAuto(d){
+  // Sin cuadrilla marcada no hay riesgo principal todavía: las labores de base solas
+  // sugerirían vanos y shaft.
+  if(!personasPresentes(d).length) return TEMA_BASE;
+  const rc=rcoCalc(d), r=TEMA_RIESGO.find(([n])=>rc[n]==="si");
+  return r ? `${TEMA_BASE}: ${r[1]}` : TEMA_BASE;
+}
 
 /* ---------- 6. GENERACIÓN DE SALIDA ---------- */
 
@@ -1404,9 +1447,9 @@ function campos(d){
   c.push({l:"Área de trabajo", v:d.area, max:100});
   const def=[d.proc&&"Procedimiento",d.instr&&"Instructivo",d.gestion&&"Gestión del cambio"].filter(Boolean);
   c.push({l:"El trabajo o actividad está definida por", v:def.join(" + ")||"(ninguno)", nocopy:true});
-  c.push({l:"Indicar nombre del proceso o instructivo", v:d.proceso, max:100});
+  c.push({l:"Indicar nombre del proceso o instructivo", v:d.proceso||procesoAuto(d), max:MAX_PROCESO});
   c.push({l:"Charla de seguridad", v:d.charla==="si"?"Sí":"No", nocopy:true});
-  if(d.charla==="si") c.push({l:"Indicar tema a tratar", v:d.tema, max:100});
+  if(d.charla==="si") c.push({l:"Indicar tema a tratar", v:d.tema||temaAuto(d), max:100});
   CHECKLIST.forEach(q=>{
     const a=ck[q.i];
     c.push({l:`Etapa previa ${q.i} — ${q.corto}`,
@@ -1437,8 +1480,8 @@ function textoCompleto(d){
   L.push("ÁREA DE TRABAJO: "+d.area);
   const def=[d.proc&&"Procedimiento",d.instr&&"Instructivo",d.gestion&&"Gestión del cambio"].filter(Boolean);
   L.push("DEFINIDA POR: "+(def.join(" + ")||"—"));
-  L.push("PROCEDIMIENTO O INSTRUCTIVO: "+d.proceso);
-  L.push("CHARLA DE SEGURIDAD: "+(d.charla==="si"?"SÍ":"NO")+(d.charla==="si"?("  |  TEMA: "+d.tema):""));
+  L.push("PROCEDIMIENTO O INSTRUCTIVO: "+(d.proceso||procesoAuto(d)));
+  L.push("CHARLA DE SEGURIDAD: "+(d.charla==="si"?"SÍ":"NO")+(d.charla==="si"?("  |  TEMA: "+(d.tema||temaAuto(d))):""));
   L.push("");
   L.push("── ETAPAS PREVIAS DEL TRABAJO ──");
   CHECKLIST.forEach(q=>{
@@ -1520,7 +1563,7 @@ function pasoDatos(a,d){
 
   campoTexto(c,"Trabajo o actividad a realizar",d.trabajo,MAX_TRABAJO,v=>{d.trabajo=v;save();},
     "Déjalo vacío para usar el texto detallado que arma la cuadrilla (hasta 2000 caracteres).");
-  c.appendChild(estadoTrabajo(d));
+  c.appendChild(estadoAuto(d,"trabajo",trabajoAuto,"El texto automático se arma cuando marques la cuadrilla en el Paso 2."));
   campoTexto(c,"Área de trabajo",d.area,100,v=>{d.area=v;save();});
 
   c.appendChild(h("label",{class:"f",text:"El trabajo está definido por"}));
@@ -1530,7 +1573,9 @@ function pasoDatos(a,d){
   });
   c.appendChild(defs);
 
-  campoTexto(c,"Nombre del proceso o instructivo",d.proceso,100,v=>{d.proceso=v;save();});
+  campoTexto(c,"Nombre del proceso o instructivo",d.proceso,MAX_PROCESO,v=>{d.proceso=v;save();},
+    "Déjalo vacío para usar los procesos principales del día (hasta 2000 caracteres).");
+  c.appendChild(estadoAuto(d,"proceso",procesoAuto,"Los procesos se arman cuando marques la cuadrilla en el Paso 2."));
 
   c.appendChild(h("label",{class:"f",text:"Charla de seguridad"}));
   const ch=h("div",{class:"row"});
@@ -1538,7 +1583,9 @@ function pasoDatos(a,d){
     onClick:()=>{d.charla=v;save();render();}}, v==="si"?"Sí":"No")));
   c.appendChild(ch);
   if(d.charla==="si"){
-    campoTexto(c,"Tema a tratar",d.tema,100,v=>{d.tema=v;save();});
+    campoTexto(c,"Tema a tratar",d.tema,100,v=>{d.tema=v;save();},
+      "Déjalo vacío para usar el EPP con el riesgo principal del día.");
+    c.appendChild(estadoAuto(d,"tema",temaAuto,""));
     c.appendChild(selectorTema(d));
   }
 
@@ -1582,26 +1629,27 @@ function selectorPartida(d){
   return box;
 }
 
-/* Dice qué texto va a ir en "Trabajo a realizar". Lo escrito a mano manda sobre el
-   automático; sin este aviso, un texto viejo escrito una vez tapaba para siempre el
-   detallado sin que se notara. */
-function estadoTrabajo(d){
-  const auto=trabajoAuto(d), box=h("div",{style:"margin-top:6px"});
-  if(!(d.trabajo||"").trim()){
+/* Dice qué texto va a ir en un campo que tiene versión automática (trabajo a realizar,
+   proceso o instructivo, tema de la charla). Lo escrito a mano manda sobre el automático;
+   sin este aviso, un texto viejo escrito una vez tapaba para siempre el automático sin
+   que se notara. */
+function estadoAuto(d,clave,fnAuto,sinAuto){
+  const auto=fnAuto(d), propio=d[clave]||"", box=h("div",{style:"margin-top:6px"});
+  if(!propio.trim()){
+    if(!auto && !sinAuto) return box;
     box.appendChild(h("div",{class:"muted small",text: auto
-      ? `Se usará el texto automático (${auto.length} caracteres):`
-      : "El texto automático se arma cuando marques la cuadrilla en el Paso 2."}));
+      ? `Se usará el texto automático (${auto.length} caracteres):` : sinAuto}));
     if(auto){
       box.appendChild(h("div",{class:"item small",style:"white-space:pre-wrap",text:auto}));
-      box.appendChild(h("button",{class:"btn xs sec",onClick:()=>{d.trabajo=auto;save();render();}},
+      box.appendChild(h("button",{class:"btn xs sec",onClick:()=>{d[clave]=auto;save();render();}},
         "Cargarlo en el cuadro para editarlo"));
     }
-  } else if(auto && d.trabajo!==auto){
+  } else if(auto && propio!==auto){
     box.appendChild(h("div",{class:"alert",
-      text:`Estás usando un texto escrito a mano (${d.trabajo.length} caracteres). El automático `+
-           `con la cuadrilla de hoy tiene ${auto.length}.`}));
-    box.appendChild(h("button",{class:"btn xs sec",onClick:()=>{d.trabajo="";save();render();}},
-      "Usar el automático detallado"));
+      text:`Estás usando un texto escrito a mano (${propio.length} caracteres). El automático `+
+           `de hoy tiene ${auto.length}: «${auto.length>120?auto.slice(0,120)+"…":auto}»`}));
+    box.appendChild(h("button",{class:"btn xs sec",onClick:()=>{d[clave]="";save();render();}},
+      "Usar el automático"));
   }
   return box;
 }

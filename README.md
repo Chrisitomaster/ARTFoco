@@ -18,8 +18,16 @@ Si alguien hace hoy una labor que normalmente no hace, se activa como "parcial" 
 
 ## Uso diario (3 minutos)
 
-1. **Paso 1 · Datos** — fecha, área de trabajo, charla de seguridad. El "trabajo a realizar" se
-   autocompleta con las labores de la cuadrilla si lo dejas vacío.
+1. **Paso 1 · Datos** — fecha, partida, área de trabajo, charla de seguridad. Tres campos se
+   autocompletan si los dejas vacíos (lo que escribas a mano manda, y un botón vuelve al automático):
+   - **Trabajo a realizar** (2000): el nombre de cada labor de la cuadrilla.
+   - **Nombre del proceso o instructivo** (2000): los procesos principales del día, uno por etapa,
+     y entre paréntesis las labores de las etapas acopladas. Las etapas solo de base no entran.
+   - **Tema a tratar** (100): *Correcto uso de EPP en obra* más el riesgo principal del día, que es
+     el primer RCO en Sí en este orden: 3 carga suspendida, 1 altura, 19 vanos y shaft, 4 y 5
+     conducción y maquinaria, 6 hombre-máquina, 8 eléctrico, 9 bloqueo, 2 caída de materiales,
+     18 herramientas, 10 sustancias, 15 incendio. Con ventanas sale el arnés en altura; con izaje,
+     *nadie bajo carga suspendida en maniobras de izaje*.
 2. **Paso 2 · Cuadrilla** — toca a los presentes. Bajo cada uno aparecen sus labores: naranjas
    las principales, con borde las parciales. Botón *Misma cuadrilla que la última* para repetir.
 3. **Paso 3 · Revisión** — etapas ya armadas y numeradas, con sus peligros. Se pueden reordenar (↑↓),
@@ -378,8 +386,8 @@ Después abrir `http://localhost:8082/ART.html`.
 
 ## Notas
 
-- "Etapas de desarrollo del trabajo" acepta 2000 caracteres; la observación de cada etapa previa,
-  500; los demás campos, 100. La app avisa en rojo cuando un texto se pasa del límite que
+- "Etapas de desarrollo del trabajo", "Trabajo a realizar" y "Nombre del proceso o instructivo"
+  aceptan 2000 caracteres; la observación de cada etapa previa, 500; los demás campos, 100. La app avisa en rojo cuando un texto se pasa del límite que
   corresponde.
 - El formulario acepta 13 etapas como máximo; si se pasan, sale aviso en el paso de revisión.
 - Los RCO se encienden solos según los peligros presentes (04 → RCO 1, 27 → RCO 2, 28 → RCO 8 y 18,
