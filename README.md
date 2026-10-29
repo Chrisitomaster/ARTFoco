@@ -160,10 +160,14 @@ Equipo y operador son subcontratados; desenergizar y desconectar contenedores y 
 - **Personal**: tres entradas de subcontrato —Operador camión pluma, Rigger / señalero y Conductor
   camión— que solo aparecen en el Paso 2 cuando hay izaje, para que firmen.
 
-**Pendiente:** los peligros **19, 20, 21, 23 y 24** siguen sin medidas hasta transcribirlas del
-selector de Foco; la app avisa en el paso de revisión. Cuando se carguen en **Peligros → Editar**,
-una actualización del catálogo ya no las pisa (solo se reemplazan las medidas de los peligros que la
-fábrica sí trae).
+Las medidas de los peligros **19, 20, 21, 23 y 24** están transcritas del selector de Foco del
+29/10/2026, con sus erratas. Ojo: las del **20 Caída de carga suspendida** hablan solo del estado y la
+compatibilidad de los elementos de izaje; que nadie quede bajo la carga se marca en el **23**
+(*Segregar el área de trabajo carga y descarga de materiales*, *Habilitar señalero y/o paletero*) y
+está escrito en el texto de las etapas de izaje y descarga.
+
+Si la fábrica trae un peligro sin medidas y el usuario se las carga en **Peligros → Editar**, una
+actualización del catálogo no las pisa.
 
 ## Partida cargada: instalación de ventanas
 
@@ -212,10 +216,21 @@ en la partida de instalación de ventanas:
 | 28 | Contacto Eléctrico | instalación, corte, carpintería, pulido, impermeabilización, albañilería |
 | 30 | Contaminación Ambiental | impermeabilización, albañilería, aseo |
 
-Los otros 13 (07, 14, 16, 19, 20 a 26, 29, 31) existen en la app para que la numeración calce con
-Foco, pero quedan **sin medidas de control** porque no aplican a esta partida (conducción,
-radiación UV, incendio, túneles, tronaduras, izaje, buceo, maquinaria pesada, soldadura, flora y
-fauna). Si alguna vez se necesita uno, se le escriben las medidas en **Peligros → Editar**;
+La partida de izaje suma seis más:
+
+| N° | Peligro | Dónde aparece |
+|---|---|---|
+| 07 | Colisionado por | traslado de contenedores en camión |
+| 19 | Incendio | generador |
+| 20 | Caída de carga suspendida | izaje, descarga, generador |
+| 21 | Choque o volcamiento | posicionamiento de la pluma, izaje, traslado, descarga |
+| 23 | Interacción hombre maquina | habilitación del área, izaje, traslado, descarga |
+| 24 | Liberación descontrolada de energía | generador |
+
+Los que quedan (14, 16, 22, 26, 29, 31) existen en la app para que la numeración calce con Foco,
+pero **sin medidas de control** porque no aplican a ninguna partida (radiación UV, inmersión,
+derrumbes, tronaduras, humos metálicos, flora y fauna). El 25 (planchón en túneles) se quitó a pedido
+del supervisor. Si alguna vez se necesita uno, se le escriben las medidas en **Peligros → Editar**;
 mientras tanto, si se selecciona uno vacío la app avisa en el paso de revisión.
 
 **Origen de las medidas de control:** todas están transcritas del propio selector
@@ -285,8 +300,10 @@ aparte: N°1, 2, 6, 8, 10, 15, 18 y 19, con las respuestas de los ejemplares fir
 
 Cada RCO tiene **una sola versión** de respuestas. Las de izaje parten en **NO** donde falta un
 documento del proveedor: plan de izaje (RCO 3), GPS y registro de velocidad (RCO 4 y 5). Se
-cambian a SÍ al recibirlo. La **RCO 3 está incompleta**: la captura de *Requisitos de las personas*
-llegó cortada y la cartilla lo avisa hasta que se complete.
+cambian a SÍ al recibirlo.
+
+El "Trabajo a realizar" de la cartilla acepta **100 caracteres** en Foco. Si el texto que arma la
+cuadrilla del día se pasa (pasa en el consolidado con la RCO 6), la tarjeta lo marca en rojo.
 
 - Cada respuesta es un botón grande **SÍ / NO / N/A**; al tocarlo cambia y queda guardado para las
   siguientes. *Restaurar mi ejemplar* devuelve la cartilla a como venía.

@@ -177,8 +177,9 @@ pre.full{white-space:pre-wrap;word-break:break-word;background:var(--bg2);border
 /* Catálogo completo de peligros de Foco Prevención (01 a 31), con la numeración y las
    medidas de control transcritas del propio selector de la app.
    El 25 (caída de planchón en túneles) se quitó a pedido del supervisor: no aplica a
-   edificación. Los peligros sin medidas (14, 16, 19, 20-24, 26, 29, 31) no aplican a instalación de
-   ventanas: existen solo para que la numeración calce con Foco. Si alguna vez se
+   edificación. 19, 20, 21, 23 y 24 son de la partida de izaje, transcritos del selector el
+   29/10/2026. Los que quedan sin medidas (14, 16, 22, 26, 29, 31) no aplican a ninguna
+   partida: existen solo para que la numeración calce con Foco. Si alguna vez se
    necesitan, se les cargan las medidas desde la pestaña Peligros. */
 const PELIGROS_SEED = [
  {n:1, nombre:"Golpeado contra", medidas:[
@@ -278,12 +279,37 @@ const PELIGROS_SEED = [
    "Límite de carga manual 25. Kg Hombres y 20. Kg Mujeres",
    "Realizar pausas de trabajo y rotación del personal",
    "Realizar posturas de carga y descarga conforme a evaluación técnica"]},
- {n:19,nombre:"Incendio", medidas:[]},
- {n:20,nombre:"Caída de carga suspendida", medidas:[]},
- {n:21,nombre:"Choque o volcamiento", medidas:[]},
+ {n:19,nombre:"Incendio", medidas:[
+   "Contar con autorización y permisos para trabajos en caliente",
+   "Disponer de extintor PQS en el área de trabajo.",
+   "Mantener el área libre de líquidos inflamables y/o combustibles.",
+   "Mantener áreas de trabajo ordenados y limpios",
+   "No fumar ni encender fuego en lugares no autorizados",
+   "No realizar trabajo en caliente en el perímetro en donde se utilizando pegamento o algún tipo de solvente."]},
+ {n:20,nombre:"Caída de carga suspendida", medidas:[
+   "Proteger elementos izaje ante la realización de trabajos en caliente",
+   "Proteger posibles cantos vivos al realizar maniobra de izajes",
+   "Verificar el buen estado y correcta compatibilidad de los elementos de izaje versus la carga de izar",
+   "Verificar y chequear previamente elementos de las maniobras"]},
+ {n:21,nombre:"Choque o volcamiento", medidas:[
+   "Los equipos y maquinarias deben transitar por áreas habilitadas y señalizadas",
+   "Respetar las normas de tránsito y velocidad ante la conducción de vehículo liviano",
+   "Señalizar y respetar la velocidad máxima al interior de la obra.",
+   "Solo personal con la autorización y competencias podrá conducir vehículo liviano.",
+   "Uso del cinturón de seguridad"]},
  {n:22,nombre:"Derrumbes", medidas:[]},
- {n:23,nombre:"Interacción hombre maquina", medidas:[]},
- {n:24,nombre:"Liberación descontrolada de energía", medidas:[]},
+ {n:23,nombre:"Interacción hombre maquina", medidas:[
+   "Contar con ropa de trabajo y chalecos de alta visibilidad",
+   "Habilitar señalero y/o paletero",
+   "Mantener distancia con equipos y maquinarias",
+   "Personal capacitado en trabajo con maquinaria",
+   "Segregar el área de trabajo carga y descarga de materiales"]},
+ {n:24,nombre:"Liberación descontrolada de energía", medidas:[
+   "Disponer de sistema anti chicote en uniones y acoples.",
+   "Mangueras y acoples deben estar en buenas condiciones.",
+   "Uso de equipo detección líneas subterráneas",
+   "Verificar existencia de líneas eléctricas de alta, media tensión que pueda afectar trabajos de obra",
+   "Verificar que elementos de equipos presurizados cuenten con abrazaderas de alta presión"]},
  {n:26,nombre:"Proyección de materiales por tronaduras", medidas:[]},
  {n:27,nombre:"Caída de materiales", medidas:[
    "Eliminar verticalidad de trabajos simultáneos",
@@ -539,10 +565,12 @@ const CARTILLAS_SEED = {
     izaje, GPS y registro de velocidad del proveedor) parte en NO: se cambia al recibirlo. */
  3:{nombre:"Caída de carga suspendida en maniobras de izaje", codigo:"SSOMA-ME-RCO-03-CV-03",
   trabajo:"izaje y traslado de contenedores de instalación de faena y generador con camión pluma",
-  // La captura de la sección 1 llegó cortada: solo se ve su última pregunta.
-  incompleta:"Faltan las primeras preguntas de «Requisitos de las personas»: la captura llegó cortada.",
   secs:[
   {t:"Requisitos de las personas", q:[
+   ["El operador cuenta con examen de salud vigente","si"],
+   ["El operador cuenta con evaluación psicosensotécnico rigurosa vigente","si"],
+   ["El operador cuenta con certificación de competencias que acredite sus competencias técnicas para operar el equipos de izaje","si"],
+   ["El operador de equipos de izaje de tipo móvil, cuenta con su licencia municipal vigente","si"],
    ["El rigger cuenta con certificación de competencias que acredite sus competencias técnicas","si"]]},
   {t:"Requisitos de la organización", q:[
    ["Se cuenta con plan de izaje que establezca capacidad de equipo, criticidad y la coordinación de la maniobra a realizar, además de las dimensiones, peso y centro de gravedad de la carga","no"],
@@ -1001,8 +1029,8 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=16;
-const APP_VER="v16";
+const CAT_VER=17;
+const APP_VER="v17";
 // Foco amplió "Trabajo a realizar" a 2000 caracteres.
 const MAX_TRABAJO=2000;
 let DB, view="art", step=0, editId=null, subview=null, copiados={};
@@ -1094,6 +1122,12 @@ function migrarCatalogo(raw){
   // Cartillas RCO: se agregan las de fábrica que falten; las respuestas que el
   // usuario ya ajustó se respetan.
   DB.cartillas=Object.assign(JSON.parse(JSON.stringify(CARTILLAS_SEED)), DB.cartillas||{});
+  // Una cartilla que se guardó cuando la plantilla venía cortada se reemplaza por la
+  // completa: si no, la copia guardada taparía las preguntas que faltaban.
+  Object.keys(DB.cartillas).forEach(n=>{
+    if(DB.cartillas[n].incompleta && CARTILLAS_SEED[n] && !CARTILLAS_SEED[n].incompleta)
+      DB.cartillas[n]=JSON.parse(JSON.stringify(CARTILLAS_SEED[n]));
+  });
 
   // Si una persona apunta a una labor que ya no existe, se limpia la referencia.
   const ids=DB.labores.map(l=>l.id);
@@ -2402,7 +2436,7 @@ function vRCO(a){
     body.appendChild(cajaCopiar({l:"Trabajo a realizar (el de tu ejemplar)",v:ca.trabajo}));
     const auto=trabajoRCO(n,d);
     if(auto && auto!==ca.trabajo)
-      body.appendChild(cajaCopiar({l:"Trabajo a realizar según la cuadrilla de hoy",v:auto}));
+      body.appendChild(cajaCopiar({l:"Trabajo a realizar según la cuadrilla de hoy",v:auto,max:100}));
 
     let k=0;
     ca.secs.forEach(sec=>{
