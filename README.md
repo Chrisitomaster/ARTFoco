@@ -98,13 +98,16 @@ la unión de todos. Los grupos que vienen armados:
 |---|---|
 | Accesos y desplazamientos en obra | ingreso a obra + traslado y escaleras + retiro de obra |
 | Movimiento e instalación de ventanas | traslado de ventanas + instalación con rotomartillo |
+| Reparación de ventanas | cambio de termopaneles + reparación de PVC + cuadratura y funcionamiento |
+| Sellado de ventanas | sellos exteriores en altura + sellado en primeros pisos |
 | Corte y carpintería con herramientas | corte con esmeril + carpintería en madera |
 | Estanqueidad e impermeabilización de rasgos | pruebas de estanqueidad + Sikatop 107 Seal |
+| Orden, aseo y limpieza | limpieza de ventanas y celosías + orden y aseo (o el aseo detallado) |
 
-Sellos en altura, pulido y picado, albañilería y orden y aseo quedan como **etapa propia**: son
-tareas con riesgos bien distintos y conviene que se lean separadas — sobre todo la de altura.
+Pulido y picado y albañilería quedan como **etapa propia**.
 
-Con toda la cuadrilla, esto baja el ART de **12 etapas a 7**.
+Con toda la cuadrilla, el ART de ventanas queda en **8 etapas** y el consolidado con el izaje en
+**11**, de las 13 que acepta Foco.
 
 ## Detalle de cada etapa
 
@@ -187,6 +190,9 @@ actualización del catálogo no las pisa.
 | BASE | Ingreso a obra · Traslado y desplazamiento por escaleras · Orden y aseo · Retiro de obra | todos |
 | 10 | Traslado, movimiento y distribución de ventanas y elementos pesados | M.N, A.T, A.O |
 | 20 | Instalación de ventanas: rotomartillo y atornillador inalámbrico, nivel láser | C.R, F.A, C.Ñ · (A.T parcial) |
+| 22 | Cambio de termopaneles con cartonero, espátula y cinta doble contacto | C.R, F.A, C.Ñ, A.T, M.N, A.O |
+| 23 | Reparación de PVC: retiro de siliconas, masilla mágica con catalizador, lija y pintura en spray | C.R, F.A, C.Ñ, A.T, M.N, A.O |
+| 24 | Cuadratura, aplomo, reinstalación y funcionamiento de ventanas con atornillador | C.R, F.A, C.Ñ, A.T, M.N, A.O |
 | 30 | Sellos exteriores **en altura** con pistola calafatera y silicona | C.R, F.A, C.Ñ |
 | 40 | Corte de tornillos, enfierradura y rasgos con esmeril angular | A.T |
 | 50 | Carpintería en madera: sierra circular, serrucho, tizador | A.T |
@@ -194,6 +200,20 @@ actualización del catálogo no las pisa.
 | 70 | Pruebas de estanqueidad: cinta de aluminio y llenado de agua | A.C, C.F |
 | 75 | Impermeabilización con Sikatop 107 Seal, mezclador eléctrico y brocha | M.N, A.T, C.F |
 | 80 | Rectificación de rasgos y albañilería EIFS | M.N (parcial — hoy nadie fijo) |
+| 89 | Aseo, limpieza y orden con escoba: materiales, cortantes y residuos que liberan polvo | M.N, A.T, A.O |
+
+**Reparación de ventanas** (22 a 24) es una sola etapa y entra todos los días con quienes la hacen.
+El cambio de termopaneles en pisos superiores se hace **desde el interior** del departamento o del
+área común: el riesgo es el vano abierto y la caída del vidrio hacia abajo (03 y 27, con el área
+inferior segregada), no la caída de altura con arnés.
+
+**Aseo detallado** (89): cuando hay un jornal o A.T presente, **reemplaza** al orden y aseo de
+base, que ya está contenido en él (juntos pasarían los 2000 caracteres de la etapa). Los días sin
+ellos, y en el ART solo de izaje, vuelve el de base.
+
+Las labores nuevas se sumaron a la nómina del teléfono al actualizar a la v21, sin quitar nada y
+solo a las personas de fábrica que siguen con su nombre. Un borrador que ya estaba en curso no
+cambia: hay que desmarcar y volver a marcar a esas personas en el Paso 2.
 
 Cargos: M.N jornal · A.T ayudante de carpintero · A.O jornal pulidor · C.R, F.A y C.Ñ ventaneros ·
 A.C y C.F por definir.
