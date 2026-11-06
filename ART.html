@@ -747,6 +747,7 @@ const TEMAS_SEED = [
 const GRUPOS_SEED = [
  {id:"g-acceso",  nombre:"Accesos y desplazamientos en obra", orden:1},
  {id:"g-ventanas",nombre:"Movimiento e instalación de ventanas", orden:20},
+ {id:"g-reparacion",nombre:"Reparación de ventanas", orden:25},
  {id:"g-herram",  nombre:"Corte y carpintería con herramientas", orden:40},
  {id:"g-sellos",  nombre:"Sellado de ventanas", orden:30},
  {id:"g-sellado", nombre:"Estanqueidad e impermeabilización de rasgos", orden:70},
@@ -905,6 +906,57 @@ const LABORES_SEED = [
     "y sin obstrucciones, confirmando que los vanos y shaft queden tapados, señalizados y segregados.",
   peligros:[1,2,3,9,18,27,30], check:{}},
 
+ // Aseo detallado de jornales y ayudantes. Reemplaza al aseo de base cuando alguno de
+ // ellos está presente: los dos juntos pasarían los 2000 caracteres de la etapa, y el de
+ // base ya está contenido en este.
+ {id:"l-aseo-det", reemplaza:"l-aseo",
+  nombre:"Aseo, limpieza y orden del lugar de trabajo con escoba: traslado de materiales, elementos cortantes y residuos que liberan polvo",
+  corto:"aseo y orden del área de trabajo", orden:89, grupo:"g-limpieza",
+  detalle:"Antes: identificar los residuos de la jornada, los elementos cortantes y los que liberan polvo, y los "+
+    "puntos de acopio habilitados; usar guantes anticorte, lentes y mascarilla. Durante: humectar antes de barrer con "+
+    "escoba para no levantar polvo; retirar despuntes, vidrios, tornillos y latas con guantes anticorte, sin tomarlos "+
+    "a mano desnuda; mover materiales y sacos respetando el límite de 25 kg o entre dos personas, y despejar las vías "+
+    "de tránsito. Después: dejar el sector ordenado, iluminado y sin obstrucciones, con los residuos segregados en su "+
+    "acopio y los vanos y shaft tapados y señalizados.",
+  peligros:[1,2,3,9,12,18,27,30], check:{}},
+
+ /* ----- Reparación de ventanas -----
+    Una sola etapa acoplada. El cambio de termopaneles en pisos superiores se hace desde
+    el interior del departamento o del área común, no desde el exterior: el riesgo es el
+    vano abierto y la caída del vidrio hacia abajo (03 y 27), no la caída de altura (04). */
+ {id:"l-rep-termo",
+  nombre:"Cambio de termopaneles con cartonero, espátula y cinta doble contacto",
+  corto:"cambio de termopaneles", orden:22, grupo:"g-reparacion",
+  detalle:"Antes: revisar el termopanel nuevo, definir la ruta de traslado entre dos personas y verificar cartonero "+
+    "retráctil, espátula y guantes anticorte. Durante: retirar junquillos y sellos con espátula y cartonero, sacar el "+
+    "termopanel dañado y colocar el nuevo con cinta doble contacto; en pisos superiores trabajar desde el interior del "+
+    "departamento o del área común, sin asomarse al vano abierto y con el área inferior segregada por caída de vidrio. "+
+    "Después: retirar vidrios rotos y restos de cinta al punto de residuos.",
+  peligros:[1,2,3,5,9,18,27], check:{}},
+
+ {id:"l-rep-pvc",
+  nombre:"Reparación de PVC de ventanas: retiro de siliconas, masilla mágica con catalizador, lija y pintura en spray",
+  corto:"reparación de PVC", orden:23, grupo:"g-reparacion",
+  detalle:"Antes: revisar la hoja de datos de seguridad de la masilla, su catalizador y la pintura en spray, y "+
+    "disponer guantes de nitrilo, lentes y mascarilla. Durante: retirar siliconas con espátula y cartonero retráctil, "+
+    "mezclar la masilla con el catalizador en zona ventilada y aplicarla con espátula, lijar con lentes y pintar con "+
+    "spray lejos de fuentes de calor y sin dirigirlo a otras personas. Después: cerrar y rotular los envases y llevar "+
+    "sobrantes, lijas y envases de spray a residuos peligrosos.",
+  peligros:[1,2,3,9,10,11,17,30], check:{2:"si"},
+  // Mismas frases que el Sikaflex y el Sikatop ("uso en zona ventilada", "envases
+  // rotulados y cerrados"): al juntarse se cuentan una vez y la observación no pasa de 500.
+  checkObs:{2:"masilla mágica con catalizador y pintura en spray: HDS revisada, uso en zona ventilada, envases rotulados y cerrados"}},
+
+ {id:"l-rep-ajuste",
+  nombre:"Corrección de cuadratura, aplomo, reinstalación y funcionamiento de ventanas con atornillador",
+  corto:"cuadratura y funcionamiento de ventanas", orden:24, grupo:"g-reparacion",
+  detalle:"Antes: revisar la ventana y el rasgo, y verificar el atornillador de mano o inalámbrico con su batería y "+
+    "el código de color del mes. Durante: soltar fijaciones, corregir cuadratura y aplomo con nivel, reinstalar la "+
+    "ventana entre dos personas cuando corresponda, respetando el límite de 25 kg, y ajustar herrajes, carros y "+
+    "cierres hasta que abra y cierre sin esfuerzo, con las manos fuera del punto de aprisionamiento entre hoja y "+
+    "marco. Después: retirar tornillos y despuntes del piso.",
+  peligros:[1,2,3,5,9,18,27], check:{12:"si"}},
+
  /* ----- Partida de izaje con camión pluma -----
     No las activa una persona: entran todas al elegir "Ventanas + izaje" o "Solo izaje"
     en el Paso 1, y se quitan una por una ahí mismo. Equipo y operador son subcontratados;
@@ -989,11 +1041,12 @@ const LABORES_SEED = [
 ];
 
 // Cargo -> labores sugeridas al crear una persona nueva.
+const LABORES_REPARACION=["l-rep-termo","l-rep-pvc","l-rep-ajuste"];
 const CARGO_LABORES = {
- "jornal":["l-mov"],
- "pulidor":["l-mov","l-pulido"],
- "ventanero":["l-instal","l-sellos"],
- "carpintero":["l-mov","l-corte","l-carpint"],
+ "jornal":["l-mov","l-aseo-det",...LABORES_REPARACION],
+ "pulidor":["l-mov","l-pulido","l-aseo-det",...LABORES_REPARACION],
+ "ventanero":["l-instal","l-sellos",...LABORES_REPARACION],
+ "carpintero":["l-mov","l-corte","l-carpint","l-aseo-det",...LABORES_REPARACION],
  "terminaciones":["l-estanq","l-imperm"],
  "polifuncional":["l-limpieza","l-sellos-p1"],
  "albañil":["l-albanil"], "albanil":["l-albanil"]
@@ -1002,14 +1055,14 @@ const CARGO_LABORES = {
 // Personal identificado por iniciales. La nómina definitiva y sus labores las carga
 // el supervisor desde la pestaña Personal (o se reemplaza esta semilla).
 const PERSONAS_SEED = [
- ["M.N","Jornal",                 ["l-mov","l-imperm"],                       ["l-albanil"]],
- ["A.T","Ayudante de Carpintero", ["l-mov","l-corte","l-carpint","l-imperm"], ["l-instal"]],
- ["A.O","Jornal Pulidor",         ["l-mov","l-pulido"],                       []],
+ ["M.N","Jornal",                 ["l-mov","l-imperm","l-aseo-det",...LABORES_REPARACION],  ["l-albanil"]],
+ ["A.T","Ayudante de Carpintero", ["l-mov","l-corte","l-carpint","l-imperm","l-aseo-det",...LABORES_REPARACION], ["l-instal"]],
+ ["A.O","Jornal Pulidor",         ["l-mov","l-pulido","l-aseo-det",...LABORES_REPARACION],  []],
  ["A.C","Por definir",            ["l-estanq"],                               []],
  ["C.F","Por definir",            ["l-estanq","l-imperm"],                    []],
- ["C.R","Ventanero",              ["l-instal","l-sellos"],                    []],
- ["F.A","Ventanero",              ["l-instal","l-sellos"],                    []],
- ["C.Ñ","Ventanero",              ["l-instal","l-sellos"],                    []],
+ ["C.R","Ventanero",              ["l-instal","l-sellos",...LABORES_REPARACION],  []],
+ ["F.A","Ventanero",              ["l-instal","l-sellos",...LABORES_REPARACION],  []],
+ ["C.Ñ","Ventanero",              ["l-instal","l-sellos",...LABORES_REPARACION],  []],
  ["M.P","Maestra polifuncional",  ["l-limpieza","l-sellos-p1"],               []],
  // Subcontrato del izaje: firman el ART y solo aparecen en el Paso 2 cuando la partida
  // de izaje está activa. Sus labores entran por la partida, no por la persona.
@@ -1018,6 +1071,18 @@ const PERSONAS_SEED = [
  ["Conductor camión",     "Subcontrato", [], [], "izaje"]
 ].map((p,i)=>Object.assign({id:"p"+(i+1), rut:"", nombre:p[0], cargo:p[1],
                 principales:p[2], parciales:p[3], activo:true}, p[4]?{partida:p[4]}:{}));
+
+/* Labores nuevas que se suman a personas que ya están en la nómina del teléfono. Solo se
+   agregan (nunca se quita nada) y solo si la persona sigue siendo la de fábrica, por id y
+   por nombre. Cada tanda corre una vez: si después el usuario le quita la labor a alguien,
+   una actualización futura no se la vuelve a poner. Una instalación nueva ya trae estas
+   labores en PERSONAS_SEED y nace con todas las tandas marcadas como aplicadas. */
+const ASIGNACIONES={
+  "v18-aseo-reparacion":{
+    p1:["M.N",["l-aseo-det",...LABORES_REPARACION]],
+    p2:["A.T",["l-aseo-det",...LABORES_REPARACION]],
+    p3:["A.O",["l-aseo-det",...LABORES_REPARACION]],
+    p6:["C.R",LABORES_REPARACION], p7:["F.A",LABORES_REPARACION], p8:["C.Ñ",LABORES_REPARACION]}};
 
 /* ---------- 3. ESTADO ---------- */
 
@@ -1029,8 +1094,8 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=17;
-const APP_VER="v20";
+const CAT_VER=18;
+const APP_VER="v21";
 // Foco amplió "Trabajo a realizar" a 2000 caracteres, y "Nombre del proceso o
 // instructivo" también acepta 2000.
 const MAX_TRABAJO=2000;
@@ -1055,11 +1120,12 @@ function defaults(){
 function load(){
   try{
     const raw = localStorage.getItem(KEY);
-    if(!raw){ DB = defaults(); DB.catVer=CAT_VER; DB.procesoAuto=1; save(); return; }
+    if(!raw){ DB = defaults(); DB.catVer=CAT_VER; DB.procesoAuto=1;
+              DB.asignaciones=Object.keys(ASIGNACIONES); save(); return; }
     DB = Object.assign(defaults(), JSON.parse(raw));
     migrarCatalogo(raw);
     migrarProceso();
-  }catch(e){ DB = defaults(); DB.catVer=CAT_VER; DB.procesoAuto=1; }
+  }catch(e){ DB = defaults(); DB.catVer=CAT_VER; DB.procesoAuto=1; DB.asignaciones=Object.keys(ASIGNACIONES); }
 }
 /* Desde la v19 "Nombre del proceso o instructivo" se arma solo si está vacío. El texto
    corto que se escribía antes quedó guardado en el borrador y en los ART del historial
@@ -1128,6 +1194,19 @@ function migrarCatalogo(raw){
 
   // Personas que se suman a la nómina de fábrica en una versión nueva. Solo se agregan
   // si no están: el resto de la nómina es del usuario y no se toca.
+  // Labores nuevas para personas que ya están en la nómina (ver ASIGNACIONES).
+  DB.asignaciones=DB.asignaciones||[];
+  Object.keys(ASIGNACIONES).forEach(tanda=>{
+    if(DB.asignaciones.includes(tanda)) return;
+    Object.entries(ASIGNACIONES[tanda]).forEach(([pid,[nombre,ids]])=>{
+      const p=(DB.personas||[]).find(x=>x.id===pid && x.nombre===nombre);
+      if(!p) return;
+      p.principales=p.principales||[]; p.parciales=p.parciales||[];
+      ids.forEach(id=>{ if(!p.principales.includes(id) && !p.parciales.includes(id)) p.principales.push(id); });
+    });
+    DB.asignaciones.push(tanda);
+  });
+
   const PERSONAS_NUEVAS=["p9","p10","p11","p12"];
   DB.personas=DB.personas||[];
   PERSONAS_SEED.filter(p=>PERSONAS_NUEVAS.includes(p.id) && !DB.personas.some(x=>x.id===p.id))
@@ -1266,6 +1345,8 @@ function laboresActivas(d){
     });
   });
   (d.excluidas||[]).forEach(id=>set.delete(id));
+  // Una labor que reemplaza a otra la saca (el aseo detallado al aseo de base).
+  [...set].forEach(id=>{ const l=lab(id); if(l && l.reemplaza) set.delete(l.reemplaza); });
   return [...set].map(lab).filter(Boolean).sort((a,b)=>(a.orden||50)-(b.orden||50));
 }
 // Etapas finales = labores activas (agrupadas si corresponde) + etapas manuales.
