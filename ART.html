@@ -746,11 +746,12 @@ const TEMAS_SEED = [
    peligros son la unión de todos. Una labor sin grupo sigue siendo su propia etapa. */
 const GRUPOS_SEED = [
  {id:"g-acceso",  nombre:"Accesos y desplazamientos en obra", orden:1},
- {id:"g-ventanas",nombre:"Movimiento e instalación de ventanas", orden:20},
- {id:"g-reparacion",nombre:"Reparación de ventanas", orden:25},
+ // Ventanas y rasgos van en una etapa cada uno: en Foco las medidas de un peligro se marcan
+ // una vez por etapa, y 01, 02, 03, 18 y 27 están en casi todas. Cuando el texto completo
+ // de una etapa no cabe en 2000 caracteres, se usa el resumen de cada labor (ver etapas()).
+ {id:"g-ventanas",nombre:"Movimiento, instalación, reparación y sellado de ventanas", orden:20},
  {id:"g-herram",  nombre:"Corte y carpintería con herramientas", orden:40},
- {id:"g-sellos",  nombre:"Sellado de ventanas", orden:30},
- {id:"g-sellado", nombre:"Estanqueidad e impermeabilización de rasgos", orden:70},
+ {id:"g-rasgos",  nombre:"Pulido, reparación, estanqueidad e impermeabilización de rasgos", orden:60},
  {id:"g-limpieza",nombre:"Orden, aseo y limpieza", orden:90},
  // Partida de izaje: dos etapas acopladas para que el consolidado quepa en 13.
  {id:"g-iz-prep", nombre:"Preparación de la maniobra de izaje", orden:82},
@@ -778,6 +779,7 @@ const LABORES_SEED = [
 
  {id:"l-mov",     nombre:"Traslado, movimiento y distribución de ventanas y elementos pesados",
   corto:"traslado de ventanas", orden:10, grupo:"g-ventanas",
+  breve:"Antes: revisar peso y ruta, mínimo dos personas. Durante: levantar con piernas y espalda recta bajo 25 kg por persona, con guantes anticorte y manos fuera de la línea de aprisionamiento. Después: acopio aplomado y señalizado.",
   detalle:"Antes: revisar peso y dimensiones de la ventana, definir la ruta y el punto de acopio, y confirmar que "+
     "hay al menos dos personas para la maniobra. Durante: levantar con las piernas y la espalda recta respetando "+
     "el límite de 25 kg por persona; tomar los perfiles por los puntos de agarre con guantes anticorte, coordinar "+
@@ -788,6 +790,7 @@ const LABORES_SEED = [
 
  {id:"l-instal",  nombre:"Instalación de ventanas con rotomartillo y atornillador inalámbrico, nivel láser",
   corto:"instalación de ventanas", orden:20, grupo:"g-ventanas",
+  breve:"Antes: medir el vano y revisar herramientas con código de color. Durante: aplomar con nivel láser, perforar con rotomartillo sujetándolo firme y fijar con atornillador, con lentes y protector auditivo. Después: retirar despuntes.",
   detalle:"Antes: verificar las medidas del vano, marcar los puntos de fijación y confirmar que las herramientas "+
     "tengan el código de color del mes, sus guardas completas y las baterías o extensiones en buen estado. "+
     "Durante: presentar y aplomar la ventana con el nivel láser, perforar el hormigón con rotomartillo sujetando "+
@@ -798,7 +801,8 @@ const LABORES_SEED = [
   peligros:[1,2,3,5,6,9,12,13,15,17,18,27,28], check:{4:"si",12:"si"}},
 
  {id:"l-sellos",  nombre:"Sellos exteriores en altura con pistola calafatera, Sikaflex 11FC y silicona acética",
-  corto:"sellos exteriores en altura", orden:30, grupo:"g-sellos",
+  corto:"sellos exteriores en altura", orden:30, grupo:"g-ventanas",
+  breve:"Antes: tarjeta verde del andamio, arnés con dos cabos, punto de anclaje y HDS. Durante: 100% amarrado, sellar con pistola calafatera y guantes de nitrilo, área inferior segregada. Después: envases rotulados y bajar por accesos autorizados.",
   detalle:"Antes: verificar la tarjeta verde de autorización de la plataforma o andamio, revisar el arnés y sus dos "+
     "cabos de vida, identificar el punto de anclaje o la línea de vida independiente, y tener a mano la hoja de datos "+
     "de seguridad del Sikaflex 11FC y de la silicona acética. Durante: permanecer 100% amarrado durante todo el trabajo en altura; aplicar el "+
@@ -811,7 +815,8 @@ const LABORES_SEED = [
 
  // Maestra polifuncional: sella en primeros pisos, bajo 1,8 m. Sin caída de altura (04).
  {id:"l-sellos-p1",nombre:"Sellado interior y exterior de ventanas en primeros pisos, desde plataforma portátil o escalera tipo A",
-  corto:"sellado en primeros pisos", orden:31, grupo:"g-sellos",
+  corto:"sellado en primeros pisos", orden:31, grupo:"g-ventanas",
+  breve:"Antes: revisar plataforma portátil, escalera tipo A y HDS del sellante. Durante: sellar bajo 1,8 m con tres puntos de apoyo y escalera trabada, en zona ventilada. Después: envases rotulados y equipos fuera del tránsito.",
   detalle:"Antes: revisar la plataforma de andamio portátil (tarjeta de autorización, ruedas con freno, barandas y "+
     "rodapié) y la escalera tipo A (peldaños, tensores y apoyos antideslizantes), y tener a mano la hoja de datos de "+
     "seguridad del sellante. Durante: sellar por interior y exterior sin superar 1,8 m de altura de trabajo; abrir la "+
@@ -843,7 +848,8 @@ const LABORES_SEED = [
   peligros:[1,2,3,6,9,13,17,18,27,28], check:{4:"si",12:"si",6:"si"}},
 
  {id:"l-pulido",  nombre:"Pulido de rasgos con pulidora de hormigón y picado de hormigón con cango",
-  corto:"pulido y picado de hormigón", orden:60,
+  corto:"pulido y picado de hormigón", orden:60, grupo:"g-rasgos",
+  breve:"Antes: humectar, delimitar y probar el sello del respirador P100. Durante: pulir o picar con captación de polvo, careta, protector auditivo y guantes anti vibración, rotando el puesto. Después: escombros humectados, sin barrer en seco.",
   detalle:"Antes: humectar la superficie a intervenir, delimitar y señalizar el sector, y verificar el respirador "+
     "doble vía con filtros P100 haciendo la prueba de sello; revisar la pulidora, el cango y sus extensiones. "+
     "Durante: pulir o picar manteniendo la captación de polvo cuando esté disponible y humectando de nuevo si se "+
@@ -853,7 +859,8 @@ const LABORES_SEED = [
   peligros:[1,2,3,6,12,13,15,17,18,27,28], check:{4:"si",12:"si"}},
 
  {id:"l-estanq",  nombre:"Pruebas de estanqueidad: sellado de despiches con cinta y llenado de agua",
-  corto:"pruebas de estanqueidad", orden:70, grupo:"g-sellado",
+  corto:"pruebas de estanqueidad", orden:70, grupo:"g-rasgos",
+  breve:"Antes: ventana sellada y bidones cerca por ruta despejada. Durante: tapar despiches con cinta, llenar sin sobrepasar el nivel y trasladar bidones entre dos, cortando con cartonero retráctil. Después: evacuar el agua y secar el piso.",
   detalle:"Antes: confirmar que la ventana esté instalada y sellada, preparar la cinta de aluminio y ubicar los "+
     "bidones de agua cerca del punto de prueba por una ruta despejada. Durante: tapar los despiches con cinta, "+
     "llenar con agua sin sobrepasar el nivel indicado y observar filtraciones; trasladar los bidones entre dos "+
@@ -863,7 +870,8 @@ const LABORES_SEED = [
   peligros:[1,2,3,9,18,27], check:{}},
 
  {id:"l-imperm",  nombre:"Impermeabilización de rasgos con Sikatop 107 Seal, mezclador eléctrico y brocha",
-  corto:"impermeabilización de rasgos", orden:75, grupo:"g-sellado",
+  corto:"impermeabilización de rasgos", orden:75, grupo:"g-rasgos",
+  breve:"Antes: HDS del Sikatop 107 Seal, guantes de nitrilo, lentes y mezclador revisado. Durante: mezclar en zona ventilada, manos lejos del eje, y aplicar con brocha sin contacto con piel y ojos. Después: envases rotulados y sobrantes a residuos peligrosos.",
   detalle:"Antes: revisar la hoja de datos de seguridad del Sikatop 107 Seal, disponer de guantes de nitrilo, lentes "+
     "y respirador para vapores orgánicos, y verificar el mezclador eléctrico, su guarda y la extensión por vía aérea. "+
     "Durante: dosificar y mezclar ambos componentes en zona ventilada sin trasvasijar a envases sin rótulo, "+
@@ -874,7 +882,8 @@ const LABORES_SEED = [
   checkObs:{2:"Sikatop 107 Seal bicomponente: HDS revisada, envases rotulados y cerrados"}},
 
  {id:"l-albanil", nombre:"Rectificación de rasgos y albañilería: reparación EIFS, malla, mortero y picota",
-  corto:"albañilería y rectificación de rasgos", orden:80,
+  corto:"albañilería y rectificación de rasgos", orden:80, grupo:"g-rasgos",
+  breve:"Antes: revisar el rasgo y las herramientas. Durante: picotear con lentes y guantes, cortar solo con disco diamantado y guarda, humectar y preparar la mezcla en zona ventilada con guantes de nitrilo. Después: escombros al acopio segregado.",
   detalle:"Antes: revisar el estado del rasgo y las cotas de los pasos, definir la mezcla de mortero o EIFS a usar, "+
     "y verificar picota, espátula, martillo, mezclador eléctrico y esmeril con disco diamantado. Durante: picotear "+
     "las deformidades con lentes de seguridad y guantes, cortando el rasgo solo con disco diamantado y la guarda "+
@@ -926,7 +935,8 @@ const LABORES_SEED = [
     vano abierto y la caída del vidrio hacia abajo (03 y 27), no la caída de altura (04). */
  {id:"l-rep-termo",
   nombre:"Cambio de termopaneles con cartonero, espátula y cinta doble contacto",
-  corto:"cambio de termopaneles", orden:22, grupo:"g-reparacion",
+  corto:"cambio de termopaneles", orden:22, grupo:"g-ventanas",
+  breve:"Antes: revisar el termopanel y trasladarlo entre dos. Durante: retirar junquillos con espátula y cartonero y fijar el nuevo con cinta doble contacto; en altura desde el interior, sin asomarse al vano y con el área inferior segregada. Después: retirar vidrios rotos.",
   detalle:"Antes: revisar el termopanel nuevo, definir la ruta de traslado entre dos personas y verificar cartonero "+
     "retráctil, espátula y guantes anticorte. Durante: retirar junquillos y sellos con espátula y cartonero, sacar el "+
     "termopanel dañado y colocar el nuevo con cinta doble contacto; en pisos superiores trabajar desde el interior del "+
@@ -936,7 +946,8 @@ const LABORES_SEED = [
 
  {id:"l-rep-pvc",
   nombre:"Reparación de PVC de ventanas: retiro de siliconas, masilla mágica con catalizador, lija y pintura en spray",
-  corto:"reparación de PVC", orden:23, grupo:"g-reparacion",
+  corto:"reparación de PVC", orden:23, grupo:"g-ventanas",
+  breve:"Antes: HDS de masilla, catalizador y spray. Durante: retirar siliconas con espátula, aplicar la masilla en zona ventilada, lijar con lentes y pintar con spray lejos de fuentes de calor. Después: envases rotulados y residuos peligrosos.",
   detalle:"Antes: revisar la hoja de datos de seguridad de la masilla, su catalizador y la pintura en spray, y "+
     "disponer guantes de nitrilo, lentes y mascarilla. Durante: retirar siliconas con espátula y cartonero retráctil, "+
     "mezclar la masilla con el catalizador en zona ventilada y aplicarla con espátula, lijar con lentes y pintar con "+
@@ -949,7 +960,8 @@ const LABORES_SEED = [
 
  {id:"l-rep-ajuste",
   nombre:"Corrección de cuadratura, aplomo, reinstalación y funcionamiento de ventanas con atornillador",
-  corto:"cuadratura y funcionamiento de ventanas", orden:24, grupo:"g-reparacion",
+  corto:"cuadratura y funcionamiento de ventanas", orden:24, grupo:"g-ventanas",
+  breve:"Antes: revisar ventana, rasgo y atornillador. Durante: corregir cuadratura y aplomo con nivel, reinstalar entre dos bajo 25 kg y ajustar herrajes y cierres, manos fuera del punto entre hoja y marco. Después: retirar tornillos del piso.",
   detalle:"Antes: revisar la ventana y el rasgo, y verificar el atornillador de mano o inalámbrico con su batería y "+
     "el código de color del mes. Durante: soltar fijaciones, corregir cuadratura y aplomo con nivel, reinstalar la "+
     "ventana entre dos personas cuando corresponda, respetando el límite de 25 kg, y ajustar herrajes, carros y "+
@@ -1094,8 +1106,8 @@ const MAX_ETAPA=2000;
    actualiza esas tres cosas en los datos ya guardados en el teléfono. Sin esto, el
    catálogo que se creó la primera vez se queda congelado y las mejoras nunca llegan.
    Nunca toca personas, ART guardados ni el borrador en curso. */
-const CAT_VER=18;
-const APP_VER="v21";
+const CAT_VER=19;
+const APP_VER="v22";
 // Foco amplió "Trabajo a realizar" a 2000 caracteres, y "Nombre del proceso o
 // instructivo" también acepta 2000.
 const MAX_TRABAJO=2000;
@@ -1163,8 +1175,13 @@ function migrarCatalogo(raw){
     !seedP.some(s=>s.n===p.n) && !PELIGROS_RETIRADOS.includes(p.n)));
   (DB.labores||[]).forEach(l=>{ l.peligros=(l.peligros||[]).filter(n=>!PELIGROS_RETIRADOS.includes(n)); });
 
+  // Grupos que fueron de fábrica y se retiraron al juntar ventanas y rasgos en una etapa.
+  const GRUPOS_RETIRADOS=["g-reparacion","g-sellos","g-sellado"];
   const seedG=JSON.parse(JSON.stringify(GRUPOS_SEED));
-  DB.grupos = seedG.concat((DB.grupos||[]).filter(g=>!seedG.some(s=>s.id===g.id)));
+  DB.grupos = seedG.concat((DB.grupos||[]).filter(g=>
+    !seedG.some(s=>s.id===g.id) && !GRUPOS_RETIRADOS.includes(g.id)));
+  // Una labor del usuario que apuntaba a un grupo retirado queda como etapa propia.
+  (DB.labores||[]).forEach(l=>{ if(GRUPOS_RETIRADOS.includes(l.grupo)) delete l.grupo; });
 
   // Temas: se reponen los de fábrica y se conservan los que agregó el usuario.
   const seedT=JSON.parse(JSON.stringify(TEMAS_SEED));
@@ -1380,11 +1397,19 @@ function etapas(d){
     });
     list=[...bolsas.values()].sort((a,b)=>a.orden-b.orden).map(b=>{
       // Con varias labores acopladas se numeran, para que se lea la secuencia.
-      const nombre = acoplada(b)
-        ? `${b.g.nombre}. `+b.ls.map((l,i)=>`${i+1}) ${txt(l)}`).join(" ")
-        : txt(b.ls[0]);
+      const armar = f => acoplada(b)
+        ? `${b.g.nombre}. `+b.ls.map((l,i)=>`${i+1}) ${f(l)}`).join(" ")
+        : f(b.ls[0]);
+      // Si el texto completo no cabe en los 2000 de Foco, cada labor pasa a su resumen
+      // ("Corto: breve"); si ni así cabe, quedan solo los nombres.
+      let nombre=armar(txt), resumido=false;
+      if(nombre.length>MAX_ETAPA && d.detallado!==false){
+        nombre=armar(l=>l.breve ? `${cap(l.corto||l.nombre)}: ${l.breve}` : `${l.nombre}.`);
+        resumido=true;
+        if(nombre.length>MAX_ETAPA) nombre=armar(l=>`${l.nombre}.`);
+      }
       const auto=[...new Set(b.ls.flatMap(l=>d.pelOv[l.id]||l.peligros||[]))];
-      return {id:b.id, nombre:ov[b.id]||nombre, titulo:rot(b),
+      return {id:b.id, nombre:ov[b.id]||nombre, titulo:rot(b), resumido:resumido&&!ov[b.id],
               peligros:(d.pelOv[b.id]||auto).slice().sort((x,y)=>x-y),
               manual:false, labores:b.ls.map(l=>l.id)};
     });
@@ -1394,12 +1419,25 @@ function etapas(d){
     peligros:(d.pelOv[m.id] || m.peligros || []).slice().sort((a,b)=>a-b),
     manual:true, labores:[]
   }));
+  // Un peligro que ya no está en el catálogo (el 25, retirado) puede seguir guardado en
+  // un borrador viejo; no sale en el texto y no se podía quitar desde la pantalla.
+  list.forEach(e=>{ e.peligros=e.peligros.filter(n=>pel(n)); });
   if(d.orden && d.orden.length){
-    const pos = id => { const i=d.orden.indexOf(id); return i<0?999:i; };
-    list.sort((a,b)=>pos(a.id)-pos(b.id));
+    // Orden elegido a mano. Una etapa que no estaba en ese orden (un grupo nuevo, una
+    // etapa recién agregada) se ubica justo después de la que la precede en el orden
+    // natural, en vez de irse al final.
+    const nat=list.map(e=>e.id), res=d.orden.filter(id=>nat.includes(id));
+    nat.forEach((id,i)=>{
+      if(res.includes(id)) return;
+      let j=-1;
+      for(let k=i-1;k>=0;k--){ const q=res.indexOf(nat[k]); if(q>=0){ j=q; break; } }
+      res.splice(j+1,0,id);
+    });
+    list.sort((a,b)=>res.indexOf(a.id)-res.indexOf(b.id));
   }
   return list;
 }
+function cap(t){ return t ? t.charAt(0).toUpperCase()+t.slice(1) : t; }
 function personasPresentes(d){
   return DB.personas.filter(p=>d.presentes[p.id] && personaEnPartida(p,d));
 }
@@ -1952,7 +1990,7 @@ function pasoRevision(a,d){
         h("span",{text:e.titulo||e.nombre,
                   style:e.nombre.length>MAX_ETAPA?"color:var(--warn)":""}),
         h("span",{class:"sub2",
-          text:`${e.nombre.length} car. · ${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`}))));
+          text:`${e.nombre.length} car.${e.resumido?" (resumido)":""} · ${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`}))));
     const body=h("div",{class:"body"});
     body.appendChild(h("div",{class:"row",style:"margin-bottom:7px"},
       h("button",{class:"btn xs ghost",onClick:()=>mover(d,e.id,-1)},"↑ subir"),
@@ -2130,7 +2168,7 @@ function salidaEtapas(a,d,cards){
       h("span",{class:"grow"},
         h("span",{class:"tit",text:e.titulo||e.nombre}),
         h("span",{class:"sub2",
-          text:`${e.nombre.length} car. · ${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`})));
+          text:`${e.nombre.length} car.${e.resumido?" (resumido)":""} · ${e.peligros.length} peligros · ${e.peligros.map(pad2).join(" ")}`})));
     dt.appendChild(resumen);
 
     const body=h("div",{class:"body"});

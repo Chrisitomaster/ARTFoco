@@ -97,17 +97,21 @@ la unión de todos. Los grupos que vienen armados:
 | Grupo | Labores que acopla |
 |---|---|
 | Accesos y desplazamientos en obra | ingreso a obra + traslado y escaleras + retiro de obra |
-| Movimiento e instalación de ventanas | traslado de ventanas + instalación con rotomartillo |
-| Reparación de ventanas | cambio de termopaneles + reparación de PVC + cuadratura y funcionamiento |
-| Sellado de ventanas | sellos exteriores en altura + sellado en primeros pisos |
+| Movimiento, instalación, reparación y sellado de ventanas | traslado + instalación + cambio de termopaneles + reparación de PVC + cuadratura y funcionamiento + sellos en altura + sellado en primeros pisos |
 | Corte y carpintería con herramientas | corte con esmeril + carpintería en madera |
-| Estanqueidad e impermeabilización de rasgos | pruebas de estanqueidad + Sikatop 107 Seal |
+| Pulido, reparación, estanqueidad e impermeabilización de rasgos | pulido y picado + pruebas de estanqueidad + Sikatop 107 Seal + albañilería |
 | Orden, aseo y limpieza | limpieza de ventanas y celosías + orden y aseo (o el aseo detallado) |
 
-Pulido y picado y albañilería quedan como **etapa propia**.
+Ventanas y rasgos van en **una etapa cada uno** porque en Foco las medidas de cada peligro se marcan
+una vez por etapa, y 01, 02, 03, 18 y 27 están en casi todas. Con la cuadrilla de un día normal
+(todos menos A.C y C.F, con la albañilería activada) eso bajó el ART de **9 etapas a 5**, de 94
+peligros a seleccionar a 58 y de **435 medidas a marcar a 268**, con los mismos peligros, RCO y
+etapas previas que antes. El consolidado con el izaje queda en **8 etapas**.
 
-Con toda la cuadrilla, el ART de ventanas queda en **8 etapas** y el consolidado con el izaje en
-**11**, de las 13 que acepta Foco.
+**Resumen automático:** cuando el texto completo de una etapa no cabe en los 2000 caracteres, cada
+labor pasa a su resumen (campo `breve`: antes, durante y después en una línea). Pasa hoy con las
+etapas de ventanas y de rasgos, que llegan a 1920 y 1159 caracteres. El encabezado lo indica con
+*(resumido)*. Si ni el resumen cabe, quedan solo los nombres de las labores.
 
 ## Detalle de cada etapa
 
@@ -147,8 +151,7 @@ Las labores de izaje no las activa una persona: entran todas al elegir una opci�
 quitan o devuelven una por una ahí mismo, en el Paso 1 (por ejemplo, el traslado del generador si
 ese día no va). Al pasar a una opción con izaje se marca *Gestión del cambio*, que se puede desmarcar.
 
-Con la cuadrilla completa, el consolidado da **10 etapas** de las 13 que acepta Foco, y la más larga
-usa 1.681 de 2.000 caracteres.
+Con la cuadrilla completa, el consolidado da **8 etapas** de las 13 que acepta Foco.
 
 ### Partida de izaje con camión pluma
 
@@ -202,7 +205,8 @@ actualización del catálogo no las pisa.
 | 80 | Rectificación de rasgos y albañilería EIFS | M.N (parcial — hoy nadie fijo) |
 | 89 | Aseo, limpieza y orden con escoba: materiales, cortantes y residuos que liberan polvo | M.N, A.T, A.O |
 
-**Reparación de ventanas** (22 a 24) es una sola etapa y entra todos los días con quienes la hacen.
+**Reparación de ventanas** (22 a 24) entra todos los días con quienes la hacen, dentro de la etapa
+de ventanas.
 El cambio de termopaneles en pisos superiores se hace **desde el interior** del departamento o del
 área común: el riesgo es el vano abierto y la caída del vidrio hacia abajo (03 y 27, con el área
 inferior segregada), no la caída de altura con arnés.
